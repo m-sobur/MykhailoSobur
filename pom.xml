@@ -4,8 +4,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.epam.spring.homework1</groupId>
-    <artifactId>homework1</artifactId>
+    <groupId>com.epam.spring.homework2</groupId>
+    <artifactId>homework2</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>
@@ -17,7 +17,7 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
-            <version>5.3.14</version>
+            <version>5.3.15</version>
         </dependency>
     </dependencies>
 
