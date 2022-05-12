@@ -1,13 +1,16 @@
 package com.epam.spring.homework3.quiz.controller;
 
 import com.epam.spring.homework3.quiz.controller.dto.UserDto;
-import com.epam.spring.homework3.quiz.controller.mapper.UserMapper;
+import com.epam.spring.homework3.quiz.exception.repositoryException.NoSuchUserException;
+import com.epam.spring.homework3.quiz.exception.repositoryException.UserAlreadyExistsException;
 import com.epam.spring.homework3.quiz.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@Slf4j
 @RestController
 @RequestMapping("/users")
 @RequiredArgsConstructor
@@ -15,27 +18,52 @@ public class UserController {
 
     private final UserService userService;
 
-    @ResponseStatus(HttpStatus.OK)
     @GetMapping(value = "/get/{email}")
-    public UserDto getUserByEmail(@PathVariable String email){
-        return userService.getUserByEmail(email);
+    public ResponseEntity<UserDto> getUserByEmail(@PathVariable String email) {
+        try {
+            ResponseEntity<UserDto> result = ResponseEntity.status(HttpStatus.OK).body(userService.getUserByEmail(email));
+            log.info("CONTROLLER LAYER: getUserByEmail method ");
+            return result;
+        } catch (NoSuchUserException exception) {
+            log.warn(exception.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
     }
 
-    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public UserDto createUser(@RequestBody UserDto userDto){
-        return userService.createUser(userDto);
+    public ResponseEntity<UserDto> createUser(@RequestBody UserDto userDto) {
+        try {
+            ResponseEntity<UserDto> result = ResponseEntity.status(HttpStatus.CREATED).body(userService.createUser(userDto));
+            log.info("CONTROLLER LAYER: createUser method ");
+            return result;
+        } catch (UserAlreadyExistsException exception) {
+            log.warn(exception.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
     }
 
-    @ResponseStatus(HttpStatus.OK)
     @PutMapping(value = "/update/{email}")
-    public UserDto updateUserByEmail(@PathVariable String email, @RequestBody UserDto userDto){
-        return userService.updateUserByEmail(email, userDto);
+    public ResponseEntity<UserDto> updateUserByEmail(@PathVariable String email, @RequestBody UserDto userDto) {
+        try {
+            ResponseEntity<UserDto> result = ResponseEntity.status(HttpStatus.OK).body(userService.updateUserByEmail(email, userDto));
+            log.info("CONTROLLER LAYER: updateUserByEmail method ");
+            return result;
+        } catch (NoSuchUserException exception) {
+            log.warn(exception.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+
     }
 
     @DeleteMapping(value = "/delete/{email}")
-    public ResponseEntity<Void> deleteUserByEmail(@PathVariable String email){
-        userService.deleteUserByEmail(email);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<String> deleteUserByEmail(@PathVariable String email) {
+        try {
+            userService.deleteUserByEmail(email);
+            log.info("CONTROLLER LAYER: deleteUserByEmail method ");
+            return ResponseEntity.status(HttpStatus.OK).body("User with email '" + email + "' deleted successfully");
+        } catch (NoSuchUserException exception) {
+            log.warn(exception.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception.getMessage());
+        }
     }
 }

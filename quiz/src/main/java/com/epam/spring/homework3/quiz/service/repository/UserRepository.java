@@ -12,5 +12,4 @@ public interface UserRepository {
 
     void deleteUserByEmail(String email);
 
-
 }
