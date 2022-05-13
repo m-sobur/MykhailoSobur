@@ -1,14 +1,15 @@
 package com.epam.spring.homework3.quiz.controller;
 
 import com.epam.spring.homework3.quiz.controller.dto.QuizDto;
-import com.epam.spring.homework3.quiz.exception.repositoryException.NoSuchQuizException;
-import com.epam.spring.homework3.quiz.exception.repositoryException.QuizAlreadyExistException;
+import com.epam.spring.homework3.quiz.exception.repositoryException.ElementAlreadyExistException;
 import com.epam.spring.homework3.quiz.service.QuizService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.NoSuchElementException;
 import java.util.UUID;
 
 import java.util.List;
@@ -26,7 +27,7 @@ public class QuizController {
             ResponseEntity<QuizDto> result = ResponseEntity.status(HttpStatus.OK).body(quizService.getQuizByTitle(title));
             log.info("CONTROLLER LAYER: getQuizByTitle method ");
             return result;
-        } catch (NoSuchQuizException exception) {
+        } catch (NoSuchElementException exception) {
             log.warn(exception.getMessage());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
@@ -38,7 +39,7 @@ public class QuizController {
             ResponseEntity<QuizDto> result = ResponseEntity.status(HttpStatus.OK).body(quizService.updateQuizByTitle(title, quizDto));
             log.info("CONTROLLER LAYER: updateQuizByTitle method ");
             return result;
-        } catch (NoSuchQuizException exception) {
+        } catch (NoSuchElementException exception) {
             log.warn(exception.getMessage());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
@@ -50,7 +51,7 @@ public class QuizController {
             ResponseEntity<QuizDto> result = ResponseEntity.status(HttpStatus.CREATED).body(quizService.createQuiz(quizDto));
             log.info("CONTROLLER LAYER: createQuiz method ");
             return result;
-        } catch (QuizAlreadyExistException exception) {
+        } catch (ElementAlreadyExistException exception) {
             log.warn(exception.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
@@ -62,7 +63,7 @@ public class QuizController {
             quizService.deleteQuizByTitle(title);
             log.info("CONTROLLER LAYER: deleteQuizByTitle method ");
             return ResponseEntity.status(HttpStatus.OK).body("Quiz with title '" + title + "' deleted successfully");
-        } catch (NoSuchQuizException exception) {
+        } catch (NoSuchElementException exception) {
             log.warn(exception.getMessage());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception.getMessage());
         }
@@ -74,7 +75,7 @@ public class QuizController {
             ResponseEntity<List<QuizDto>> result = ResponseEntity.status(HttpStatus.OK).body(quizService.getAllQuizesByCreatorId(creator));
             log.info("CONTROLLER LAYER: getAllQuizesByCreatorId method ");
             return result;
-        } catch (NoSuchQuizException exception) {
+        } catch (NoSuchElementException exception) {
             log.warn(exception.getMessage());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }

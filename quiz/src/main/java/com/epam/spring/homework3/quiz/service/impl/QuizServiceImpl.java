@@ -2,8 +2,7 @@ package com.epam.spring.homework3.quiz.service.impl;
 
 import com.epam.spring.homework3.quiz.controller.dto.QuizDto;
 import com.epam.spring.homework3.quiz.controller.mapper.QuizMapper;
-import com.epam.spring.homework3.quiz.exception.repositoryException.NoSuchQuizException;
-import com.epam.spring.homework3.quiz.exception.repositoryException.QuizAlreadyExistException;
+import com.epam.spring.homework3.quiz.exception.repositoryException.ElementAlreadyExistException;
 import com.epam.spring.homework3.quiz.service.QuizService;
 import com.epam.spring.homework3.quiz.service.model.Quiz;
 import com.epam.spring.homework3.quiz.service.repository.QuizRepository;
@@ -12,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.UUID;
 
 @Slf4j
@@ -22,14 +22,14 @@ public class QuizServiceImpl implements QuizService {
     private final QuizRepository quizRepository;
 
     @Override
-    public QuizDto getQuizByTitle(String title) throws NoSuchQuizException{
+    public QuizDto getQuizByTitle(String title) throws NoSuchElementException {
         Quiz quiz = quizRepository.getQuizByTitle(title);
         log.info("SERVICE LAYER: getQuizByTitle method " + title);
         return quizMapper.quizToQuizDto(quiz);
     }
 
     @Override
-    public QuizDto createQuiz(QuizDto quizDto) throws QuizAlreadyExistException {
+    public QuizDto createQuiz(QuizDto quizDto) throws ElementAlreadyExistException {
         Quiz quiz = quizMapper.quizDtoToQuiz(quizDto);
         quiz.setId_quiz(UUID.randomUUID());
         quiz = quizRepository.createQuiz(quiz);
@@ -38,7 +38,7 @@ public class QuizServiceImpl implements QuizService {
     }
 
     @Override
-    public QuizDto updateQuizByTitle(String title, QuizDto quizDto) throws NoSuchQuizException{
+    public QuizDto updateQuizByTitle(String title, QuizDto quizDto) throws NoSuchElementException{
         Quiz quiz = quizMapper.quizDtoToQuiz(quizDto);
         quiz = quizRepository.updateQuizByTitle(title, quiz);
         log.info("SERVICE LAYER: updateQuizByTitle method " + title);
@@ -46,13 +46,13 @@ public class QuizServiceImpl implements QuizService {
     }
 
     @Override
-    public void deleteQuizByTitle(String title) throws NoSuchQuizException {
+    public void deleteQuizByTitle(String title) throws NoSuchElementException {
         quizRepository.deleteQuizByTitle(title);
         log.info("SERVICE LAYER: deleteQuizByTitle " + title);
     }
 
     @Override
-    public List<QuizDto> getAllQuizesByCreatorId(UUID creator) throws NoSuchQuizException{
+    public List<QuizDto> getAllQuizesByCreatorId(UUID creator) throws NoSuchElementException{
         List<Quiz> quizList = quizRepository.getAllQuizesByCreatorId(creator);
         log.info("SERVICE LAYER: getAllQuizesByCreatorId " + creator);
         return  quizMapper.quizsToQuizsDto(quizList);

@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -14,4 +15,5 @@ public class QuizDto {
     private Date creationDate;
     private UUID creator;
     private String quiz_type;
+    private List<QuestionDto> questionDtoList;
 }

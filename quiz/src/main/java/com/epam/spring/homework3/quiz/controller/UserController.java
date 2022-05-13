@@ -1,14 +1,15 @@
 package com.epam.spring.homework3.quiz.controller;
 
 import com.epam.spring.homework3.quiz.controller.dto.UserDto;
-import com.epam.spring.homework3.quiz.exception.repositoryException.NoSuchUserException;
-import com.epam.spring.homework3.quiz.exception.repositoryException.UserAlreadyExistsException;
+import com.epam.spring.homework3.quiz.exception.repositoryException.ElementAlreadyExistException;
 import com.epam.spring.homework3.quiz.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.NoSuchElementException;
 
 @Slf4j
 @RestController
@@ -24,7 +25,7 @@ public class UserController {
             ResponseEntity<UserDto> result = ResponseEntity.status(HttpStatus.OK).body(userService.getUserByEmail(email));
             log.info("CONTROLLER LAYER: getUserByEmail method ");
             return result;
-        } catch (NoSuchUserException exception) {
+        } catch (NoSuchElementException exception) {
             log.warn(exception.getMessage());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
@@ -36,7 +37,7 @@ public class UserController {
             ResponseEntity<UserDto> result = ResponseEntity.status(HttpStatus.CREATED).body(userService.createUser(userDto));
             log.info("CONTROLLER LAYER: createUser method ");
             return result;
-        } catch (UserAlreadyExistsException exception) {
+        } catch (ElementAlreadyExistException exception) {
             log.warn(exception.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
@@ -48,7 +49,7 @@ public class UserController {
             ResponseEntity<UserDto> result = ResponseEntity.status(HttpStatus.OK).body(userService.updateUserByEmail(email, userDto));
             log.info("CONTROLLER LAYER: updateUserByEmail method ");
             return result;
-        } catch (NoSuchUserException exception) {
+        } catch (NoSuchElementException exception) {
             log.warn(exception.getMessage());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
@@ -61,7 +62,7 @@ public class UserController {
             userService.deleteUserByEmail(email);
             log.info("CONTROLLER LAYER: deleteUserByEmail method ");
             return ResponseEntity.status(HttpStatus.OK).body("User with email '" + email + "' deleted successfully");
-        } catch (NoSuchUserException exception) {
+        } catch (NoSuchElementException exception) {
             log.warn(exception.getMessage());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception.getMessage());
         }
