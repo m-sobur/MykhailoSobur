@@ -9,7 +9,7 @@ import java.util.UUID;
 @Builder
 public class UserDto {
     // The fields are named in the same as in the database
-    private UUID id_usr;
+    private Integer id_usr;
     private String first_name;
     private String last_name;
     private String email;

@@ -31,7 +31,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto createUser(UserDto userDto) throws ElementAlreadyExistException {
         User user = userMapper.userDtoToUser(userDto);
-        user.setId_usr(UUID.randomUUID());
         user = userRepository.createUser(user);
         log.info("SERVICE LAYER: createUser method "+ user);
         return userMapper.userToUserDto(user);

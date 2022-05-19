@@ -70,7 +70,7 @@ public class QuizController {
     }
 
     @GetMapping(value = "/getAllByCreatorId/{creator}")
-    public ResponseEntity<List<QuizDto>> getAllQuizesByCreatorId(@PathVariable UUID creator) {
+    public ResponseEntity<List<QuizDto>> getAllQuizesByCreatorId(@PathVariable Integer creator) {
         try {
             ResponseEntity<List<QuizDto>> result = ResponseEntity.status(HttpStatus.OK).body(quizService.getAllQuizesByCreatorId(creator));
             log.info("CONTROLLER LAYER: getAllQuizesByCreatorId method ");

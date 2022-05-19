@@ -9,7 +9,6 @@ import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Repository
@@ -18,7 +17,7 @@ public class QuestionRepositoryImpl implements QuestionRepository {
     private final List<Question> temporaryDataBase = new ArrayList<>();
 
     @Override
-    public Question getQuestionByID(UUID question_id) {
+    public Question getQuestionByID(Integer question_id) {
         Question resultQuestion = temporaryDataBase.stream()
                 .filter(question -> question.getQuestion_id().equals(question_id))
                 .findAny()
@@ -41,7 +40,7 @@ public class QuestionRepositoryImpl implements QuestionRepository {
     }
 
     @Override
-    public Question updateQuestionById(UUID question_id, Question question) {
+    public Question updateQuestionById(Integer question_id, Question question) {
         Question questionToUpdate = temporaryDataBase.stream()
                 .filter(question1 -> question1.getQuestion_id().equals(question_id))
                 .findAny()
@@ -55,7 +54,7 @@ public class QuestionRepositoryImpl implements QuestionRepository {
     }
 
     @Override
-    public void deleteQuestionById(UUID question_id) {
+    public void deleteQuestionById(Integer question_id) {
         boolean isDeleted = temporaryDataBase.removeIf(question -> question.getQuestion_id().equals(question_id));
         if (!isDeleted) {
             throw new NoSuchElementException("Question with " + question_id + " not found in the 'temporararyDataBase' while executing deleteQuestionById");
@@ -64,7 +63,7 @@ public class QuestionRepositoryImpl implements QuestionRepository {
     }
 
     @Override
-    public List<Question> getAllQuestionsByParentQuizId(UUID parent_quiz) {
+    public List<Question> getAllQuestionsByParentQuizId(Integer parent_quiz) {
         boolean isEmpty = temporaryDataBase.isEmpty();
         if (isEmpty) {
             throw new NoSuchElementException("Quiz with " + parent_quiz + "id have not any question  in the 'temporararyDataBase' while executing getAllQuestionsByParentQuizId");

@@ -8,9 +8,10 @@ import java.util.UUID;
 @Data
 @Builder
 public class Question {
-    private UUID question_id;
+    private Integer question_id;
     private String question_title;
     private QuestionType question_type;
-    private UUID parent_quiz;
-    private List<AnswerVariant> answerVariants_List;
+    private Integer parent_quiz;
+
+    private List<AnswerVariant> answerVariantList;
 }

@@ -7,11 +7,11 @@ import java.util.List;
 import java.util.UUID;
 
 public interface AnswerVariantRepository {
-    AnswerVariant getAnswerVariantById(UUID variant_id);
+    AnswerVariant getAnswerVariantById(Integer variant_id);
 
     AnswerVariant createAnswerVariant(AnswerVariant answerVariant);
 
-    void deleteAnswerVariantById(UUID variant_id);
+    void deleteAnswerVariantById(Integer variant_id);
 
-    List<AnswerVariant> getAllAnswerVariantByParentQuestionId(UUID parent_question_id);
+    List<AnswerVariant> getAllAnswerVariantByParentQuestionId(Integer parent_question_id);
 }

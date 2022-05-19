@@ -14,5 +14,5 @@ public interface QuizService {
 
     void deleteQuizByTitle(String title);
 
-    List<QuizDto> getAllQuizesByCreatorId(UUID creator);
+    List<QuizDto> getAllQuizesByCreatorId(Integer creator);
 }

@@ -7,9 +7,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Repository
@@ -51,7 +51,7 @@ public class QuizRepositoryImpl implements QuizRepository {
         quizToUpdate.setQuiz_type(quiz.getQuiz_type());
         quizToUpdate.setTitle(quiz.getTitle());
         quizToUpdate.setCreator(quiz.getCreator());
-        quizToUpdate.setCreationDate(quiz.getCreationDate());
+        quizToUpdate.setCreationDate(new Date());
         log.info("REPOSITORY LAYER: updateQuizByTitle method ");
         return quizToUpdate;
     }
@@ -66,7 +66,7 @@ public class QuizRepositoryImpl implements QuizRepository {
     }
 
     @Override
-    public List<Quiz> getAllQuizesByCreatorId(UUID creator) throws NoSuchElementException {
+    public List<Quiz> getAllQuizesByCreatorId(Integer creator) throws NoSuchElementException {
         boolean isEmpty = temporaryDataBase.isEmpty();
         if (isEmpty) {
             throw new NoSuchElementException("User with " + creator + "id have not any quiz  in the 'temporararyDataBase' while executing getAllQuizesByCreatorId");

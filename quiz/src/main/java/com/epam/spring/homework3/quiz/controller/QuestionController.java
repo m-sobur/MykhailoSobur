@@ -21,7 +21,7 @@ public class QuestionController {
     private final QuestionService questionService;
 
     @GetMapping(value = "/get/{question_id}")
-    public ResponseEntity<QuestionDto> getQuestionByID(@PathVariable UUID question_id) {
+    public ResponseEntity<QuestionDto> getQuestionByID(@PathVariable Integer question_id) {
         try {
             ResponseEntity<QuestionDto> result = ResponseEntity.status(HttpStatus.OK).body(questionService.getQuestionByID(question_id));
             log.info("CONTROLLER LAYER: getQuestionByID method ");
@@ -33,7 +33,7 @@ public class QuestionController {
     }
 
     @PutMapping(value = "/update/{question_id}")
-    public ResponseEntity<QuestionDto> updateQuestionById(@PathVariable UUID question_id, @RequestBody QuestionDto questionDto) {
+    public ResponseEntity<QuestionDto> updateQuestionById(@PathVariable Integer question_id, @RequestBody QuestionDto questionDto) {
         try {
             ResponseEntity<QuestionDto> result = ResponseEntity.status(HttpStatus.OK).body(questionService.updateQuestionById(question_id, questionDto));
             log.info("CONTROLLER LAYER: updateQuestionById method ");
@@ -57,7 +57,7 @@ public class QuestionController {
     }
 
     @DeleteMapping(value = "/delete/{question_id}")
-    public ResponseEntity<String> deleteQuestionById(@PathVariable UUID question_id) {
+    public ResponseEntity<String> deleteQuestionById(@PathVariable Integer question_id) {
         try {
             questionService.deleteQuestionById(question_id);
             log.info("CONTROLLER LAYER: deleteQuizByTitle method ");
@@ -69,9 +69,9 @@ public class QuestionController {
     }
 
     @GetMapping(value = "/getAllQuestionsByParentQuizId/{parent_quiz}")
-    public ResponseEntity<List<QuestionDto>> getAllQuestionsByParentQuizId(@PathVariable UUID parent_quiz) {
+    public ResponseEntity<List<QuestionDto>> getAllQuestionsByParentQuizId(@PathVariable Integer parent_quiz) {
         try {
-            ResponseEntity<List<QuestionDto>> result = ResponseEntity.status(HttpStatus.OK).body(questionService.getAllQuestionsByParentQuizId(parent_quiz));
+            ResponseEntity<List<QuestionDto>> result = ResponseEntity.status(HttpStatus.OK).body(questionService.getAllQuestionsDtoByParentQuizId(parent_quiz));
             log.info("CONTROLLER LAYER: getAllQuestionsByParentQuizId method ");
             return result;
         } catch (NoSuchElementException exception) {

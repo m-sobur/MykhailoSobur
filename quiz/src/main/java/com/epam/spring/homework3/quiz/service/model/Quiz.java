@@ -11,10 +11,13 @@ import java.util.UUID;
 @Builder
 public class Quiz {
     // The fields are named in the same as in the database
-    private UUID id_quiz;
+    private Integer id_quiz;
     private String title;
     private Date creationDate;
-    private UUID creator;
+    private Integer creator;
     private String quiz_type;
+
     private List<Question> questionList;
+
+
 }

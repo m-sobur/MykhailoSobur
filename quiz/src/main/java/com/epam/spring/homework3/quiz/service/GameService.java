@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.UUID;
 
 public interface GameService {
-    QuizDto startGame(UUID id_quiz);
+    QuizDto startGame(Integer id_quiz);
 
-    Integer checkResultOfGame(UUID id_quiz, List<AnswerVariantDto> userAnswers, UUID id_usr);
+    Integer checkResultOfGame(Integer id_quiz, List<AnswerVariantDto> userAnswers, Integer id_usr);
 }

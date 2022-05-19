@@ -14,6 +14,6 @@ public interface QuizRepository {
 
     void deleteQuizByTitle(String title);
 
-    List<Quiz> getAllQuizesByCreatorId(UUID creator);
+    List<Quiz> getAllQuizesByCreatorId(Integer creator);
 
 }

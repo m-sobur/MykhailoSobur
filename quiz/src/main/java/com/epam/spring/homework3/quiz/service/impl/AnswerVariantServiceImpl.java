@@ -20,7 +20,7 @@ public class AnswerVariantServiceImpl implements AnswerVariantService {
     private final AnswerVariantRepository answerVariantRepository;
 
     @Override
-    public AnswerVariantDto getAnswerVariantById(UUID variant_id) {
+    public AnswerVariantDto getAnswerVariantById(Integer variant_id) {
         AnswerVariant answerVariant = answerVariantRepository.getAnswerVariantById(variant_id);
         log.info("SERVICE LAYER: getAnswerVariantById method " + variant_id);
         return answerVariantMapper.answerVariantToAnswerVariantDto(answerVariant);
@@ -29,22 +29,28 @@ public class AnswerVariantServiceImpl implements AnswerVariantService {
     @Override
     public AnswerVariantDto createAnswerVariant(AnswerVariantDto answerVariantDto) {
         AnswerVariant answerVariant = answerVariantMapper.answerVariantDtoToAnswerVariant(answerVariantDto);
-        answerVariant.setVariant_id(UUID.randomUUID());
         answerVariant = answerVariantRepository.createAnswerVariant(answerVariant);
         log.info("SERVICE LAYER: createAnswerVariant method " + answerVariant);
         return answerVariantMapper.answerVariantToAnswerVariantDto(answerVariant);
     }
 
     @Override
-    public void deleteAnswerVariantById(UUID variant_id) {
+    public void deleteAnswerVariantById(Integer variant_id) {
         answerVariantRepository.deleteAnswerVariantById(variant_id);
         log.info("SERVICE LAYER: deleteAnswerVariantById " + variant_id);
     }
 
     @Override
-    public List<AnswerVariantDto> getAllAnswerVariantByParentQuestionId(UUID parent_question_id) {
+    public List<AnswerVariantDto> getAllAnswerVariantDtoByParentQuestionId(Integer parent_question_id) {
         List<AnswerVariant> answerVariantList = answerVariantRepository.getAllAnswerVariantByParentQuestionId(parent_question_id);
         log.info("SERVICE LAYER: getAllAnswerVariantByParentQuestionId " + parent_question_id);
         return  answerVariantMapper.answerVariantListToAnswerVariantListDto(answerVariantList);
+    }
+
+    @Override
+    public List<AnswerVariant> getAllAnswerVariantByParentQuestionId(Integer parent_question_id) {
+        List<AnswerVariant> answerVariantList = answerVariantRepository.getAllAnswerVariantByParentQuestionId(parent_question_id);
+        log.info("SERVICE LAYER: getAllAnswerVariantByParentQuestionId " + parent_question_id);
+        return  answerVariantList;
     }
 }

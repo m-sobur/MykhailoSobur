@@ -6,13 +6,13 @@ import java.util.List;
 import java.util.UUID;
 
 public interface QuestionRepository {
-    Question getQuestionByID(UUID question_id);
+    Question getQuestionByID(Integer question_id);
 
     Question createQuestion(Question question);
 
-    Question updateQuestionById(UUID question_id, Question question);
+    Question updateQuestionById(Integer question_id, Question question);
 
-    void deleteQuestionById(UUID question_id);
+    void deleteQuestionById(Integer question_id);
 
-    List<Question> getAllQuestionsByParentQuizId(UUID parent_quiz);
+    List<Question> getAllQuestionsByParentQuizId(Integer parent_quiz);
 }

@@ -12,11 +12,9 @@ public interface QuestionMapper {
 
     QuestionDto questionToQuestionDto(Question question);
 
-    @Mapping(target = "question_id", ignore = true)
     Question questionDtoToQuestion(QuestionDto questionDto);
 
     List<QuestionDto> questionListToQuestionListDto(List<Question> questionList);
 
-    @Mapping(target = "question_id", ignore = true)
     List<Question> questionListDtoToQuestionList(List<QuestionDto> questionDtoList);
 }

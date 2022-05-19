@@ -12,10 +12,8 @@ public interface QuizMapper {
 
     QuizDto quizToQuizDto(Quiz quiz);
 
-    @Mapping(target = "id_quiz", ignore = true)
     Quiz quizDtoToQuiz(QuizDto quizDto);
 
-    @Mapping(target = "id_quiz", ignore = true)
     List<QuizDto> quizsToQuizsDto(List<Quiz> orders);
 
 }
