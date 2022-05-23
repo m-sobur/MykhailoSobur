@@ -16,5 +16,4 @@ public interface QuestionMapper {
 
     List<QuestionDto> questionListToQuestionListDto(List<Question> questionList);
 
-    List<Question> questionListDtoToQuestionList(List<QuestionDto> questionDtoList);
 }

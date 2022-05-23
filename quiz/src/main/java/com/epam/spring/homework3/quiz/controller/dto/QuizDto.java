@@ -3,6 +3,7 @@ package com.epam.spring.homework3.quiz.controller.dto;
 import com.epam.spring.homework3.quiz.service.model.Question;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 
 import java.util.Date;
 import java.util.List;

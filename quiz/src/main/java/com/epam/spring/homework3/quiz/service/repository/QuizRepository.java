@@ -8,6 +8,8 @@ import java.util.UUID;
 public interface QuizRepository {
     Quiz getQuizByTitle(String title);
 
+    Quiz getQuizById(Integer id_quiz);
+
     Quiz createQuiz(Quiz quiz);
 
     Quiz updateQuizByTitle(String title, Quiz quiz);

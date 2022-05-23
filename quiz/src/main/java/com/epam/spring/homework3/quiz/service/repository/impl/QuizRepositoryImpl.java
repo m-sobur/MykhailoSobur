@@ -27,6 +27,16 @@ public class QuizRepositoryImpl implements QuizRepository {
         return resultQuiz;
     }
 
+    @Override
+    public Quiz getQuizById(Integer id_quiz) throws NoSuchElementException{
+        Quiz resultQuiz = temporaryDataBase.stream()
+                .filter(quiz -> quiz.getId_quiz().equals(id_quiz))
+                .findAny()
+                .orElseThrow(() -> new NoSuchElementException("Quiz not found in the 'temporararyDataBase' while executing getQuizById"));
+        log.info("REPOSITORY LAYER: getQuizById method ");
+        return resultQuiz;
+    }
+
 
     @Override
     public Quiz createQuiz(Quiz quiz) throws ElementAlreadyExistException {

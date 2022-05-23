@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.UUID;
 
 @Slf4j
 @Service
@@ -31,13 +30,13 @@ public class QuizServiceImpl implements QuizService {
         return quizMapper.quizToQuizDto(quiz);
     }
 
-//    @Override
-//    public QuizDto getQuizById(Integer id_quiz) throws NoSuchElementException {
-//        Quiz quiz = quizRepository.getQuizByTitle(id_quiz);
-//        quiz.setQuestionList(questionService.getAllQuestionsByParentQuizId(quiz.getId_quiz()));
-//        log.info("SERVICE LAYER: getQuizById method " + quiz);
-//        return quizMapper.quizToQuizDto(quiz);
-//    }
+    @Override
+    public QuizDto getQuizById(Integer id_quiz) throws NoSuchElementException {
+        Quiz quiz = quizRepository.getQuizById(id_quiz);
+        quiz.setQuestionList(questionService.getAllQuestionsByParentQuizId(id_quiz));
+        log.info("SERVICE LAYER: getQuizById method " + quiz);
+        return quizMapper.quizToQuizDto(quiz);
+    }
 
     @Override
     public QuizDto createQuiz(QuizDto quizDto) throws ElementAlreadyExistException {

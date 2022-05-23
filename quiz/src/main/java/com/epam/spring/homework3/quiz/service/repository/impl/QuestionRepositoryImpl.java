@@ -17,7 +17,7 @@ public class QuestionRepositoryImpl implements QuestionRepository {
     private final List<Question> temporaryDataBase = new ArrayList<>();
 
     @Override
-    public Question getQuestionByID(Integer question_id) {
+    public Question getQuestionByID(Integer question_id) throws NoSuchElementException {
         Question resultQuestion = temporaryDataBase.stream()
                 .filter(question -> question.getQuestion_id().equals(question_id))
                 .findAny()
@@ -27,7 +27,7 @@ public class QuestionRepositoryImpl implements QuestionRepository {
     }
 
     @Override
-    public Question createQuestion(Question question) {
+    public Question createQuestion(Question question) throws ElementAlreadyExistException {
         boolean userIsAlreadyExist = temporaryDataBase.stream()
                 .anyMatch(question1 -> question1.getQuestion_title().equals(question.getQuestion_title()));
         if (userIsAlreadyExist) {
@@ -40,7 +40,7 @@ public class QuestionRepositoryImpl implements QuestionRepository {
     }
 
     @Override
-    public Question updateQuestionById(Integer question_id, Question question) {
+    public Question updateQuestionById(Integer question_id, Question question) throws NoSuchElementException {
         Question questionToUpdate = temporaryDataBase.stream()
                 .filter(question1 -> question1.getQuestion_id().equals(question_id))
                 .findAny()
@@ -54,7 +54,7 @@ public class QuestionRepositoryImpl implements QuestionRepository {
     }
 
     @Override
-    public void deleteQuestionById(Integer question_id) {
+    public void deleteQuestionById(Integer question_id) throws NoSuchElementException {
         boolean isDeleted = temporaryDataBase.removeIf(question -> question.getQuestion_id().equals(question_id));
         if (!isDeleted) {
             throw new NoSuchElementException("Question with " + question_id + " not found in the 'temporararyDataBase' while executing deleteQuestionById");
@@ -63,7 +63,7 @@ public class QuestionRepositoryImpl implements QuestionRepository {
     }
 
     @Override
-    public List<Question> getAllQuestionsByParentQuizId(Integer parent_quiz) {
+    public List<Question> getAllQuestionsByParentQuizId(Integer parent_quiz) throws NoSuchElementException {
         boolean isEmpty = temporaryDataBase.isEmpty();
         if (isEmpty) {
             throw new NoSuchElementException("Quiz with " + parent_quiz + "id have not any question  in the 'temporararyDataBase' while executing getAllQuestionsByParentQuizId");

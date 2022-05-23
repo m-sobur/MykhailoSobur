@@ -8,7 +8,7 @@ import lombok.Data;
 public class AnswerVariant {
     private Integer variant_id;
     private String variant_title;
-    private boolean userChecked;
+    private Boolean userChecked;
     private Integer parent_question_id;
-    private boolean isCorrect;
+    private Boolean value;
 }
