@@ -1,14 +1,15 @@
 package com.epam.spring.homework3.quiz.service;
 
 import com.epam.spring.homework3.quiz.controller.dto.UserDto;
+import com.epam.spring.homework3.quiz.service.model.User;
 
 public interface UserService {
 
-    UserDto getUserByEmail(String email);
+    User getUserByEmail(String email);
 
-    UserDto createUser(UserDto userDto);
+    User createUser(UserDto userDto);
 
-    UserDto updateUserByEmail(String email, UserDto userDto);
+    User updateUserByEmail(String email, UserDto userDto);
 
     void deleteUserByEmail(String email);
 

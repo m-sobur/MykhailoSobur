@@ -19,7 +19,7 @@ public class AnswerVariantRepositoryImpl implements AnswerVariantRepository {
     private final List<AnswerVariant> temporaryDataBase = new ArrayList<>();
 
     @Override
-    public AnswerVariant getAnswerVariantById(Integer variant_id) throws NoSuchElementException{
+    public AnswerVariant getAnswerVariantById(Integer variant_id) throws NoSuchElementException {
         AnswerVariant resultAnswerVariant = temporaryDataBase.stream()
                 .filter(answerVariant -> answerVariant.getVariant_id().equals(variant_id))
                 .findAny()
@@ -29,16 +29,14 @@ public class AnswerVariantRepositoryImpl implements AnswerVariantRepository {
     }
 
     @Override
-    public AnswerVariant createAnswerVariant(AnswerVariant answerVariant) throws ElementAlreadyExistException{
-            temporaryDataBase.add(answerVariant);
-            log.info("REPOSITORY LAYER: createAnswerVariant method ");
-            return answerVariant;
+    public AnswerVariant createAnswerVariant(AnswerVariant answerVariant) throws ElementAlreadyExistException {
+        temporaryDataBase.add(answerVariant);
+        log.info("REPOSITORY LAYER: createAnswerVariant method ");
+        return answerVariant;
     }
 
-
-
     @Override
-    public void deleteAnswerVariantById(Integer variant_id) throws NoSuchElementException{
+    public void deleteAnswerVariantById(Integer variant_id) throws NoSuchElementException {
         boolean isDeleted = temporaryDataBase.removeIf(answerVariant -> answerVariant.getVariant_id().equals(variant_id));
         if (!isDeleted) {
             throw new NoSuchElementException("Answer with " + variant_id + " not found in the 'temporararyDataBase' while executing deleteAnswerVariantById");
@@ -47,15 +45,19 @@ public class AnswerVariantRepositoryImpl implements AnswerVariantRepository {
     }
 
     @Override
-    public List<AnswerVariant> getAllAnswerVariantByParentQuestionId(Integer parent_question_id) throws NoSuchElementException{
-        boolean isEmpty = temporaryDataBase.isEmpty();
-        if (isEmpty) {
-            throw new NoSuchElementException("Question with " + parent_question_id + "id have not any answers  in the 'temporararyDataBase' while executing getAllAnswerVariantByParentQuestionId");
-        } else {
-            log.info("REPOSITORY LAYER: getAllAnswerVariantByParentQuestionId method ");
-            return temporaryDataBase.stream()
-                    .filter(answerVariant -> answerVariant.getParent_question_id().equals(parent_question_id))
-                    .collect(Collectors.toList());
-        }
+    public List<AnswerVariant> getAllAnswerVariantByParentQuestionId(Integer parent_question_id) {
+//        boolean isEmpty = temporaryDataBase.isEmpty();
+//        if (isEmpty) {
+//            throw new NoSuchElementException("Question with " + parent_question_id + " id have not any answers  in the 'temporararyDataBase' while executing getAllAnswerVariantByParentQuestionId");
+//        } else {
+//            log.info("REPOSITORY LAYER: getAllAnswerVariantByParentQuestionId method ");
+//            return temporaryDataBase.stream()
+//                    .filter(answerVariant -> answerVariant.getParent_question_id().equals(parent_question_id))
+//                    .collect(Collectors.toList());
+//        }
+        log.info("REPOSITORY LAYER: getAllAnswerVariantByParentQuestionId method ");
+        return temporaryDataBase.stream()
+                .filter(answerVariant -> answerVariant.getParent_question_id().equals(parent_question_id))
+                .collect(Collectors.toList());
     }
 }

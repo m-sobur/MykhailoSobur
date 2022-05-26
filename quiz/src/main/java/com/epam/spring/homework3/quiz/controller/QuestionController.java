@@ -1,6 +1,7 @@
 package com.epam.spring.homework3.quiz.controller;
 
 import com.epam.spring.homework3.quiz.controller.dto.QuestionDto;
+import com.epam.spring.homework3.quiz.controller.mapper.QuestionMapper;
 import com.epam.spring.homework3.quiz.exception.repositoryException.ElementAlreadyExistException;
 import com.epam.spring.homework3.quiz.service.QuestionService;
 import lombok.RequiredArgsConstructor;
@@ -19,11 +20,12 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class QuestionController {
     private final QuestionService questionService;
+    private final QuestionMapper questionMapper;
 
     @GetMapping(value = "/get/{question_id}")
     public ResponseEntity<QuestionDto> getQuestionByID(@PathVariable Integer question_id) {
         try {
-            ResponseEntity<QuestionDto> result = ResponseEntity.status(HttpStatus.OK).body(questionService.getQuestionByID(question_id));
+            ResponseEntity<QuestionDto> result = ResponseEntity.status(HttpStatus.OK).body(questionMapper.questionToQuestionDto(questionService.getQuestionByID(question_id)));
             log.info("CONTROLLER LAYER: getQuestionByID method ");
             return result;
         } catch (NoSuchElementException exception) {
@@ -35,7 +37,7 @@ public class QuestionController {
     @PutMapping(value = "/update/{question_id}")
     public ResponseEntity<QuestionDto> updateQuestionById(@PathVariable Integer question_id, @RequestBody QuestionDto questionDto) {
         try {
-            ResponseEntity<QuestionDto> result = ResponseEntity.status(HttpStatus.OK).body(questionService.updateQuestionById(question_id, questionDto));
+            ResponseEntity<QuestionDto> result = ResponseEntity.status(HttpStatus.OK).body(questionMapper.questionToQuestionDto(questionService.updateQuestionById(question_id, questionDto)));
             log.info("CONTROLLER LAYER: updateQuestionById method ");
             return result;
         } catch (NoSuchElementException exception) {
@@ -47,7 +49,7 @@ public class QuestionController {
     @PostMapping
     public ResponseEntity<QuestionDto> createQuestion(@RequestBody QuestionDto questionDto) {
         try {
-            ResponseEntity<QuestionDto> result = ResponseEntity.status(HttpStatus.CREATED).body(questionService.createQuestion(questionDto));
+            ResponseEntity<QuestionDto> result = ResponseEntity.status(HttpStatus.CREATED).body(questionMapper.questionToQuestionDto(questionService.createQuestion(questionDto)));
             log.info("CONTROLLER LAYER: createQuestion method ");
             return result;
         } catch (ElementAlreadyExistException exception) {
@@ -71,7 +73,7 @@ public class QuestionController {
     @GetMapping(value = "/getAllQuestionsByParentQuizId/{parent_quiz}")
     public ResponseEntity<List<QuestionDto>> getAllQuestionsByParentQuizId(@PathVariable Integer parent_quiz) {
         try {
-            ResponseEntity<List<QuestionDto>> result = ResponseEntity.status(HttpStatus.OK).body(questionService.getAllQuestionsDtoByParentQuizId(parent_quiz));
+            ResponseEntity<List<QuestionDto>> result = ResponseEntity.status(HttpStatus.OK).body(questionMapper.questionListToQuestionListDto(questionService.getAllQuestionsByParentQuizId(parent_quiz)));
             log.info("CONTROLLER LAYER: getAllQuestionsByParentQuizId method ");
             return result;
         } catch (NoSuchElementException exception) {

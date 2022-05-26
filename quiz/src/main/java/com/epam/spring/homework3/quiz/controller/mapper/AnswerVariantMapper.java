@@ -18,4 +18,7 @@ public interface AnswerVariantMapper {
 
     @Mapping(target = "value", ignore = true)
     List<AnswerVariantDto> answerVariantListToAnswerVariantListDto(List<AnswerVariant> answerVariantList);
+
+
+    List<AnswerVariant> answerVariantListDtoToAnswerVariantList(List<AnswerVariantDto> answerVariantListDto);
 }

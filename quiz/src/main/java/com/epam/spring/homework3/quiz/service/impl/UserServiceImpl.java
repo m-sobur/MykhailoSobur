@@ -22,26 +22,26 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
 
     @Override
-    public UserDto getUserByEmail(String email) throws NoSuchElementException {
+    public User getUserByEmail(String email) throws NoSuchElementException {
         User user = userRepository.getUserByEmail(email);
         log.info("SERVICE LAYER: getUserByEmail method "+ email);
-        return userMapper.userToUserDto(user);
+        return user;
     }
 
     @Override
-    public UserDto createUser(UserDto userDto) throws ElementAlreadyExistException {
+    public User createUser(UserDto userDto) throws ElementAlreadyExistException {
         User user = userMapper.userDtoToUser(userDto);
-        user = userRepository.createUser(user);
+        userRepository.createUser(user);
         log.info("SERVICE LAYER: createUser method "+ user);
-        return userMapper.userToUserDto(user);
+        return user;
     }
 
     @Override
-    public UserDto updateUserByEmail(String email, UserDto userDto) throws NoSuchElementException{
+    public User updateUserByEmail(String email, UserDto userDto) throws NoSuchElementException{
         User user = userMapper.userDtoToUser(userDto);
         user = userRepository.updateUserByEmail(email, user);
         log.info("SERVICE LAYER: updateUserByEmail method " + user);
-        return userMapper.userToUserDto(user);
+        return user;
     }
 
     @Override

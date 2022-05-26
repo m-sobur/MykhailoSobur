@@ -1,21 +1,22 @@
 package com.epam.spring.homework3.quiz.service;
 
 import com.epam.spring.homework3.quiz.controller.dto.QuizDto;
+import com.epam.spring.homework3.quiz.service.model.Quiz;
 
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 
 public interface QuizService {
-    QuizDto getQuizByTitle(String title);
+    Quiz getQuizByTitle(String title);
 
-    QuizDto getQuizById(Integer id_quiz);
+    Quiz getQuizById(Integer id_quiz);
 
-    QuizDto createQuiz(QuizDto quizDto);
+    Quiz createQuiz(QuizDto quizDto);
 
-    QuizDto updateQuizByTitle(String title, QuizDto quizDto);
+    Quiz updateQuizByTitle(String title, QuizDto quizDto);
 
     void deleteQuizByTitle(String title);
 
-    List<QuizDto> getAllQuizesByCreatorId(Integer creator);
+    List<Quiz> getAllQuizesByCreatorId(Integer creator);
 }

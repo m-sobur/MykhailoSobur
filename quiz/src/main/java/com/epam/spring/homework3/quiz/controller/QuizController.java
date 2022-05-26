@@ -1,6 +1,7 @@
 package com.epam.spring.homework3.quiz.controller;
 
 import com.epam.spring.homework3.quiz.controller.dto.QuizDto;
+import com.epam.spring.homework3.quiz.controller.mapper.QuizMapper;
 import com.epam.spring.homework3.quiz.exception.repositoryException.ElementAlreadyExistException;
 import com.epam.spring.homework3.quiz.service.QuizService;
 import lombok.RequiredArgsConstructor;
@@ -20,11 +21,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class QuizController {
     private final QuizService quizService;
-
+    private final QuizMapper quizMapper;
     @GetMapping(value = "/get/{title}")
     public ResponseEntity<QuizDto> getQuizByTitle(@PathVariable String title) {
         try {
-            ResponseEntity<QuizDto> result = ResponseEntity.status(HttpStatus.OK).body(quizService.getQuizByTitle(title));
+            ResponseEntity<QuizDto> result = ResponseEntity.status(HttpStatus.OK).body(quizMapper.quizToQuizDto(quizService.getQuizByTitle(title)));
             log.info("CONTROLLER LAYER: getQuizByTitle method ");
             return result;
         } catch (NoSuchElementException exception) {
@@ -36,7 +37,7 @@ public class QuizController {
     @PutMapping(value = "/update/{title}")
     public ResponseEntity<QuizDto> updateQuizByTitle(@PathVariable String title, @RequestBody QuizDto quizDto) {
         try {
-            ResponseEntity<QuizDto> result = ResponseEntity.status(HttpStatus.OK).body(quizService.updateQuizByTitle(title, quizDto));
+            ResponseEntity<QuizDto> result = ResponseEntity.status(HttpStatus.OK).body(quizMapper.quizToQuizDto(quizService.updateQuizByTitle(title, quizDto)));
             log.info("CONTROLLER LAYER: updateQuizByTitle method ");
             return result;
         } catch (NoSuchElementException exception) {
@@ -48,7 +49,7 @@ public class QuizController {
     @PostMapping
     public ResponseEntity<QuizDto> createQuiz(@RequestBody QuizDto quizDto) {
         try {
-            ResponseEntity<QuizDto> result = ResponseEntity.status(HttpStatus.CREATED).body(quizService.createQuiz(quizDto));
+            ResponseEntity<QuizDto> result = ResponseEntity.status(HttpStatus.CREATED).body(quizMapper.quizToQuizDto(quizService.createQuiz(quizDto)));
             log.info("CONTROLLER LAYER: createQuiz method ");
             return result;
         } catch (ElementAlreadyExistException exception) {
@@ -72,7 +73,7 @@ public class QuizController {
     @GetMapping(value = "/getAllByCreatorId/{creator}")
     public ResponseEntity<List<QuizDto>> getAllQuizesByCreatorId(@PathVariable Integer creator) {
         try {
-            ResponseEntity<List<QuizDto>> result = ResponseEntity.status(HttpStatus.OK).body(quizService.getAllQuizesByCreatorId(creator));
+            ResponseEntity<List<QuizDto>> result = ResponseEntity.status(HttpStatus.OK).body(quizMapper.quizsToQuizsDto(quizService.getAllQuizesByCreatorId(creator)));
             log.info("CONTROLLER LAYER: getAllQuizesByCreatorId method ");
             return result;
         } catch (NoSuchElementException exception) {

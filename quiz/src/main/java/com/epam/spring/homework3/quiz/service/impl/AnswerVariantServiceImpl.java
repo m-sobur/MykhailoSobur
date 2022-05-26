@@ -22,18 +22,17 @@ public class AnswerVariantServiceImpl implements AnswerVariantService {
     private final AnswerVariantRepository answerVariantRepository;
 
     @Override
-    public AnswerVariantDto getAnswerVariantById(Integer variant_id) throws NoSuchElementException {
-        AnswerVariant answerVariant = answerVariantRepository.getAnswerVariantById(variant_id);
+    public AnswerVariant getAnswerVariantById(Integer variant_id) throws NoSuchElementException {
         log.info("SERVICE LAYER: getAnswerVariantById method " + variant_id);
-        return answerVariantMapper.answerVariantToAnswerVariantDto(answerVariant);
+        return answerVariantRepository.getAnswerVariantById(variant_id);
     }
 
     @Override
-    public AnswerVariantDto createAnswerVariant(AnswerVariantDto answerVariantDto) throws ElementAlreadyExistException {
+    public AnswerVariant createAnswerVariant(AnswerVariantDto answerVariantDto) throws ElementAlreadyExistException {
         AnswerVariant answerVariant = answerVariantMapper.answerVariantDtoToAnswerVariant(answerVariantDto);
         answerVariant = answerVariantRepository.createAnswerVariant(answerVariant);
         log.info("SERVICE LAYER: createAnswerVariant method " + answerVariant);
-        return answerVariantMapper.answerVariantToAnswerVariantDto(answerVariant);
+        return answerVariant;
     }
 
     @Override
@@ -43,16 +42,9 @@ public class AnswerVariantServiceImpl implements AnswerVariantService {
     }
 
     @Override
-    public List<AnswerVariantDto> getAllAnswerVariantDtoByParentQuestionId(Integer parent_question_id) throws NoSuchElementException{
+    public List<AnswerVariant> getAllAnswerVariantByParentQuestionId(Integer parent_question_id){
         List<AnswerVariant> answerVariantList = answerVariantRepository.getAllAnswerVariantByParentQuestionId(parent_question_id);
-        log.info("SERVICE LAYER: getAllAnswerVariantByParentQuestionId " + parent_question_id);
-        return  answerVariantMapper.answerVariantListToAnswerVariantListDto(answerVariantList);
-    }
-
-    @Override
-    public List<AnswerVariant> getAllAnswerVariantByParentQuestionId(Integer parent_question_id) throws NoSuchElementException{
-        List<AnswerVariant> answerVariantList = answerVariantRepository.getAllAnswerVariantByParentQuestionId(parent_question_id);
-        log.info("SERVICE LAYER: getAllAnswerVariantByParentQuestionId " + parent_question_id);
+        log.info("SERVICE LAYER: getAllAnswerVariantByParentQuestionId " + answerVariantList);
         return  answerVariantList;
     }
 }

@@ -1,6 +1,7 @@
 package com.epam.spring.homework3.quiz.controller;
 
 import com.epam.spring.homework3.quiz.controller.dto.AnswerVariantDto;
+import com.epam.spring.homework3.quiz.controller.mapper.AnswerVariantMapper;
 import com.epam.spring.homework3.quiz.exception.repositoryException.ElementAlreadyExistException;
 import com.epam.spring.homework3.quiz.service.AnswerVariantService;
 import lombok.RequiredArgsConstructor;
@@ -20,12 +21,13 @@ import java.util.NoSuchElementException;
 @RequiredArgsConstructor
 public class AnswerVariantController {
     private final AnswerVariantService answerVariantService;
+    private final AnswerVariantMapper answerVariantMapper;
     private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
     @GetMapping(value = "/get/{variant_id}")
     public ResponseEntity<AnswerVariantDto> getAnswerVariantByID(@PathVariable Integer variant_id) {
         try {
-            ResponseEntity<AnswerVariantDto> result = ResponseEntity.status(HttpStatus.OK).body(answerVariantService.getAnswerVariantById(variant_id));
+            ResponseEntity<AnswerVariantDto> result = ResponseEntity.status(HttpStatus.OK).body(answerVariantMapper.answerVariantToAnswerVariantDto(answerVariantService.getAnswerVariantById(variant_id)));
             LOGGER.info("CONTROLLER LAYER: getAnswerVariantByID method ");
             return result;
         } catch (NoSuchElementException exception) {
@@ -38,7 +40,7 @@ public class AnswerVariantController {
     @PostMapping
     public ResponseEntity<AnswerVariantDto> createAnswerVariantDto(@RequestBody AnswerVariantDto answerVariantDto) {
         try {
-            ResponseEntity<AnswerVariantDto> result = ResponseEntity.status(HttpStatus.CREATED).body(answerVariantService.createAnswerVariant(answerVariantDto));
+            ResponseEntity<AnswerVariantDto> result = ResponseEntity.status(HttpStatus.CREATED).body(answerVariantMapper.answerVariantToAnswerVariantDto(answerVariantService.createAnswerVariant(answerVariantDto)));
             LOGGER.info("CONTROLLER LAYER: createAnswerVariantDto method ");
             return result;
         } catch (ElementAlreadyExistException exception) {
@@ -62,7 +64,7 @@ public class AnswerVariantController {
     @GetMapping(value = "/getAllAnswerVariantByParentQuestionId/{parent_question_id}")
     public ResponseEntity<List<AnswerVariantDto>> getAllAnswerVariantByParentQuestionId(@PathVariable Integer parent_question_id) {
         try {
-            ResponseEntity<List<AnswerVariantDto>> result = ResponseEntity.status(HttpStatus.OK).body(answerVariantService.getAllAnswerVariantDtoByParentQuestionId(parent_question_id));
+            ResponseEntity<List<AnswerVariantDto>> result = ResponseEntity.status(HttpStatus.OK).body(answerVariantMapper.answerVariantListToAnswerVariantListDto(answerVariantService.getAllAnswerVariantByParentQuestionId(parent_question_id)));
             LOGGER.info("CONTROLLER LAYER: getAllAnswerVariantByParentQuestionId method ");
             return result;
         } catch (NoSuchElementException exception) {
