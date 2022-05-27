@@ -4,6 +4,7 @@ import com.epam.spring.homework3.quiz.controller.dto.AnswerVariantDto;
 import com.epam.spring.homework3.quiz.service.model.AnswerVariant;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.factory.Mappers;
 
 
 import java.util.List;

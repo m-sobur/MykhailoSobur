@@ -46,15 +46,6 @@ public class AnswerVariantRepositoryImpl implements AnswerVariantRepository {
 
     @Override
     public List<AnswerVariant> getAllAnswerVariantByParentQuestionId(Integer parent_question_id) {
-//        boolean isEmpty = temporaryDataBase.isEmpty();
-//        if (isEmpty) {
-//            throw new NoSuchElementException("Question with " + parent_question_id + " id have not any answers  in the 'temporararyDataBase' while executing getAllAnswerVariantByParentQuestionId");
-//        } else {
-//            log.info("REPOSITORY LAYER: getAllAnswerVariantByParentQuestionId method ");
-//            return temporaryDataBase.stream()
-//                    .filter(answerVariant -> answerVariant.getParent_question_id().equals(parent_question_id))
-//                    .collect(Collectors.toList());
-//        }
         log.info("REPOSITORY LAYER: getAllAnswerVariantByParentQuestionId method ");
         return temporaryDataBase.stream()
                 .filter(answerVariant -> answerVariant.getParent_question_id().equals(parent_question_id))

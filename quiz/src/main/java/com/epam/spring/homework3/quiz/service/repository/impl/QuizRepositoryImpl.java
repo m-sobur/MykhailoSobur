@@ -77,15 +77,6 @@ public class QuizRepositoryImpl implements QuizRepository {
 
     @Override
     public List<Quiz> getAllQuizesByCreatorId(Integer creator){
-//        boolean isEmpty = temporaryDataBase.isEmpty();
-//        if (isEmpty) {
-//            throw new NoSuchElementException("User with " + creator + "id have not any quiz  in the 'temporararyDataBase' while executing getAllQuizesByCreatorId");
-//        } else {
-//            log.info("REPOSITORY LAYER: getAllQuizesByCreatorId method ");
-//            return temporaryDataBase.stream()
-//                    .filter(quiz -> quiz.getCreator().equals(creator))
-//                    .collect(Collectors.toList());
-//        }
         log.info("REPOSITORY LAYER: getAllQuizesByCreatorId method ");
         return temporaryDataBase.stream()
                 .filter(quiz -> quiz.getCreator().equals(creator))

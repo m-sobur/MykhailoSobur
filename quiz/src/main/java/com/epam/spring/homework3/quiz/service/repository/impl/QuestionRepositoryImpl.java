@@ -64,15 +64,6 @@ public class QuestionRepositoryImpl implements QuestionRepository {
 
     @Override
     public List<Question> getAllQuestionsByParentQuizId(Integer parent_quiz) {
-//        boolean isEmpty = temporaryDataBase.isEmpty();
-//        if (isEmpty) {
-//            throw new NoSuchElementException("Quiz with " + parent_quiz + "id have not any question  in the 'temporararyDataBase' while executing getAllQuestionsByParentQuizId");
-//        } else {
-//            log.info("REPOSITORY LAYER: getAllQuestionsByParentQuizId method ");
-//            return temporaryDataBase.stream()
-//                    .filter(question -> question.getParent_quiz().equals(parent_quiz))
-//                    .collect(Collectors.toList());
-//        }
         log.info("REPOSITORY LAYER: getAllQuestionsByParentQuizId method ");
         return temporaryDataBase.stream()
                 .filter(question -> question.getParent_quiz().equals(parent_quiz))

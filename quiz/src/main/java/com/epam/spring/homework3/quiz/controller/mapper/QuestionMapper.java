@@ -7,9 +7,10 @@ import org.mapstruct.Mapping;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring",uses = {AnswerVariantMapper.class})
 public interface QuestionMapper {
 
+    @Mapping(source = "question.answerVariantList", target = "answerVariantList")
     QuestionDto questionToQuestionDto(Question question);
 
     Question questionDtoToQuestion(QuestionDto questionDto);
