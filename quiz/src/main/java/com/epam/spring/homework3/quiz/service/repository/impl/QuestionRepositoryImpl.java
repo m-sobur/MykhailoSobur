@@ -28,9 +28,9 @@ public class QuestionRepositoryImpl implements QuestionRepository {
 
     @Override
     public Question createQuestion(Question question) throws ElementAlreadyExistException {
-        boolean userIsAlreadyExist = temporaryDataBase.stream()
+        boolean questionIsAlreadyExist = temporaryDataBase.stream()
                 .anyMatch(question1 -> question1.getQuestion_title().equals(question.getQuestion_title()));
-        if (userIsAlreadyExist) {
+        if (questionIsAlreadyExist) {
             throw new ElementAlreadyExistException("Question with equal title is already exist at 'temporaryDataBase' while executing createQuestion");
         } else {
             temporaryDataBase.add(question);

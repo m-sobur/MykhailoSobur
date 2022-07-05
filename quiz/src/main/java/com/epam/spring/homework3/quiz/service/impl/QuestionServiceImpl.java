@@ -22,7 +22,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class QuestionServiceImpl implements QuestionService {
     private final QuestionMapper questionMapper;
-    private final AnswerVariantMapper answerVariantMapper;
     private final QuestionRepository questionRepository;
     private final AnswerVariantService answerVariantService;
 

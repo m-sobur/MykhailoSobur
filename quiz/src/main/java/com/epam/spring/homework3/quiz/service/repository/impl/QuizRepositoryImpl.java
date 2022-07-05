@@ -40,9 +40,9 @@ public class QuizRepositoryImpl implements QuizRepository {
 
     @Override
     public Quiz createQuiz(Quiz quiz) throws ElementAlreadyExistException {
-        boolean userIsAlreadyExist = temporaryDataBase.stream()
+        boolean quizIsAlreadyExist = temporaryDataBase.stream()
                 .anyMatch(quiz1 -> quiz1.getTitle().equals(quiz.getTitle()));
-        if (userIsAlreadyExist) {
+        if (quizIsAlreadyExist) {
             throw new ElementAlreadyExistException("Quiz with equal title is already exist at 'temporaryDataBase' while executing createQuiz");
         } else {
             temporaryDataBase.add(quiz);
