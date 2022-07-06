@@ -8,6 +8,7 @@ import java.util.List;
 
 @Component
 public class Pet {
+
     @Autowired
     private List<Animal> pets;
 
