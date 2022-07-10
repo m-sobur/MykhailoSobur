@@ -11,8 +11,9 @@ public class BeanC implements Validator {
     @Value("${beanC.value}")
     private int value;
 
-    public BeanC(){
+    public BeanC() {
     }
+
     @Override
     public String toString() {
         return "BeanC{" +

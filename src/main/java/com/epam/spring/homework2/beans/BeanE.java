@@ -2,7 +2,6 @@ package com.epam.spring.homework2.beans;
 
 import com.epam.spring.homework2.interfaces.Validator;
 import org.springframework.stereotype.Component;
-
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 

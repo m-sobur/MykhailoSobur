@@ -6,12 +6,14 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class BeanD implements Validator {
+
     @Value("${beanD.name}")
     private String name;
+
     @Value("${beanD.value}")
     private int value;
 
-    public BeanD(){
+    public BeanD() {
     }
 
     @Override

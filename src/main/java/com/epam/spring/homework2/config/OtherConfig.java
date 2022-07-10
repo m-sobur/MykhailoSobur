@@ -9,11 +9,13 @@ import org.springframework.context.annotation.Lazy;
 
 @Configuration
 public class OtherConfig {
+
     @Bean
     @Lazy
     public BeanF beanF() {
         return new BeanF();
     }
+
     @Bean
     public CustomBeanPostProcessor customBeanPostProcessor() {
         return new CustomBeanPostProcessor();

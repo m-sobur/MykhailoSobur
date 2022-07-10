@@ -8,7 +8,7 @@ public class BeanF implements Validator {
     private String name;
     private int value;
 
-    public BeanF(){
+    public BeanF() {
     }
 
     @Override
