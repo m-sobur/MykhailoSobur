@@ -4,6 +4,8 @@ import com.epam.spring.homework3.quiz.controller.dto.QuestionDto;
 import com.epam.spring.homework3.quiz.controller.mapper.QuestionMapper;
 import com.epam.spring.homework3.quiz.exception.repositoryException.ElementAlreadyExistException;
 import com.epam.spring.homework3.quiz.service.QuestionService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -18,11 +20,13 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/question")
 @RequiredArgsConstructor
+@Api(tags = "QuestionController description for SWAGGER documentation")
 public class QuestionController {
     private final QuestionService questionService;
     private final QuestionMapper questionMapper;
 
     @GetMapping(value = "/get/{question_id}")
+    @ApiOperation("Get question by id")
     public ResponseEntity<QuestionDto> getQuestionByID(@PathVariable Integer question_id) {
         try {
             ResponseEntity<QuestionDto> result = ResponseEntity.status(HttpStatus.OK).body(questionMapper.questionToQuestionDto(questionService.getQuestionByID(question_id)));
@@ -35,6 +39,7 @@ public class QuestionController {
     }
 
     @PutMapping(value = "/update/{question_id}")
+    @ApiOperation("Update question by id")
     public ResponseEntity<QuestionDto> updateQuestionById(@PathVariable Integer question_id, @RequestBody QuestionDto questionDto) {
         try {
             ResponseEntity<QuestionDto> result = ResponseEntity.status(HttpStatus.OK).body(questionMapper.questionToQuestionDto(questionService.updateQuestionById(question_id, questionDto)));
@@ -47,6 +52,7 @@ public class QuestionController {
     }
 
     @PostMapping
+    @ApiOperation("Create question")
     public ResponseEntity<QuestionDto> createQuestion(@RequestBody QuestionDto questionDto) {
         try {
             ResponseEntity<QuestionDto> result = ResponseEntity.status(HttpStatus.CREATED).body(questionMapper.questionToQuestionDto(questionService.createQuestion(questionDto)));
@@ -59,6 +65,7 @@ public class QuestionController {
     }
 
     @DeleteMapping(value = "/delete/{question_id}")
+    @ApiOperation("Delete question by id")
     public ResponseEntity<String> deleteQuestionById(@PathVariable Integer question_id) {
         try {
             questionService.deleteQuestionById(question_id);
@@ -71,6 +78,7 @@ public class QuestionController {
     }
 
     @GetMapping(value = "/getAllQuestionsByParentQuizId/{parent_quiz}")
+    @ApiOperation("Get all question by parent id")
     public ResponseEntity<List<QuestionDto>> getAllQuestionsByParentQuizId(@PathVariable Integer parent_quiz) {
         try {
             ResponseEntity<List<QuestionDto>> result = ResponseEntity.status(HttpStatus.OK).body(questionMapper.questionListToQuestionListDto(questionService.getAllQuestionsByParentQuizId(parent_quiz)));

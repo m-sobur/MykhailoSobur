@@ -4,6 +4,8 @@ import com.epam.spring.homework3.quiz.controller.dto.QuizDto;
 import com.epam.spring.homework3.quiz.controller.mapper.QuizMapper;
 import com.epam.spring.homework3.quiz.exception.repositoryException.ElementAlreadyExistException;
 import com.epam.spring.homework3.quiz.service.QuizService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -19,10 +21,13 @@ import java.util.List;
 @RestController
 @RequestMapping("/quiz")
 @RequiredArgsConstructor
+@Api(tags = "QuizController description for SWAGGER documentation")
 public class QuizController {
     private final QuizService quizService;
     private final QuizMapper quizMapper;
+
     @GetMapping(value = "/get/{title}")
+    @ApiOperation("Get quiz by title")
     public ResponseEntity<QuizDto> getQuizByTitle(@PathVariable String title) {
         try {
             ResponseEntity<QuizDto> result = ResponseEntity.status(HttpStatus.OK).body(quizMapper.quizToQuizDto(quizService.getQuizByTitle(title)));
@@ -35,6 +40,7 @@ public class QuizController {
     }
 
     @PutMapping(value = "/update/{title}")
+    @ApiOperation("Update quiz by title")
     public ResponseEntity<QuizDto> updateQuizByTitle(@PathVariable String title, @RequestBody QuizDto quizDto) {
         try {
             ResponseEntity<QuizDto> result = ResponseEntity.status(HttpStatus.OK).body(quizMapper.quizToQuizDto(quizService.updateQuizByTitle(title, quizDto)));
@@ -47,6 +53,7 @@ public class QuizController {
     }
 
     @PostMapping
+    @ApiOperation("Create quiz")
     public ResponseEntity<QuizDto> createQuiz(@RequestBody QuizDto quizDto) {
         try {
             ResponseEntity<QuizDto> result = ResponseEntity.status(HttpStatus.CREATED).body(quizMapper.quizToQuizDto(quizService.createQuiz(quizDto)));
@@ -59,6 +66,7 @@ public class QuizController {
     }
 
     @DeleteMapping(value = "/delete/{title}")
+    @ApiOperation("Delete quiz by title")
     public ResponseEntity<String> deleteQuizByTitle(@PathVariable String title) {
         try {
             quizService.deleteQuizByTitle(title);
@@ -71,6 +79,7 @@ public class QuizController {
     }
 
     @GetMapping(value = "/getAllByCreatorId/{creator}")
+    @ApiOperation("Get all quiz's by creator id")
     public ResponseEntity<List<QuizDto>> getAllQuizesByCreatorId(@PathVariable Integer creator) {
         try {
             ResponseEntity<List<QuizDto>> result = ResponseEntity.status(HttpStatus.OK).body(quizMapper.quizsToQuizsDto(quizService.getAllQuizesByCreatorId(creator)));

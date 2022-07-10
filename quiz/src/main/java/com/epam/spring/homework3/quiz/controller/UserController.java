@@ -4,7 +4,10 @@ import com.epam.spring.homework3.quiz.controller.dto.UserDto;
 import com.epam.spring.homework3.quiz.controller.mapper.UserMapper;
 import com.epam.spring.homework3.quiz.exception.repositoryException.ElementAlreadyExistException;
 import com.epam.spring.homework3.quiz.service.UserService;
-import com.epam.spring.homework3.quiz.service.model.User;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -15,13 +18,19 @@ import java.util.NoSuchElementException;
 
 @Slf4j
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/user")
 @RequiredArgsConstructor
+@Api(tags = "UserController description for SWAGGER documentation")
+@ApiResponses({
+        @ApiResponse(code = 404, message = "Not found"),
+        @ApiResponse(code = 500, message = "Internal Server Error")
+})
 public class UserController {
 
     private final UserService userService;
     private final UserMapper userMapper;
 
+    @ApiOperation("Get user by email")
     @GetMapping(value = "/get/{email}")
     public ResponseEntity<UserDto> getUserByEmail(@PathVariable String email) {
         try {
@@ -34,6 +43,7 @@ public class UserController {
         }
     }
 
+    @ApiOperation("Create user")
     @PostMapping
     public ResponseEntity<UserDto> createUser(@RequestBody UserDto userDto) {
         try {
@@ -46,6 +56,7 @@ public class UserController {
         }
     }
 
+    @ApiOperation("Update user by email")
     @PutMapping(value = "/update/{email}")
     public ResponseEntity<UserDto> updateUserByEmail(@PathVariable String email, @RequestBody UserDto userDto) {
         try {
@@ -59,6 +70,7 @@ public class UserController {
 
     }
 
+    @ApiOperation("Delete user by email")
     @DeleteMapping(value = "/delete/{email}")
     public ResponseEntity<String> deleteUserByEmail(@PathVariable String email) {
         try {
