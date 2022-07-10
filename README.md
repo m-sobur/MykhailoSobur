@@ -1,27 +1,27 @@
 # MykhailoSobur
-[WEST &amp; SOUTH] Java Lab #31
-                                                                      Spring_3 Web MVC Homework 
+[WEST &amp; SOUTH] Java Lab #32
+                                                                     
+                                                                    Spring_4 Web MVC Homework 
 
  
-
 Required: 
 
-Migrate functionality related to core business logic of Servlet-based application to newly created Spring MVC project adapting the old one to the correct package structure, naming conventions, etc.: 
+Extend your service functionality by:  
 
-get rid of all JSP views (now your service will be consuming and populating only JSON text format) 
+adding basic validation to DTO classes 
 
-make your service RESTful (don't implement HATEOAS logic for now. It will be accomplished in the scope of next lecture) 
+using mapstruct to map DTOs 
 
-the best approach is to start from the scratch and create an empty Spring Boot project using the 'Spring Initializr'. 
+implementing custom common and unified error handling functionality using Spring MVC components 
 
-avoid code copypaste from the old project, unless it relates to the business logic. 
+adding the Spring Boot Actuator to your project and configuring the ‘/info’ endpoint of it. 
 
-Create DTO classes and use them at the controller level. 
+extending your service RESTful endpoints by Swagger Documentation    
 
-Add logging to all layers of the application. 
-
- 
+create custom validation annotations using ConstraintValidator 
 
 Optional (would be a great plus): 
 
-1. Use any of available open source mapping tool in order to remap from business classes to DTO and vice versa (BeanUtils, MapStruct, etc.) 
+Investigate and get hands-on experience working with the RestTemplate: create a separate service that will make REST calls to your main service endpoints (GET, POST, PUT, PATCH, DELETE) and parse the response. 
+
+Investigate add multilingual support for exception messages configuring the ‘MessageSource’ bean - https://www.baeldung.com/spring-custom-validation-message-source 
