@@ -9,11 +9,11 @@ import java.util.List;
 @Data
 @Builder
 public class QuizDto {
-    private Integer id_quiz;
+    private Integer id;
     private String title;
     private Date creationDate;
-    private Integer creator;
-    private String quiz_type;
+    private Integer creatorId;
+    private String quizType;
 
     private List<QuestionDto> questionList;
 }

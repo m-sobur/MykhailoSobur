@@ -6,6 +6,7 @@ import com.epam.spring.homework3.quiz.service.repository.QuizRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -28,9 +29,9 @@ public class QuizRepositoryImpl implements QuizRepository {
     }
 
     @Override
-    public Quiz getQuizById(Integer id_quiz) throws NoSuchElementException{
+    public Quiz getQuizById(Integer id) throws NoSuchElementException{
         Quiz resultQuiz = temporaryDataBase.stream()
-                .filter(quiz -> quiz.getId_quiz().equals(id_quiz))
+                .filter(quiz -> quiz.getId().equals(id))
                 .findAny()
                 .orElseThrow(() -> new NoSuchElementException("Quiz not found in the 'temporararyDataBase' while executing getQuizById"));
         log.info("REPOSITORY LAYER: getQuizById method ");
@@ -46,6 +47,7 @@ public class QuizRepositoryImpl implements QuizRepository {
             throw new ElementAlreadyExistException("Quiz with equal title is already exist at 'temporaryDataBase' while executing createQuiz");
         } else {
             temporaryDataBase.add(quiz);
+            quiz.setCreationDate(new Date());
             log.info("REPOSITORY LAYER: createQuiz method ");
             return quiz;
         }
@@ -58,10 +60,9 @@ public class QuizRepositoryImpl implements QuizRepository {
                 .findAny()
                 .orElseThrow(() -> new NoSuchElementException("Quiz not found in the 'temporararyDataBase' while executing updateUserByEmail"));
 
-        quizToUpdate.setQuiz_type(quiz.getQuiz_type());
+        quizToUpdate.setQuizType(quiz.getQuizType());
         quizToUpdate.setTitle(quiz.getTitle());
-        quizToUpdate.setCreator(quiz.getCreator());
-        quizToUpdate.setCreationDate(new Date());
+        quizToUpdate.setCreatorId(quiz.getCreatorId());
         log.info("REPOSITORY LAYER: updateQuizByTitle method ");
         return quizToUpdate;
     }
@@ -79,7 +80,7 @@ public class QuizRepositoryImpl implements QuizRepository {
     public List<Quiz> getAllQuizesByCreatorId(Integer creator){
         log.info("REPOSITORY LAYER: getAllQuizesByCreatorId method ");
         return temporaryDataBase.stream()
-                .filter(quiz -> quiz.getCreator().equals(creator))
+                .filter(quiz -> quiz.getCreatorId().equals(creator))
                 .collect(Collectors.toList());
     }
 }

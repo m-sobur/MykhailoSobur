@@ -48,10 +48,10 @@ public class UserRepositoryImpl implements UserRepository {
                 .orElseThrow(() -> new NoSuchElementException("User not found in the 'temporararyDataBase' while executing updateUserByEmail"));
 
 
-        userToUpdate.setFirst_name(user.getFirst_name());
-        userToUpdate.setUsr_role(user.getUsr_role());
+        userToUpdate.setFirstName(user.getFirstName());
+        userToUpdate.setUserRole(user.getUserRole());
         userToUpdate.setPasswd(user.getPasswd());
-        userToUpdate.setLast_name(user.getLast_name());
+        userToUpdate.setLastName(user.getLastName());
         log.info("REPOSITORY LAYER: updateUserByEmail method " + email);
         return userToUpdate;
     }

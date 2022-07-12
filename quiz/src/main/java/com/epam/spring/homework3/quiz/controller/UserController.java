@@ -1,6 +1,8 @@
 package com.epam.spring.homework3.quiz.controller;
 
 import com.epam.spring.homework3.quiz.controller.dto.UserDto;
+import com.epam.spring.homework3.quiz.controller.dto.group.OnCreate;
+import com.epam.spring.homework3.quiz.controller.dto.group.OnUpdate;
 import com.epam.spring.homework3.quiz.controller.mapper.UserMapper;
 import com.epam.spring.homework3.quiz.exception.repositoryException.ElementAlreadyExistException;
 import com.epam.spring.homework3.quiz.service.UserService;
@@ -12,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.NoSuchElementException;
@@ -45,7 +48,7 @@ public class UserController {
 
     @ApiOperation("Create user")
     @PostMapping
-    public ResponseEntity<UserDto> createUser(@RequestBody UserDto userDto) {
+    public ResponseEntity<UserDto> createUser(@RequestBody @Validated(OnCreate.class) UserDto userDto) {
         try {
             ResponseEntity<UserDto> result = ResponseEntity.status(HttpStatus.CREATED).body(userMapper.userToUserDto(userService.createUser(userDto)));
             log.info("CONTROLLER LAYER: createUser method ");
@@ -58,7 +61,7 @@ public class UserController {
 
     @ApiOperation("Update user by email")
     @PutMapping(value = "/update/{email}")
-    public ResponseEntity<UserDto> updateUserByEmail(@PathVariable String email, @RequestBody UserDto userDto) {
+    public ResponseEntity<UserDto> updateUserByEmail(@PathVariable String email, @RequestBody @Validated(OnUpdate.class) UserDto userDto) {
         try {
             ResponseEntity<UserDto> result = ResponseEntity.status(HttpStatus.OK).body(userMapper.userToUserDto(userService.updateUserByEmail(email, userDto)));
             log.info("CONTROLLER LAYER: updateUserByEmail method ");

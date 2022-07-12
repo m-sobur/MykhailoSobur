@@ -10,10 +10,10 @@ import java.util.List;
 @Data
 @Builder
 public class QuestionDto {
-    private Integer question_id;
-    private String question_title;
-    private QuestionType question_type;
-    private Integer parent_quiz;
+    private Integer id;
+    private String questionTitle;
+    private QuestionType questionType;
+    private Integer parentQuizId;
 
     private List<AnswerVariantDto> answerVariantList;
 }

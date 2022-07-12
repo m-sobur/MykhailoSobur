@@ -17,9 +17,9 @@ public class QuestionRepositoryImpl implements QuestionRepository {
     private final List<Question> temporaryDataBase = new ArrayList<>();
 
     @Override
-    public Question getQuestionByID(Integer question_id) throws NoSuchElementException {
+    public Question getQuestionByID(Integer id) throws NoSuchElementException {
         Question resultQuestion = temporaryDataBase.stream()
-                .filter(question -> question.getQuestion_id().equals(question_id))
+                .filter(question -> question.getId().equals(id))
                 .findAny()
                 .orElseThrow(() -> new NoSuchElementException("Question not found in the 'temporararyDataBase' while executing getQuestionByID"));
         log.info("REPOSITORY LAYER: getQuestionByID method ");
@@ -29,7 +29,7 @@ public class QuestionRepositoryImpl implements QuestionRepository {
     @Override
     public Question createQuestion(Question question) throws ElementAlreadyExistException {
         boolean questionIsAlreadyExist = temporaryDataBase.stream()
-                .anyMatch(question1 -> question1.getQuestion_title().equals(question.getQuestion_title()));
+                .anyMatch(question1 -> question1.getQuestionTitle().equals(question.getQuestionTitle()));
         if (questionIsAlreadyExist) {
             throw new ElementAlreadyExistException("Question with equal title is already exist at 'temporaryDataBase' while executing createQuestion");
         } else {
@@ -40,33 +40,33 @@ public class QuestionRepositoryImpl implements QuestionRepository {
     }
 
     @Override
-    public Question updateQuestionById(Integer question_id, Question question) throws NoSuchElementException {
+    public Question updateQuestionById(Integer id, Question question) throws NoSuchElementException {
         Question questionToUpdate = temporaryDataBase.stream()
-                .filter(question1 -> question1.getQuestion_id().equals(question_id))
+                .filter(question1 -> question1.getId().equals(id))
                 .findAny()
                 .orElseThrow(() -> new NoSuchElementException("Question not found in the 'temporararyDataBase' while executing updateQuestionById"));
 
-        questionToUpdate.setQuestion_title(question.getQuestion_title());
-        questionToUpdate.setQuestion_type(question.getQuestion_type());
-        questionToUpdate.setParent_quiz(question.getParent_quiz());
+        questionToUpdate.setQuestionTitle(question.getQuestionTitle());
+        questionToUpdate.setQuestionType(question.getQuestionType());
+        questionToUpdate.setParentQuizId(question.getParentQuizId());
         log.info("REPOSITORY LAYER: updateQuestionById method ");
         return questionToUpdate;
     }
 
     @Override
-    public void deleteQuestionById(Integer question_id) throws NoSuchElementException {
-        boolean isDeleted = temporaryDataBase.removeIf(question -> question.getQuestion_id().equals(question_id));
+    public void deleteQuestionById(Integer id) throws NoSuchElementException {
+        boolean isDeleted = temporaryDataBase.removeIf(question -> question.getId().equals(id));
         if (!isDeleted) {
-            throw new NoSuchElementException("Question with " + question_id + " not found in the 'temporararyDataBase' while executing deleteQuestionById");
+            throw new NoSuchElementException("Question with " + id + " not found in the 'temporararyDataBase' while executing deleteQuestionById");
         }
         log.info("REPOSITORY LAYER: deleteQuizByTitle method ");
     }
 
     @Override
-    public List<Question> getAllQuestionsByParentQuizId(Integer parent_quiz) {
+    public List<Question> getAllQuestionsByParentQuizId(Integer parentQuizId) {
         log.info("REPOSITORY LAYER: getAllQuestionsByParentQuizId method ");
         return temporaryDataBase.stream()
-                .filter(question -> question.getParent_quiz().equals(parent_quiz))
+                .filter(question -> question.getParentQuizId().equals(parentQuizId))
                 .collect(Collectors.toList());
     }
 }

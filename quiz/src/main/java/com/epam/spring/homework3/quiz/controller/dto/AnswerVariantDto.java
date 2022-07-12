@@ -7,9 +7,9 @@ import lombok.Data;
 @Data
 @Builder
 public class AnswerVariantDto {
-    private Integer variant_id;
-    private String variant_title;
+    private Integer id;
+    private String variantTitle;
     private Boolean userChecked;
-    private Integer parent_question_id;
+    private Integer parentQuestionId;
     private Boolean value;
 }

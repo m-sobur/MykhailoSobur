@@ -26,7 +26,7 @@ public class QuizServiceImpl implements QuizService {
     @Override
     public Quiz getQuizByTitle(String title) throws NoSuchElementException {
         Quiz quiz = quizRepository.getQuizByTitle(title);
-        List<Question> questionList = questionService.getAllQuestionsByParentQuizId(quiz.getId_quiz());
+        List<Question> questionList = questionService.getAllQuestionsByParentQuizId(quiz.getId());
         quiz.setQuestionList(questionList);
         log.info("SERVICE LAYER: getQuizByTitle method " + quiz);
         return quiz;
@@ -35,7 +35,7 @@ public class QuizServiceImpl implements QuizService {
     @Override
     public Quiz getQuizById(Integer id_quiz) throws NoSuchElementException {
         Quiz quiz = quizRepository.getQuizById(id_quiz);
-        List<Question> questionList = questionService.getAllQuestionsByParentQuizId(quiz.getId_quiz());
+        List<Question> questionList = questionService.getAllQuestionsByParentQuizId(quiz.getId());
         quiz.setQuestionList(questionList);
         log.info("SERVICE LAYER: getQuizById method " + quiz);
         return quiz;
