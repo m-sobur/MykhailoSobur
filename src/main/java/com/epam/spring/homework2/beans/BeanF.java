@@ -1,14 +1,14 @@
 package com.epam.spring.homework2.beans;
 
 import com.epam.spring.homework2.interfaces.Validator;
-import org.springframework.stereotype.Component;
 
-@Component
 public class BeanF implements Validator {
     private String name;
     private int value;
 
-    public BeanF() {
+    public BeanF(String name, int value) {
+        this.name = name;
+        this.value = value;
     }
 
     @Override
@@ -22,7 +22,7 @@ public class BeanF implements Validator {
     @Override
     public void validate() {
         System.out.println(this.getClass().getSimpleName() + " Inside validate method");
-        if (name != null && value > 0) {
+        if (name != null && value >= 0) {
             System.out.println("Validation result for " + this.getClass().getSimpleName() + " is positive");
         } else
             System.out.println("Validation result for " + this.getClass().getSimpleName() + " is negative");

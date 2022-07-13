@@ -3,9 +3,7 @@ package com.epam.spring.homework2.beans;
 import com.epam.spring.homework2.interfaces.Validator;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
-import org.springframework.stereotype.Component;
 
-@Component
 public class CustomBeanPostProcessor implements BeanPostProcessor {
 
     @Override

@@ -10,8 +10,14 @@ public class Main {
 
         System.out.println("--------------------");
 
+        for (String beanDefinitionName : applicationContext.getBeanDefinitionNames()) {
+            System.out.println(beanDefinitionName);
+        }
+
+        System.out.println("--------------------");
+
         for (String bean : beanName) {
-            System.out.println(applicationContext.getBean(bean));
+            System.out.println(applicationContext.getBeanDefinition(bean));
         }
 
         System.out.println("--------------------");

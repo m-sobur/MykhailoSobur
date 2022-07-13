@@ -1,14 +1,17 @@
 package com.epam.spring.homework2.beans;
 
 import com.epam.spring.homework2.interfaces.Validator;
-import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
-@Component
 public class BeanE implements Validator {
     private String name;
     private int value;
+
+    public BeanE(String name, int value) {
+        this.name = name;
+        this.value = value;
+    }
 
     @PostConstruct
     public void postConstructMethod(){
@@ -31,7 +34,7 @@ public class BeanE implements Validator {
     @Override
     public void validate() {
         System.out.println(this.getClass().getSimpleName() + " Inside validate method");
-        if (name != null && value > 0) {
+        if (name != null && value >= 0) {
             System.out.println("Validation result for " + this.getClass().getSimpleName() + " is positive");
         } else
             System.out.println("Validation result for " + this.getClass().getSimpleName() + " is negative");

@@ -1,8 +1,6 @@
 package com.epam.spring.homework2.config;
 
-import com.epam.spring.homework2.beans.BeanF;
-import com.epam.spring.homework2.beans.CustomBeanPostProcessor;
-import com.epam.spring.homework2.beans.MyBeanFactoryPostProcessor;
+import com.epam.spring.homework2.beans.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
@@ -11,9 +9,19 @@ import org.springframework.context.annotation.Lazy;
 public class OtherConfig {
 
     @Bean
+    public BeanA beanA() {
+        return new BeanA("beanA", 1);
+    }
+
+    @Bean
+    public BeanE beanE() {
+        return new BeanE("beanE", 2);
+    }
+
+    @Bean
     @Lazy
     public BeanF beanF() {
-        return new BeanF();
+        return new BeanF("beanF", 3);
     }
 
     @Bean
