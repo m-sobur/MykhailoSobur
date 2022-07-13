@@ -23,25 +23,27 @@ public class QuizRepositoryImpl implements QuizRepository {
                 .filter(quiz -> quiz.getTitle().equals(title))
                 .findAny()
                 .orElseThrow(() -> new NoSuchElementException("Quiz not found in the 'temporararyDataBase' while executing getQuizByTitle"));
+
         log.info("REPOSITORY LAYER: getQuizByTitle method ");
         return resultQuiz;
     }
 
     @Override
-    public Quiz getQuizById(Integer id_quiz) throws NoSuchElementException{
+    public Quiz getQuizById(Integer id) throws NoSuchElementException {
         Quiz resultQuiz = temporaryDataBase.stream()
-                .filter(quiz -> quiz.getId_quiz().equals(id_quiz))
+                .filter(quiz -> quiz.getId().equals(id))
                 .findAny()
                 .orElseThrow(() -> new NoSuchElementException("Quiz not found in the 'temporararyDataBase' while executing getQuizById"));
+
         log.info("REPOSITORY LAYER: getQuizById method ");
         return resultQuiz;
     }
-
 
     @Override
     public Quiz createQuiz(Quiz quiz) throws ElementAlreadyExistException {
         boolean quizIsAlreadyExist = temporaryDataBase.stream()
                 .anyMatch(quiz1 -> quiz1.getTitle().equals(quiz.getTitle()));
+
         if (quizIsAlreadyExist) {
             throw new ElementAlreadyExistException("Quiz with equal title is already exist at 'temporaryDataBase' while executing createQuiz");
         } else {
@@ -58,10 +60,11 @@ public class QuizRepositoryImpl implements QuizRepository {
                 .findAny()
                 .orElseThrow(() -> new NoSuchElementException("Quiz not found in the 'temporararyDataBase' while executing updateUserByEmail"));
 
-        quizToUpdate.setQuiz_type(quiz.getQuiz_type());
+        quizToUpdate.setQuizType(quiz.getQuizType());
         quizToUpdate.setTitle(quiz.getTitle());
         quizToUpdate.setCreator(quiz.getCreator());
         quizToUpdate.setCreationDate(new Date());
+
         log.info("REPOSITORY LAYER: updateQuizByTitle method ");
         return quizToUpdate;
     }
@@ -69,17 +72,19 @@ public class QuizRepositoryImpl implements QuizRepository {
     @Override
     public void deleteQuizByTitle(String title) throws NoSuchElementException {
         boolean isDeleted = temporaryDataBase.removeIf(quiz -> quiz.getTitle().equals(title));
+
         if (!isDeleted) {
             throw new NoSuchElementException("Quiz with " + title + " not found in the 'temporararyDataBase' while executing deleteQuizByTitle");
         }
+
         log.info("REPOSITORY LAYER: deleteQuizByTitle method ");
     }
 
     @Override
-    public List<Quiz> getAllQuizesByCreatorId(Integer creator){
+    public List<Quiz> getAllQuizesByCreatorId(Integer creatorId) {
         log.info("REPOSITORY LAYER: getAllQuizesByCreatorId method ");
         return temporaryDataBase.stream()
-                .filter(quiz -> quiz.getCreator().equals(creator))
+                .filter(quiz -> quiz.getCreator().equals(creatorId))
                 .collect(Collectors.toList());
     }
 }

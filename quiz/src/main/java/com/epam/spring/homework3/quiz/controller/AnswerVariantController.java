@@ -5,7 +5,6 @@ import com.epam.spring.homework3.quiz.controller.mapper.AnswerVariantMapper;
 import com.epam.spring.homework3.quiz.exception.repositoryException.ElementAlreadyExistException;
 import com.epam.spring.homework3.quiz.service.AnswerVariantService;
 import lombok.RequiredArgsConstructor;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-
 @RestController
 @RequestMapping("/answerVariant")
 @RequiredArgsConstructor
@@ -24,10 +22,10 @@ public class AnswerVariantController {
     private final AnswerVariantMapper answerVariantMapper;
     private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
-    @GetMapping(value = "/get/{variant_id}")
-    public ResponseEntity<AnswerVariantDto> getAnswerVariantByID(@PathVariable Integer variant_id) {
+    @GetMapping(value = "/get/{id}")
+    public ResponseEntity<AnswerVariantDto> getAnswerVariantByID(@PathVariable Integer id) {
         try {
-            ResponseEntity<AnswerVariantDto> result = ResponseEntity.status(HttpStatus.OK).body(answerVariantMapper.answerVariantToAnswerVariantDto(answerVariantService.getAnswerVariantById(variant_id)));
+            ResponseEntity<AnswerVariantDto> result = ResponseEntity.status(HttpStatus.OK).body(answerVariantMapper.answerVariantToAnswerVariantDto(answerVariantService.getAnswerVariantById(id)));
             LOGGER.info("CONTROLLER LAYER: getAnswerVariantByID method ");
             return result;
         } catch (NoSuchElementException exception) {
@@ -35,7 +33,6 @@ public class AnswerVariantController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
-
 
     @PostMapping
     public ResponseEntity<AnswerVariantDto> createAnswerVariantDto(@RequestBody AnswerVariantDto answerVariantDto) {
@@ -49,22 +46,22 @@ public class AnswerVariantController {
         }
     }
 
-    @DeleteMapping(value = "/delete/{variant_id}")
-    public ResponseEntity<String> deleteAnswerVariantById(@PathVariable Integer variant_id) {
+    @DeleteMapping(value = "/delete/{id}")
+    public ResponseEntity<String> deleteAnswerVariantById(@PathVariable Integer id) {
         try {
-            answerVariantService.deleteAnswerVariantById(variant_id);
+            answerVariantService.deleteAnswerVariantById(id);
             LOGGER.info("CONTROLLER LAYER: deleteQuizByTitle method ");
-            return ResponseEntity.status(HttpStatus.OK).body("Variant with title '" + variant_id + "' deleted successfully");
+            return ResponseEntity.status(HttpStatus.OK).body("Variant with title '" + id + "' deleted successfully");
         } catch (NoSuchElementException exception) {
             LOGGER.warn(exception.getMessage());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception.getMessage());
         }
     }
 
-    @GetMapping(value = "/getAllAnswerVariantByParentQuestionId/{parent_question_id}")
-    public ResponseEntity<List<AnswerVariantDto>> getAllAnswerVariantByParentQuestionId(@PathVariable Integer parent_question_id) {
+    @GetMapping(value = "/getAllAnswerVariantByParentQuestionId/{parentQuestionId}")
+    public ResponseEntity<List<AnswerVariantDto>> getAllAnswerVariantByParentQuestionId(@PathVariable Integer parentQuestionId) {
         try {
-            ResponseEntity<List<AnswerVariantDto>> result = ResponseEntity.status(HttpStatus.OK).body(answerVariantMapper.answerVariantListToAnswerVariantListDto(answerVariantService.getAllAnswerVariantByParentQuestionId(parent_question_id)));
+            ResponseEntity<List<AnswerVariantDto>> result = ResponseEntity.status(HttpStatus.OK).body(answerVariantMapper.answerVariantListToAnswerVariantListDto(answerVariantService.getAllAnswerVariantByParentQuestionId(parentQuestionId)));
             LOGGER.info("CONTROLLER LAYER: getAllAnswerVariantByParentQuestionId method ");
             return result;
         } catch (NoSuchElementException exception) {

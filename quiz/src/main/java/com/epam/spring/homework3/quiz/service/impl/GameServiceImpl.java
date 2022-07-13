@@ -8,41 +8,42 @@ import com.epam.spring.homework3.quiz.service.model.AnswerVariant;
 import com.epam.spring.homework3.quiz.service.model.Question;
 import com.epam.spring.homework3.quiz.service.model.Quiz;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
 
-@Slf4j
 @Service
 @RequiredArgsConstructor
 public class GameServiceImpl implements GameService {
     private final QuizService quizService;
     private final QuizMapper quizMapper;
+    private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
     @Override
-    public QuizDto startGame(Integer id_quiz) throws NoSuchElementException {
-        QuizDto quizDto = quizMapper.quizToQuizDto(quizService.getQuizById(id_quiz));
-        log.info("SERVICE LAYER: startGame method " + quizDto);
+    public QuizDto startGame(Integer id) throws NoSuchElementException {
+        QuizDto quizDto = quizMapper.quizToQuizDto(quizService.getQuizById(id));
+        LOGGER.info("SERVICE LAYER: startGame method " + quizDto);
         return quizDto;
     }
 
     @Override
-    public String checkResultOfGame(QuizDto quizDto, Integer id_quiz, String userName) throws NoSuchElementException {
-        Quiz etalon = quizService.getQuizById(id_quiz);
+    public String checkResultOfGame(QuizDto quizDto, Integer id, String userName) throws NoSuchElementException {
+        Quiz etalon = quizService.getQuizById(id);
         Quiz userResult = quizMapper.quizDtoToQuiz(quizDto);
-
-        int numberOfQuesitonsInQuiz = etalon.getQuestionList().size();
-        log.info("SERVICE LAYER: numberOfQuesitonsInQuiz " + numberOfQuesitonsInQuiz);
-
         int resultMark = 0;
 
+        int numberOfQuesitonsInQuiz = etalon.getQuestionList().size();
+        LOGGER.info("SERVICE LAYER: correct answers " + numberOfQuesitonsInQuiz);
+
         List<Question> userResultQuestionList = userResult.getQuestionList();
-        log.info("SERVICE LAYER: userResultQuestionList " + userResultQuestionList);
+        LOGGER.info("SERVICE LAYER: userResultQuestionList " + userResultQuestionList);
 
         List<Question> etalonQuestionList = etalon.getQuestionList();
-        log.info("SERVICE LAYER: etalonQuestionList " + etalonQuestionList);
+        LOGGER.info("SERVICE LAYER: etalonQuestionList " + etalonQuestionList);
+
         for (int i = 0; i < numberOfQuesitonsInQuiz; i++) {
 
             Question questionUser = userResultQuestionList.get(i);
@@ -63,7 +64,8 @@ public class GameServiceImpl implements GameService {
                 }
             }
         }
-        log.info("SERVICE LAYER: correct answers " + resultMark);
+
+        LOGGER.info("SERVICE LAYER: correct answers " + resultMark);
         resultMark = (resultMark * 100) / numberOfQuesitonsInQuiz;
 
         return userName + " have " + resultMark + " % correct answers";

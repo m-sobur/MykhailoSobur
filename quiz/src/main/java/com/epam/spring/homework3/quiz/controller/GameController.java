@@ -3,40 +3,41 @@ package com.epam.spring.homework3.quiz.controller;
 import com.epam.spring.homework3.quiz.controller.dto.QuizDto;
 import com.epam.spring.homework3.quiz.service.GameService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.NoSuchElementException;
 
-@Slf4j
 @RestController
 @RequestMapping("/game")
 @RequiredArgsConstructor
 public class GameController {
     private final GameService gameService;
+    private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
-    @GetMapping(value = "/startGameById/{id_quiz}")
-    public ResponseEntity<QuizDto> startGame(@PathVariable Integer id_quiz) {
+    @GetMapping(value = "/startGameById/{idQuiz}")
+    public ResponseEntity<QuizDto> startGame(@PathVariable Integer idQuiz) {
         try {
-            ResponseEntity<QuizDto> result = ResponseEntity.status(HttpStatus.OK).body(gameService.startGame(id_quiz));
-            log.info("CONTROLLER LAYER: startGame method ");
+            ResponseEntity<QuizDto> result = ResponseEntity.status(HttpStatus.OK).body(gameService.startGame(idQuiz));
+            LOGGER.info("CONTROLLER LAYER: startGame method ");
             return result;
         } catch (NoSuchElementException exception) {
-            log.warn(exception.getMessage());
+            LOGGER.warn(exception.getMessage());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
 
-    @PostMapping(value = "/checkResult/{id_quiz}/{userName}")
-    public ResponseEntity<String> checkResult(@RequestBody QuizDto quizDto, @PathVariable Integer id_quiz, @PathVariable String userName) {
+    @PostMapping(value = "/checkResult/{idQuiz}/{userName}")
+    public ResponseEntity<String> checkResult(@RequestBody QuizDto quizDto, @PathVariable Integer idQuiz, @PathVariable String userName) {
         try {
-            ResponseEntity<String> result = ResponseEntity.status(HttpStatus.OK).body(gameService.checkResultOfGame(quizDto, id_quiz, userName));
-            log.info("CONTROLLER LAYER: checkResult method ");
+            ResponseEntity<String> result = ResponseEntity.status(HttpStatus.OK).body(gameService.checkResultOfGame(quizDto, idQuiz, userName));
+            LOGGER.info("CONTROLLER LAYER: checkResult method ");
             return result;
         } catch (NoSuchElementException exception) {
-            log.warn(exception.getMessage());
+            LOGGER.warn(exception.getMessage());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }

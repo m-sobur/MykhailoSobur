@@ -11,20 +11,18 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.NoSuchElementException;
-import java.util.UUID;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
-
     private final UserRepository userRepository;
     private final UserMapper userMapper;
 
     @Override
     public User getUserByEmail(String email) throws NoSuchElementException {
         User user = userRepository.getUserByEmail(email);
-        log.info("SERVICE LAYER: getUserByEmail method "+ email);
+        log.info("SERVICE LAYER: getUserByEmail method " + email);
         return user;
     }
 
@@ -32,12 +30,12 @@ public class UserServiceImpl implements UserService {
     public User createUser(UserDto userDto) throws ElementAlreadyExistException {
         User user = userMapper.userDtoToUser(userDto);
         userRepository.createUser(user);
-        log.info("SERVICE LAYER: createUser method "+ user);
+        log.info("SERVICE LAYER: createUser method " + user);
         return user;
     }
 
     @Override
-    public User updateUserByEmail(String email, UserDto userDto) throws NoSuchElementException{
+    public User updateUserByEmail(String email, UserDto userDto) throws NoSuchElementException {
         User user = userMapper.userDtoToUser(userDto);
         user = userRepository.updateUserByEmail(email, user);
         log.info("SERVICE LAYER: updateUserByEmail method " + user);
