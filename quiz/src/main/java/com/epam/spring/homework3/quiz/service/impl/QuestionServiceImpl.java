@@ -24,9 +24,9 @@ public class QuestionServiceImpl implements QuestionService {
     private final AnswerVariantService answerVariantService;
 
     @Override
-    public Question getQuestionByID(Integer question_id) throws NoSuchElementException {
-        Question question = questionRepository.getQuestionByID(question_id);
-        question.setAnswerVariantList(answerVariantService.getAllAnswerVariantByParentQuestionId(question_id));
+    public Question getQuestionByID(Integer id) throws NoSuchElementException {
+        Question question = questionRepository.getQuestionByID(id);
+        question.setAnswerVariantList(answerVariantService.getAllAnswerVariantByParentQuestionId(id));
         log.info("SERVICE LAYER: getQuestionByID method " + question);
         return question;
     }
@@ -40,23 +40,22 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public Question updateQuestionById(Integer question_id, QuestionDto questionDto) throws NoSuchElementException {
+    public Question updateQuestionById(Integer id, QuestionDto questionDto) throws NoSuchElementException {
         Question question = questionMapper.questionDtoToQuestion(questionDto);
-        question = questionRepository.updateQuestionById(question_id, question);
-        log.info("SERVICE LAYER: updateQuestionById method " + question_id);
+        question = questionRepository.updateQuestionById(id, question);
+        log.info("SERVICE LAYER: updateQuestionById method " + id);
         return question;
     }
 
-
     @Override
-    public void deleteQuestionById(Integer question_id) throws NoSuchElementException {
-        questionRepository.deleteQuestionById(question_id);
-        log.info("SERVICE LAYER: deleteQuestionById " + question_id);
+    public void deleteQuestionById(Integer id) throws NoSuchElementException {
+        questionRepository.deleteQuestionById(id);
+        log.info("SERVICE LAYER: deleteQuestionById " + id);
     }
 
     @Override
-    public List<Question> getAllQuestionsByParentQuizId(Integer parent_quiz){
-        List<Question> questionList = questionRepository.getAllQuestionsByParentQuizId(parent_quiz);
+    public List<Question> getAllQuestionsByParentQuizId(Integer parentQuizId){
+        List<Question> questionList = questionRepository.getAllQuestionsByParentQuizId(parentQuizId);
        /* for (QuestionDto questionDto : questionListDto) {
             questionDto.setAnswerVariantList(answerVariantService.getAllAnswerVariantDtoByParentQuestionId(question.getQuestion_id()));
         } forEach cycle can be replaced by stream.api */
@@ -64,8 +63,7 @@ public class QuestionServiceImpl implements QuestionService {
                 .peek(question -> question.setAnswerVariantList(answerVariantService.getAllAnswerVariantByParentQuestionId(question.getId())))
                 .collect(Collectors.toList());
 
-        log.info("SERVICE LAYER: getAllQuestionsByParentQuizId " + parent_quiz);
+        log.info("SERVICE LAYER: getAllQuestionsByParentQuizId " + parentQuizId);
         return questionList;
     }
 }
-

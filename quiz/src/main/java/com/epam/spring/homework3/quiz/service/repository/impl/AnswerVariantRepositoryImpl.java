@@ -22,6 +22,7 @@ public class AnswerVariantRepositoryImpl implements AnswerVariantRepository {
                 .filter(answerVariant -> answerVariant.getId().equals(id))
                 .findAny()
                 .orElseThrow(() -> new NoSuchElementException("AnswerVariant not found in the 'temporararyDataBase' while executing getAnswerVariantById"));
+
         log.info("REPOSITORY LAYER: getAnswerVariantById method ");
         return resultAnswerVariant;
     }
@@ -36,9 +37,11 @@ public class AnswerVariantRepositoryImpl implements AnswerVariantRepository {
     @Override
     public void deleteAnswerVariantById(Integer id) throws NoSuchElementException {
         boolean isDeleted = temporaryDataBase.removeIf(answerVariant -> answerVariant.getId().equals(id));
+
         if (!isDeleted) {
             throw new NoSuchElementException("Answer with " + id + " not found in the 'temporararyDataBase' while executing deleteAnswerVariantById");
         }
+
         log.info("REPOSITORY LAYER: deleteAnswerVariantById method ");
     }
 

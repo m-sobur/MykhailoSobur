@@ -29,7 +29,6 @@ import java.util.NoSuchElementException;
         @ApiResponse(code = 500, message = "Internal Server Error")
 })
 public class UserController {
-
     private final UserService userService;
     private final UserMapper userMapper;
 
@@ -70,7 +69,6 @@ public class UserController {
             log.warn(exception.getMessage());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-
     }
 
     @ApiOperation("Delete user by email")

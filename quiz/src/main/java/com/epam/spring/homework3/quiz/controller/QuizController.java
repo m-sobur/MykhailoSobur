@@ -13,8 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.NoSuchElementException;
-import java.util.UUID;
-
 import java.util.List;
 
 @Slf4j
@@ -90,5 +88,4 @@ public class QuizController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
-
 }

@@ -14,6 +14,5 @@ public class QuizDto {
     private Date creationDate;
     private Integer creatorId;
     private String quizType;
-
     private List<QuestionDto> questionList;
 }

@@ -12,6 +12,5 @@ public class Question {
     private String questionTitle;
     private QuestionType questionType;
     private Integer parentQuizId;
-
     private List<AnswerVariant> answerVariantList;
 }

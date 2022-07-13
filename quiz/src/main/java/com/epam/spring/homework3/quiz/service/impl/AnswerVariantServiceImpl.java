@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.UUID;
 
 @Slf4j
 @Service
@@ -22,9 +21,9 @@ public class AnswerVariantServiceImpl implements AnswerVariantService {
     private final AnswerVariantRepository answerVariantRepository;
 
     @Override
-    public AnswerVariant getAnswerVariantById(Integer variant_id) throws NoSuchElementException {
-        log.info("SERVICE LAYER: getAnswerVariantById method " + variant_id);
-        return answerVariantRepository.getAnswerVariantById(variant_id);
+    public AnswerVariant getAnswerVariantById(Integer id) throws NoSuchElementException {
+        log.info("SERVICE LAYER: getAnswerVariantById method " + id);
+        return answerVariantRepository.getAnswerVariantById(id);
     }
 
     @Override
@@ -36,14 +35,14 @@ public class AnswerVariantServiceImpl implements AnswerVariantService {
     }
 
     @Override
-    public void deleteAnswerVariantById(Integer variant_id) throws NoSuchElementException{
-        answerVariantRepository.deleteAnswerVariantById(variant_id);
-        log.info("SERVICE LAYER: deleteAnswerVariantById " + variant_id);
+    public void deleteAnswerVariantById(Integer id) throws NoSuchElementException{
+        answerVariantRepository.deleteAnswerVariantById(id);
+        log.info("SERVICE LAYER: deleteAnswerVariantById " + id);
     }
 
     @Override
-    public List<AnswerVariant> getAllAnswerVariantByParentQuestionId(Integer parent_question_id){
-        List<AnswerVariant> answerVariantList = answerVariantRepository.getAllAnswerVariantByParentQuestionId(parent_question_id);
+    public List<AnswerVariant> getAllAnswerVariantByParentQuestionId(Integer parentQuestionId){
+        List<AnswerVariant> answerVariantList = answerVariantRepository.getAllAnswerVariantByParentQuestionId(parentQuestionId);
         log.info("SERVICE LAYER: getAllAnswerVariantByParentQuestionId " + answerVariantList);
         return  answerVariantList;
     }

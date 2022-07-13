@@ -22,35 +22,29 @@ public class GameServiceImpl implements GameService {
     private final QuizMapper quizMapper;
 
     @Override
-    public QuizDto startGame(Integer id_quiz) throws NoSuchElementException {
-        QuizDto quizDto = quizMapper.quizToQuizDto(quizService.getQuizById(id_quiz));
+    public QuizDto startGame(Integer id) throws NoSuchElementException {
+        QuizDto quizDto = quizMapper.quizToQuizDto(quizService.getQuizById(id));
         log.info("SERVICE LAYER: startGame method " + quizDto);
         return quizDto;
     }
 
     @Override
-    public String checkResultOfGame(QuizDto quizDto, Integer id_quiz, String userName) throws NoSuchElementException {
-        Quiz etalon = quizService.getQuizById(id_quiz);
+    public String checkResultOfGame(QuizDto quizDto, Integer id, String userName) throws NoSuchElementException {
+        Quiz etalon = quizService.getQuizById(id);
         Quiz userResult = quizMapper.quizDtoToQuiz(quizDto);
-
         int numberOfQuesitonsInQuiz = etalon.getQuestionList().size();
         log.info("SERVICE LAYER: numberOfQuesitonsInQuiz " + numberOfQuesitonsInQuiz);
-
         int resultMark = 0;
-
         List<Question> userResultQuestionList = userResult.getQuestionList();
         log.info("SERVICE LAYER: userResultQuestionList " + userResultQuestionList);
-
         List<Question> etalonQuestionList = etalon.getQuestionList();
         log.info("SERVICE LAYER: etalonQuestionList " + etalonQuestionList);
-        for (int i = 0; i < numberOfQuesitonsInQuiz; i++) {
 
+        for (int i = 0; i < numberOfQuesitonsInQuiz; i++) {
             Question questionUser = userResultQuestionList.get(i);
             Question questionEtalon = etalonQuestionList.get(i);
-
             List<AnswerVariant> userResultAnswerVariantList = questionUser.getAnswerVariantList();
             List<AnswerVariant> etalonAnswerVariantList = questionEtalon.getAnswerVariantList();
-
             int numberOfAnswersInQuestion = etalonAnswerVariantList.size();
 
             for (int j = 0; j < numberOfAnswersInQuestion; j++) {
@@ -63,6 +57,7 @@ public class GameServiceImpl implements GameService {
                 }
             }
         }
+
         log.info("SERVICE LAYER: correct answers " + resultMark);
         resultMark = (resultMark * 100) / numberOfQuesitonsInQuiz;
 

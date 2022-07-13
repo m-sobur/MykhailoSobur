@@ -7,14 +7,13 @@ import java.util.List;
 import java.util.UUID;
 
 public interface QuestionService {
-    Question getQuestionByID(Integer question_id);
+    Question getQuestionByID(Integer id);
 
     Question createQuestion(QuestionDto questionDto);
 
-    Question updateQuestionById(Integer question_id, QuestionDto questionDto);
+    Question updateQuestionById(Integer id, QuestionDto questionDto);
 
-    void deleteQuestionById(Integer question_id);
+    void deleteQuestionById(Integer id);
 
-    List<Question> getAllQuestionsByParentQuizId(Integer parent_quiz);
-
+    List<Question> getAllQuestionsByParentQuizId(Integer parentQuizId);
 }

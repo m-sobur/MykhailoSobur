@@ -73,7 +73,6 @@ public class SwaggerConfig {
                 .build();
     }
 
-
     @Bean
     public LinkDiscoverers discoverers() {
         List<LinkDiscoverer> plugins = new ArrayList<>();

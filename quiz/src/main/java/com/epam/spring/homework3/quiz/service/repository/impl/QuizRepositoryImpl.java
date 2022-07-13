@@ -24,6 +24,7 @@ public class QuizRepositoryImpl implements QuizRepository {
                 .filter(quiz -> quiz.getTitle().equals(title))
                 .findAny()
                 .orElseThrow(() -> new NoSuchElementException("Quiz not found in the 'temporararyDataBase' while executing getQuizByTitle"));
+
         log.info("REPOSITORY LAYER: getQuizByTitle method ");
         return resultQuiz;
     }
@@ -34,6 +35,7 @@ public class QuizRepositoryImpl implements QuizRepository {
                 .filter(quiz -> quiz.getId().equals(id))
                 .findAny()
                 .orElseThrow(() -> new NoSuchElementException("Quiz not found in the 'temporararyDataBase' while executing getQuizById"));
+
         log.info("REPOSITORY LAYER: getQuizById method ");
         return resultQuiz;
     }
@@ -43,6 +45,7 @@ public class QuizRepositoryImpl implements QuizRepository {
     public Quiz createQuiz(Quiz quiz) throws ElementAlreadyExistException {
         boolean quizIsAlreadyExist = temporaryDataBase.stream()
                 .anyMatch(quiz1 -> quiz1.getTitle().equals(quiz.getTitle()));
+
         if (quizIsAlreadyExist) {
             throw new ElementAlreadyExistException("Quiz with equal title is already exist at 'temporaryDataBase' while executing createQuiz");
         } else {
@@ -63,6 +66,7 @@ public class QuizRepositoryImpl implements QuizRepository {
         quizToUpdate.setQuizType(quiz.getQuizType());
         quizToUpdate.setTitle(quiz.getTitle());
         quizToUpdate.setCreatorId(quiz.getCreatorId());
+
         log.info("REPOSITORY LAYER: updateQuizByTitle method ");
         return quizToUpdate;
     }
@@ -70,9 +74,11 @@ public class QuizRepositoryImpl implements QuizRepository {
     @Override
     public void deleteQuizByTitle(String title) throws NoSuchElementException {
         boolean isDeleted = temporaryDataBase.removeIf(quiz -> quiz.getTitle().equals(title));
+
         if (!isDeleted) {
             throw new NoSuchElementException("Quiz with " + title + " not found in the 'temporararyDataBase' while executing deleteQuizByTitle");
         }
+
         log.info("REPOSITORY LAYER: deleteQuizByTitle method ");
     }
 

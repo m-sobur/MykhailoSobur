@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.UUID;
 
 @Slf4j
 @RestController
@@ -25,11 +24,11 @@ public class QuestionController {
     private final QuestionService questionService;
     private final QuestionMapper questionMapper;
 
-    @GetMapping(value = "/get/{question_id}")
+    @GetMapping(value = "/get/{id}")
     @ApiOperation("Get question by id")
-    public ResponseEntity<QuestionDto> getQuestionByID(@PathVariable Integer question_id) {
+    public ResponseEntity<QuestionDto> getQuestionByID(@PathVariable Integer id) {
         try {
-            ResponseEntity<QuestionDto> result = ResponseEntity.status(HttpStatus.OK).body(questionMapper.questionToQuestionDto(questionService.getQuestionByID(question_id)));
+            ResponseEntity<QuestionDto> result = ResponseEntity.status(HttpStatus.OK).body(questionMapper.questionToQuestionDto(questionService.getQuestionByID(id)));
             log.info("CONTROLLER LAYER: getQuestionByID method ");
             return result;
         } catch (NoSuchElementException exception) {
@@ -38,11 +37,11 @@ public class QuestionController {
         }
     }
 
-    @PutMapping(value = "/update/{question_id}")
+    @PutMapping(value = "/update/{id}")
     @ApiOperation("Update question by id")
-    public ResponseEntity<QuestionDto> updateQuestionById(@PathVariable Integer question_id, @RequestBody QuestionDto questionDto) {
+    public ResponseEntity<QuestionDto> updateQuestionById(@PathVariable Integer id, @RequestBody QuestionDto questionDto) {
         try {
-            ResponseEntity<QuestionDto> result = ResponseEntity.status(HttpStatus.OK).body(questionMapper.questionToQuestionDto(questionService.updateQuestionById(question_id, questionDto)));
+            ResponseEntity<QuestionDto> result = ResponseEntity.status(HttpStatus.OK).body(questionMapper.questionToQuestionDto(questionService.updateQuestionById(id, questionDto)));
             log.info("CONTROLLER LAYER: updateQuestionById method ");
             return result;
         } catch (NoSuchElementException exception) {
@@ -64,24 +63,24 @@ public class QuestionController {
         }
     }
 
-    @DeleteMapping(value = "/delete/{question_id}")
+    @DeleteMapping(value = "/delete/{id}")
     @ApiOperation("Delete question by id")
-    public ResponseEntity<String> deleteQuestionById(@PathVariable Integer question_id) {
+    public ResponseEntity<String> deleteQuestionById(@PathVariable Integer id) {
         try {
-            questionService.deleteQuestionById(question_id);
+            questionService.deleteQuestionById(id);
             log.info("CONTROLLER LAYER: deleteQuizByTitle method ");
-            return ResponseEntity.status(HttpStatus.OK).body("Question with title '" + question_id + "' deleted successfully");
+            return ResponseEntity.status(HttpStatus.OK).body("Question with title '" + id + "' deleted successfully");
         } catch (NoSuchElementException exception) {
             log.warn(exception.getMessage());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception.getMessage());
         }
     }
 
-    @GetMapping(value = "/getAllQuestionsByParentQuizId/{parent_quiz}")
+    @GetMapping(value = "/getAllQuestionsByParentQuizId/{parentQuizId}")
     @ApiOperation("Get all question by parent id")
-    public ResponseEntity<List<QuestionDto>> getAllQuestionsByParentQuizId(@PathVariable Integer parent_quiz) {
+    public ResponseEntity<List<QuestionDto>> getAllQuestionsByParentQuizId(@PathVariable Integer parentQuizId) {
         try {
-            ResponseEntity<List<QuestionDto>> result = ResponseEntity.status(HttpStatus.OK).body(questionMapper.questionListToQuestionListDto(questionService.getAllQuestionsByParentQuizId(parent_quiz)));
+            ResponseEntity<List<QuestionDto>> result = ResponseEntity.status(HttpStatus.OK).body(questionMapper.questionListToQuestionListDto(questionService.getAllQuestionsByParentQuizId(parentQuizId)));
             log.info("CONTROLLER LAYER: getAllQuestionsByParentQuizId method ");
             return result;
         } catch (NoSuchElementException exception) {

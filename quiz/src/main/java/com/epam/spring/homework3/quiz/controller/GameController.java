@@ -20,11 +20,11 @@ import java.util.NoSuchElementException;
 public class GameController {
     private final GameService gameService;
 
-    @GetMapping(value = "/startGameById/{id_quiz}")
+    @GetMapping(value = "/startGameById/{id}")
     @ApiOperation("Get(start) quiz-game by id")
-    public ResponseEntity<QuizDto> startGame(@PathVariable Integer id_quiz) {
+    public ResponseEntity<QuizDto> startGame(@PathVariable Integer id) {
         try {
-            ResponseEntity<QuizDto> result = ResponseEntity.status(HttpStatus.OK).body(gameService.startGame(id_quiz));
+            ResponseEntity<QuizDto> result = ResponseEntity.status(HttpStatus.OK).body(gameService.startGame(id));
             log.info("CONTROLLER LAYER: startGame method ");
             return result;
         } catch (NoSuchElementException exception) {
@@ -33,11 +33,11 @@ public class GameController {
         }
     }
 
-    @PostMapping(value = "/checkResult/{id_quiz}/{userName}")
+    @PostMapping(value = "/checkResult/{id}/{userName}")
     @ApiOperation("Check result by id_quiz and userName")
-    public ResponseEntity<String> checkResult(@RequestBody QuizDto quizDto, @PathVariable Integer id_quiz, @PathVariable String userName) {
+    public ResponseEntity<String> checkResult(@RequestBody QuizDto quizDto, @PathVariable Integer id, @PathVariable String userName) {
         try {
-            ResponseEntity<String> result = ResponseEntity.status(HttpStatus.OK).body(gameService.checkResultOfGame(quizDto, id_quiz, userName));
+            ResponseEntity<String> result = ResponseEntity.status(HttpStatus.OK).body(gameService.checkResultOfGame(quizDto, id, userName));
             log.info("CONTROLLER LAYER: checkResult method ");
             return result;
         } catch (NoSuchElementException exception) {

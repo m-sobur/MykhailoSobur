@@ -30,6 +30,7 @@ public class QuestionRepositoryImpl implements QuestionRepository {
     public Question createQuestion(Question question) throws ElementAlreadyExistException {
         boolean questionIsAlreadyExist = temporaryDataBase.stream()
                 .anyMatch(question1 -> question1.getQuestionTitle().equals(question.getQuestionTitle()));
+
         if (questionIsAlreadyExist) {
             throw new ElementAlreadyExistException("Question with equal title is already exist at 'temporaryDataBase' while executing createQuestion");
         } else {
@@ -49,6 +50,7 @@ public class QuestionRepositoryImpl implements QuestionRepository {
         questionToUpdate.setQuestionTitle(question.getQuestionTitle());
         questionToUpdate.setQuestionType(question.getQuestionType());
         questionToUpdate.setParentQuizId(question.getParentQuizId());
+
         log.info("REPOSITORY LAYER: updateQuestionById method ");
         return questionToUpdate;
     }
@@ -56,6 +58,7 @@ public class QuestionRepositoryImpl implements QuestionRepository {
     @Override
     public void deleteQuestionById(Integer id) throws NoSuchElementException {
         boolean isDeleted = temporaryDataBase.removeIf(question -> question.getId().equals(id));
+
         if (!isDeleted) {
             throw new NoSuchElementException("Question with " + id + " not found in the 'temporararyDataBase' while executing deleteQuestionById");
         }

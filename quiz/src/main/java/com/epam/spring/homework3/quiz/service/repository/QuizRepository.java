@@ -3,12 +3,11 @@ package com.epam.spring.homework3.quiz.service.repository;
 import com.epam.spring.homework3.quiz.service.model.Quiz;
 
 import java.util.List;
-import java.util.UUID;
 
 public interface QuizRepository {
     Quiz getQuizByTitle(String title);
 
-    Quiz getQuizById(Integer id_quiz);
+    Quiz getQuizById(Integer id);
 
     Quiz createQuiz(Quiz quiz);
 
@@ -17,5 +16,4 @@ public interface QuizRepository {
     void deleteQuizByTitle(String title);
 
     List<Quiz> getAllQuizesByCreatorId(Integer creator);
-
 }
