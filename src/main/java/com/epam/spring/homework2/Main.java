@@ -6,7 +6,6 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 public class Main {
     public static void main(String[] args) {
         AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext(BeansConfig.class);
-        String[] beanName = applicationContext.getBeanDefinitionNames();
 
         System.out.println("--------------------");
 
@@ -16,7 +15,7 @@ public class Main {
 
         System.out.println("--------------------");
 
-        for (String bean : beanName) {
+        for (String bean : applicationContext.getBeanDefinitionNames()) {
             System.out.println(applicationContext.getBeanDefinition(bean));
         }
 
