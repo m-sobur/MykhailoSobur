@@ -49,7 +49,6 @@ public class QuestionRepositoryImpl implements QuestionRepository {
 
         questionToUpdate.setQuestionTitle(question.getQuestionTitle());
         questionToUpdate.setQuestionType(question.getQuestionType());
-        questionToUpdate.setParentQuizId(question.getParentQuizId());
 
         log.info("REPOSITORY LAYER: updateQuestionById method ");
         return questionToUpdate;

@@ -1,6 +1,8 @@
 package com.epam.spring.homework3.quiz.controller;
 
 import com.epam.spring.homework3.quiz.controller.dto.QuizDto;
+import com.epam.spring.homework3.quiz.controller.dto.group.OnCreate;
+import com.epam.spring.homework3.quiz.controller.dto.group.OnUpdate;
 import com.epam.spring.homework3.quiz.controller.mapper.QuizMapper;
 import com.epam.spring.homework3.quiz.exception.repositoryException.ElementAlreadyExistException;
 import com.epam.spring.homework3.quiz.service.QuizService;
@@ -10,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.NoSuchElementException;
@@ -39,7 +42,7 @@ public class QuizController {
 
     @PutMapping(value = "/update/{title}")
     @ApiOperation("Update quiz by title")
-    public ResponseEntity<QuizDto> updateQuizByTitle(@PathVariable String title, @RequestBody QuizDto quizDto) {
+    public ResponseEntity<QuizDto> updateQuizByTitle(@PathVariable String title, @RequestBody @Validated(OnUpdate.class) QuizDto quizDto) {
         try {
             ResponseEntity<QuizDto> result = ResponseEntity.status(HttpStatus.OK).body(quizMapper.quizToQuizDto(quizService.updateQuizByTitle(title, quizDto)));
             log.info("CONTROLLER LAYER: updateQuizByTitle method ");
@@ -52,7 +55,7 @@ public class QuizController {
 
     @PostMapping
     @ApiOperation("Create quiz")
-    public ResponseEntity<QuizDto> createQuiz(@RequestBody QuizDto quizDto) {
+    public ResponseEntity<QuizDto> createQuiz(@RequestBody @Validated(OnCreate.class) QuizDto quizDto) {
         try {
             ResponseEntity<QuizDto> result = ResponseEntity.status(HttpStatus.CREATED).body(quizMapper.quizToQuizDto(quizService.createQuiz(quizDto)));
             log.info("CONTROLLER LAYER: createQuiz method ");

@@ -22,7 +22,7 @@ public class UserRepositoryImpl implements UserRepository {
                 .findAny()
                 .orElseThrow(() -> new NoSuchElementException("User not found in the 'temporararyDataBase' while executing getUserByEmail"));
 
-        log.info("REPOSITORY LAYER: getUserByEmail method " + email);
+        log.info("REPOSITORY LAYER: getUserByEmail method " + userToGet);
         return userToGet;
     }
 
@@ -48,8 +48,6 @@ public class UserRepositoryImpl implements UserRepository {
                 .orElseThrow(() -> new NoSuchElementException("User not found in the 'temporararyDataBase' while executing updateUserByEmail"));
 
         userToUpdate.setFirstName(user.getFirstName());
-        userToUpdate.setUserRole(user.getUserRole());
-        userToUpdate.setPasswd(user.getPasswd());
         userToUpdate.setLastName(user.getLastName());
 
         log.info("REPOSITORY LAYER: updateUserByEmail method " + email);

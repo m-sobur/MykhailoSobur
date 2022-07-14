@@ -12,3 +12,4 @@ public class AnswerVariant {
     private Integer parentQuestionId;
     private Boolean value;
 }
+

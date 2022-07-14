@@ -1,6 +1,8 @@
 package com.epam.spring.homework3.quiz.controller;
 
 import com.epam.spring.homework3.quiz.controller.dto.QuestionDto;
+import com.epam.spring.homework3.quiz.controller.dto.group.OnCreate;
+import com.epam.spring.homework3.quiz.controller.dto.group.OnUpdate;
 import com.epam.spring.homework3.quiz.controller.mapper.QuestionMapper;
 import com.epam.spring.homework3.quiz.exception.repositoryException.ElementAlreadyExistException;
 import com.epam.spring.homework3.quiz.service.QuestionService;
@@ -10,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -39,7 +42,7 @@ public class QuestionController {
 
     @PutMapping(value = "/update/{id}")
     @ApiOperation("Update question by id")
-    public ResponseEntity<QuestionDto> updateQuestionById(@PathVariable Integer id, @RequestBody QuestionDto questionDto) {
+    public ResponseEntity<QuestionDto> updateQuestionById(@PathVariable Integer id, @RequestBody @Validated(OnUpdate.class) QuestionDto questionDto) {
         try {
             ResponseEntity<QuestionDto> result = ResponseEntity.status(HttpStatus.OK).body(questionMapper.questionToQuestionDto(questionService.updateQuestionById(id, questionDto)));
             log.info("CONTROLLER LAYER: updateQuestionById method ");
@@ -52,7 +55,7 @@ public class QuestionController {
 
     @PostMapping
     @ApiOperation("Create question")
-    public ResponseEntity<QuestionDto> createQuestion(@RequestBody QuestionDto questionDto) {
+    public ResponseEntity<QuestionDto> createQuestion(@RequestBody @Validated(OnCreate.class) QuestionDto questionDto) {
         try {
             ResponseEntity<QuestionDto> result = ResponseEntity.status(HttpStatus.CREATED).body(questionMapper.questionToQuestionDto(questionService.createQuestion(questionDto)));
             log.info("CONTROLLER LAYER: createQuestion method ");

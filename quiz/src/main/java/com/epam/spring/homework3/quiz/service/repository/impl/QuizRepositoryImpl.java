@@ -6,7 +6,6 @@ import com.epam.spring.homework3.quiz.service.repository.QuizRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -65,9 +64,8 @@ public class QuizRepositoryImpl implements QuizRepository {
 
         quizToUpdate.setQuizType(quiz.getQuizType());
         quizToUpdate.setTitle(quiz.getTitle());
-        quizToUpdate.setCreatorId(quiz.getCreatorId());
 
-        log.info("REPOSITORY LAYER: updateQuizByTitle method ");
+        log.info("REPOSITORY LAYER: updateQuizByTitle method " + quizToUpdate);
         return quizToUpdate;
     }
 
