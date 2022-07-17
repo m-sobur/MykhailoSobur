@@ -2,6 +2,7 @@ package com.epam.spring.homework3.quiz.controller.dto;
 
 import com.epam.spring.homework3.quiz.controller.dto.group.OnCreate;
 import com.epam.spring.homework3.quiz.controller.dto.group.OnUpdate;
+import com.epam.spring.homework3.quiz.validation.UAPhone;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
 import lombok.Data;
@@ -42,4 +43,8 @@ public class UserDto {
     @Null(message = "userRole should be absent in request", groups = OnUpdate.class)
     @NotNull(message = "userRole shouldn't be empty", groups = OnCreate.class)
     private Integer userRole;
+
+    @UAPhone
+    @NotBlank(message = "phoneNumber shouldn't be empty", groups = OnCreate.class)
+    private String phoneNumber;
 }

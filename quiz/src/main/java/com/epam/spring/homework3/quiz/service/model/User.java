@@ -12,4 +12,5 @@ public class User {
     private String email;
     private String passwd;
     private Integer userRole;
+    private String phoneNumber;
 }
