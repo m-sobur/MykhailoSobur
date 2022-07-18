@@ -10,6 +10,7 @@ public interface UserMapper {
 
     @Mapping(target = "repeatPasswd", ignore = true)
     @Mapping(target = "passwd", ignore = true)
+    @Mapping(target = "phoneNumber", ignore = true)
     UserDto userToUserDto(User user);
 
     User userDtoToUser(UserDto userDto);

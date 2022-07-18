@@ -27,7 +27,7 @@ public class UserDto {
     @NotBlank(message = "lastName shouldn't be empty", groups = OnCreate.class)
     private String lastName;
 
-    @Email
+    @Email(message = "email doesn't match with template")
     @Null(message = "email should be absent in request", groups = OnUpdate.class)
     @NotBlank(message = "email shouldn't be empty", groups = OnCreate.class)
     private String email;

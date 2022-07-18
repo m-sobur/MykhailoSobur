@@ -31,52 +31,32 @@ public class AnswerVariantController {
     @GetMapping(value = "/get/{id}")
     @ApiOperation("Get answer variant by id")
     public ResponseEntity<AnswerVariantDto> getAnswerVariantByID(@PathVariable Integer id) {
-        try {
             ResponseEntity<AnswerVariantDto> result = ResponseEntity.status(HttpStatus.OK).body(answerVariantMapper.answerVariantToAnswerVariantDto(answerVariantService.getAnswerVariantById(id)));
             LOGGER.info("CONTROLLER LAYER: getAnswerVariantByID method ");
             return result;
-        } catch (NoSuchElementException exception) {
-            LOGGER.warn(exception.getMessage());
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
     }
 
     @PostMapping
     @ApiOperation("Create answer variant")
     public ResponseEntity<AnswerVariantDto> createAnswerVariantDto(@RequestBody @Validated(OnCreate.class) AnswerVariantDto answerVariantDto) {
-        try {
             ResponseEntity<AnswerVariantDto> result = ResponseEntity.status(HttpStatus.CREATED).body(answerVariantMapper.answerVariantToAnswerVariantDto(answerVariantService.createAnswerVariant(answerVariantDto)));
             LOGGER.info("CONTROLLER LAYER: createAnswerVariantDto method ");
             return result;
-        } catch (ElementAlreadyExistException exception) {
-            LOGGER.warn(exception.getMessage());
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
     }
 
     @DeleteMapping(value = "/delete/{id}")
     @ApiOperation("Delete answer variant by id")
     public ResponseEntity<String> deleteAnswerVariantById(@PathVariable Integer id) {
-        try {
             answerVariantService.deleteAnswerVariantById(id);
             LOGGER.info("CONTROLLER LAYER: deleteQuizByTitle method ");
             return ResponseEntity.status(HttpStatus.OK).body("Variant with title '" + id + "' deleted successfully");
-        } catch (NoSuchElementException exception) {
-            LOGGER.warn(exception.getMessage());
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception.getMessage());
-        }
     }
 
     @GetMapping(value = "/getAllAnswerVariantByParentQuestionId/{parentQuestionId}")
     @ApiOperation("Get all answer variant by parent question id")
     public ResponseEntity<List<AnswerVariantDto>> getAllAnswerVariantByParentQuestionId(@PathVariable Integer parentQuestionId) {
-        try {
             ResponseEntity<List<AnswerVariantDto>> result = ResponseEntity.status(HttpStatus.OK).body(answerVariantMapper.answerVariantListToAnswerVariantListDto(answerVariantService.getAllAnswerVariantByParentQuestionId(parentQuestionId)));
             LOGGER.info("CONTROLLER LAYER: getAllAnswerVariantByParentQuestionId method ");
             return result;
-        } catch (NoSuchElementException exception) {
-            LOGGER.warn(exception.getMessage());
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
     }
 }

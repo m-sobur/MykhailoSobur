@@ -30,65 +30,40 @@ public class QuizController {
     @GetMapping(value = "/get/{title}")
     @ApiOperation("Get quiz by title")
     public ResponseEntity<QuizDto> getQuizByTitle(@PathVariable String title) {
-        try {
             ResponseEntity<QuizDto> result = ResponseEntity.status(HttpStatus.OK).body(quizMapper.quizToQuizDto(quizService.getQuizByTitle(title)));
             log.info("CONTROLLER LAYER: getQuizByTitle method ");
             return result;
-        } catch (NoSuchElementException exception) {
-            log.warn(exception.getMessage());
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
     }
 
     @PutMapping(value = "/update/{title}")
     @ApiOperation("Update quiz by title")
     public ResponseEntity<QuizDto> updateQuizByTitle(@PathVariable String title, @RequestBody @Validated(OnUpdate.class) QuizDto quizDto) {
-        try {
             ResponseEntity<QuizDto> result = ResponseEntity.status(HttpStatus.OK).body(quizMapper.quizToQuizDto(quizService.updateQuizByTitle(title, quizDto)));
             log.info("CONTROLLER LAYER: updateQuizByTitle method ");
             return result;
-        } catch (NoSuchElementException exception) {
-            log.warn(exception.getMessage());
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
     }
 
     @PostMapping
     @ApiOperation("Create quiz")
     public ResponseEntity<QuizDto> createQuiz(@RequestBody @Validated(OnCreate.class) QuizDto quizDto) {
-        try {
             ResponseEntity<QuizDto> result = ResponseEntity.status(HttpStatus.CREATED).body(quizMapper.quizToQuizDto(quizService.createQuiz(quizDto)));
             log.info("CONTROLLER LAYER: createQuiz method ");
             return result;
-        } catch (ElementAlreadyExistException exception) {
-            log.warn(exception.getMessage());
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
     }
 
     @DeleteMapping(value = "/delete/{title}")
     @ApiOperation("Delete quiz by title")
     public ResponseEntity<String> deleteQuizByTitle(@PathVariable String title) {
-        try {
             quizService.deleteQuizByTitle(title);
             log.info("CONTROLLER LAYER: deleteQuizByTitle method ");
             return ResponseEntity.status(HttpStatus.OK).body("Quiz with title '" + title + "' deleted successfully");
-        } catch (NoSuchElementException exception) {
-            log.warn(exception.getMessage());
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception.getMessage());
-        }
     }
 
     @GetMapping(value = "/getAllByCreatorId/{creator}")
     @ApiOperation("Get all quiz's by creator id")
     public ResponseEntity<List<QuizDto>> getAllQuizesByCreatorId(@PathVariable Integer creator) {
-        try {
             ResponseEntity<List<QuizDto>> result = ResponseEntity.status(HttpStatus.OK).body(quizMapper.quizsToQuizsDto(quizService.getAllQuizesByCreatorId(creator)));
             log.info("CONTROLLER LAYER: getAllQuizesByCreatorId method ");
             return result;
-        } catch (NoSuchElementException exception) {
-            log.warn(exception.getMessage());
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
     }
 }
