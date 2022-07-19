@@ -1,5 +1,7 @@
 package com.epam.spring.homework3.quiz.controller;
 
+import com.epam.spring.homework3.quiz.controller.assembler.UserAssembler;
+import com.epam.spring.homework3.quiz.controller.assembler.model.UserModel;
 import com.epam.spring.homework3.quiz.controller.dto.UserDto;
 import com.epam.spring.homework3.quiz.controller.dto.group.OnCreate;
 import com.epam.spring.homework3.quiz.controller.dto.group.OnUpdate;
@@ -28,29 +30,30 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     private final UserService userService;
     private final UserMapper userMapper;
+    private final UserAssembler userAssembler;
 
     @ApiOperation("Get user by email")
     @GetMapping(value = "/get/{email}")
-    public ResponseEntity<UserDto> getUserByEmail(@PathVariable String email) {
-        ResponseEntity<UserDto> result = ResponseEntity.status(HttpStatus.OK).body(userMapper.userToUserDto(userService.getUserByEmail(email)));
+    public UserModel getUserByEmail(@PathVariable String email) {
+        UserDto result = userMapper.userToUserDto(userService.getUserByEmail(email));
         log.info("CONTROLLER LAYER: getUserByEmail method ");
-        return result;
+        return userAssembler.toModel(result);
     }
 
     @ApiOperation("Create user")
     @PostMapping
-    public ResponseEntity<UserDto> createUser(@RequestBody @Validated(OnCreate.class) UserDto userDto) {
-        ResponseEntity<UserDto> result = ResponseEntity.status(HttpStatus.CREATED).body(userMapper.userToUserDto(userService.createUser(userDto)));
+    public UserModel createUser(@RequestBody @Validated(OnCreate.class) UserDto userDto) {
+        UserDto result = userMapper.userToUserDto(userService.createUser(userDto));
         log.info("CONTROLLER LAYER: createUser method ");
-        return result;
+        return userAssembler.toModel(result);
     }
 
     @ApiOperation("Update user by email")
     @PutMapping(value = "/update/{email}")
-    public ResponseEntity<UserDto> updateUserByEmail(@PathVariable String email, @RequestBody @Validated(OnUpdate.class) UserDto userDto) {
-        ResponseEntity<UserDto> result = ResponseEntity.status(HttpStatus.OK).body(userMapper.userToUserDto(userService.updateUserByEmail(email, userDto)));
+    public UserModel updateUserByEmail(@PathVariable String email, @RequestBody @Validated(OnUpdate.class) UserDto userDto) {
+        UserDto result = userMapper.userToUserDto(userService.updateUserByEmail(email, userDto));
         log.info("CONTROLLER LAYER: updateUserByEmail method ");
-        return result;
+        return userAssembler.toModel(result);
     }
 
     @ApiOperation("Delete user by email")
