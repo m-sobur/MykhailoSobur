@@ -17,21 +17,21 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class QuizDto {
 
-    @Null(message = "id should be absent in request", groups = OnUpdate.class)
-    @NotNull(message = "id shouldn't be empty", groups = OnCreate.class)
+    @Null(message = "{common.id.absent.exception}", groups = OnUpdate.class)
+    @NotNull(message = "{common.id.empty.exception}", groups = OnCreate.class)
     private Integer id;
 
-    @NotBlank(message = "title shouldn't be empty", groups = {OnCreate.class, OnUpdate.class})
+    @NotBlank(message = "{common.title.empty.exception}", groups = {OnCreate.class, OnUpdate.class})
     private String title;
 
-    @Null(message = "creationDate should be absent in request", groups = {OnCreate.class, OnUpdate.class})
+    @Null(message = "{quiz.creationDate.absent.exception}", groups = {OnCreate.class, OnUpdate.class})
     private Date creationDate;
 
-    @NotNull(message = "creatorId shouldn't be empty", groups = OnCreate.class)
-    @Null(message = "creatorId should be absent in request", groups = OnUpdate.class)
+    @NotNull(message = "{quiz.creatorId.empty.exception}", groups = OnCreate.class)
+    @Null(message = "{quiz.creatorId.absent.exception}", groups = OnUpdate.class)
     private Integer creatorId;
 
-    @NotBlank(message = "quizType shouldn't be empty", groups = {OnCreate.class, OnUpdate.class})
+    @NotBlank(message = "{common.type.empty.exception}", groups = {OnCreate.class, OnUpdate.class})
     private String quizType;
 
     private List<QuestionDto> questionList;

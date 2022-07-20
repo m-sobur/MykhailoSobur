@@ -1,6 +1,6 @@
 package com.epam.spring.homework3.quiz.service.repository.impl;
 
-import com.epam.spring.homework3.quiz.exception.repositoryException.ElementAlreadyExistException;
+import com.epam.spring.homework3.quiz.exception.repository.ElementAlreadyExistException;
 import com.epam.spring.homework3.quiz.service.model.User;
 import com.epam.spring.homework3.quiz.service.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;

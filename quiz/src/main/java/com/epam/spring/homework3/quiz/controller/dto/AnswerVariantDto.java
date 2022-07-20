@@ -14,18 +14,18 @@ import javax.validation.constraints.Null;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class AnswerVariantDto {
 
-    @NotNull(message = "id shouldn't be empty", groups = OnCreate.class)
+    @NotNull(message = "{common.id.empty.exception}", groups = OnCreate.class)
     private Integer id;
 
-    @NotBlank(message = "variantTitle shouldn't be empty", groups = OnCreate.class)
+    @NotBlank(message = "{common.title.empty.exception}", groups = OnCreate.class)
     private String variantTitle;
 
-    @Null(message = "userChecked shouldn't be empty", groups = OnCreate.class)
+    @Null(message = "{answerVariant.userChecked.empty.exception}", groups = OnCreate.class)
     private Boolean userChecked;
 
-    @NotNull(message = "parentQuestionId shouldn't be empty", groups = OnCreate.class)
+    @NotNull(message = "{answerVariant.parentQuestionId.empty.exception}", groups = OnCreate.class)
     private Integer parentQuestionId;
 
-    @NotNull(message = "value shouldn't be empty", groups = OnCreate.class)
+    @NotNull(message = "{answerVariant.value.empty.exception}", groups = OnCreate.class)
     private Boolean value;
 }

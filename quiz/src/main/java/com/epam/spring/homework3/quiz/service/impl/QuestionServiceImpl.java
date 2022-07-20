@@ -2,7 +2,7 @@ package com.epam.spring.homework3.quiz.service.impl;
 
 import com.epam.spring.homework3.quiz.controller.dto.QuestionDto;
 import com.epam.spring.homework3.quiz.controller.mapper.QuestionMapper;
-import com.epam.spring.homework3.quiz.exception.repositoryException.ElementAlreadyExistException;
+import com.epam.spring.homework3.quiz.exception.repository.ElementAlreadyExistException;
 import com.epam.spring.homework3.quiz.service.AnswerVariantService;
 import com.epam.spring.homework3.quiz.service.QuestionService;
 import com.epam.spring.homework3.quiz.service.model.Question;
@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -54,14 +53,12 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public List<Question> getAllQuestionsByParentQuizId(Integer parentQuizId){
+    public List<Question> getAllQuestionsByParentQuizId(Integer parentQuizId) {
         List<Question> questionList = questionRepository.getAllQuestionsByParentQuizId(parentQuizId);
-       /* for (QuestionDto questionDto : questionListDto) {
-            questionDto.setAnswerVariantList(answerVariantService.getAllAnswerVariantDtoByParentQuestionId(question.getQuestion_id()));
-        } forEach cycle can be replaced by stream.api */
-        questionList = questionList.stream()
-                .peek(question -> question.setAnswerVariantList(answerVariantService.getAllAnswerVariantByParentQuestionId(question.getId())))
-                .collect(Collectors.toList());
+
+        for (Question question : questionList) {
+            question.setAnswerVariantList(answerVariantService.getAllAnswerVariantByParentQuestionId(question.getId()));
+        }
 
         log.info("SERVICE LAYER: getAllQuestionsByParentQuizId " + parentQuizId);
         return questionList;

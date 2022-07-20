@@ -17,18 +17,18 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class QuestionDto {
 
-    @Null(message = "id should be absent in request", groups = OnUpdate.class)
-    @NotNull(message = "id shouldn't be empty", groups = OnCreate.class)
+    @Null(message = "{common.id.absent.exception}", groups = OnUpdate.class)
+    @NotNull(message = "{common.id.empty.exception}", groups = OnCreate.class)
     private Integer id;
 
-    @NotBlank(message = "questionTitle shouldn't be empty", groups = {OnCreate.class, OnUpdate.class})
+    @NotBlank(message = "{common.title.empty.exception}", groups = {OnCreate.class, OnUpdate.class})
     private String questionTitle;
 
-    @NotNull(message = "questionType shouldn't be empty", groups = {OnCreate.class, OnUpdate.class})
+    @NotNull(message = "{common.type.empty.exception}", groups = {OnCreate.class, OnUpdate.class})
     private QuestionType questionType;
 
-    @Null(message = "parentQuizId should be absent in request", groups = OnUpdate.class)
-    @NotNull(message = "parentQuizId shouldn't be empty", groups = OnCreate.class)
+    @Null(message = "{question.parentQuizId.absent.exception}", groups = OnUpdate.class)
+    @NotNull(message = "{question.parentQuizId.empty.exception}", groups = OnCreate.class)
     private Integer parentQuizId;
 
     private List<AnswerVariantDto> answerVariantList;

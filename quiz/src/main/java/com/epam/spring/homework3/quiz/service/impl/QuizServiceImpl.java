@@ -2,7 +2,7 @@ package com.epam.spring.homework3.quiz.service.impl;
 
 import com.epam.spring.homework3.quiz.controller.dto.QuizDto;
 import com.epam.spring.homework3.quiz.controller.mapper.QuizMapper;
-import com.epam.spring.homework3.quiz.exception.repositoryException.ElementAlreadyExistException;
+import com.epam.spring.homework3.quiz.exception.repository.ElementAlreadyExistException;
 import com.epam.spring.homework3.quiz.service.QuestionService;
 import com.epam.spring.homework3.quiz.service.QuizService;
 import com.epam.spring.homework3.quiz.service.model.Question;
