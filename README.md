@@ -1,27 +1,43 @@
 # MykhailoSobur
 [WEST &amp; SOUTH] Java Lab #32
                                                                      
-                                                                    Spring_4 Web MVC Homework 
+                                                          Spring_5 Data Homework
 
  
+Spring_5 Data Homework 
+
 Required: 
 
-Extend your service functionality by:  
+Get well acquainted with all topics mentioned in the lecture (especially with JPA and Spring Data JPA) 
 
-adding basic validation to DTO classes 
+ 
 
-using mapstruct to map DTOs 
+Integrate your application with any relational database. You are free of choice regarding the relational database management system to be used. 
 
-implementing custom common and unified error handling functionality using Spring MVC components 
+integrate using Spring Data JPA (configure connection details, implement JPA repositories, etc.) 
 
-adding the Spring Boot Actuator to your project and configuring the ‘/info’ endpoint of it. 
+add JPA entity mapping including mappings between entities (@OneToOne, @ManyToOne, etc.) 
 
-extending your service RESTful endpoints by Swagger Documentation    
+make sure to use all/any of listed annotation: @Query, @NamedQuery, and @NamedNativeQuery. 
 
-create custom validation annotations using ConstraintValidator 
+make sure to use ‘pageable’ and ‘sortable’ reads from the database. 
+
+ 
 
 Optional (would be a great plus): 
 
-Investigate and get hands-on experience working with the RestTemplate: create a separate service that will make REST calls to your main service endpoints (GET, POST, PUT, PATCH, DELETE) and parse the response. 
+Make use of JdbcTemplate class somewhere in your code. 
 
-Investigate add multilingual support for exception messages configuring the ‘MessageSource’ bean - https://www.baeldung.com/spring-custom-validation-message-source 
+Add transactions in your code using declarative or programmatic approach. 
+
+Get well familiar with the @Transactional annotation (how it works under the hood, what CGlib & JDK Proxies are, physical vs logical transactions etc.). Sources: 
+
+https://docs.spring.io/spring-data/jpa/docs/current/reference/html/index.html#transactions 
+
+https://www.marcobehler.com/guides/spring-transaction-management-transactional-in-depth 
+
+ 
+
+Something worth noting: 
+
+https://www.youtube.com/watch?v=vzP5ZpqRx0E&list=PLqt5_5aU1KQJ7mdgc-J9DJiaOK7CXtgOB – these lectures include SOLID, jdbc, hibernate, spring, spring data, spring boot 
