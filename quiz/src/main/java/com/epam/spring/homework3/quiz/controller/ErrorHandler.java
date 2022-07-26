@@ -28,13 +28,14 @@ public class ErrorHandler {
     @ExceptionHandler(ElementAlreadyExistException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public Error handleElementAlreadyExistException(ElementAlreadyExistException ex) {
-        log.error("ElementAlreadyExistException: exception {}", ex.getMessage(), ex);
+        log.error("handleElementAlreadyExistException: exception {}", ex.getMessage(), ex);
         return new Error(ex.getMessage());
     }
 
     @ExceptionHandler(NoSuchElementException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public Error handleNoSuchElementException(NoSuchElementException ex) {
+        log.error("handleNoSuchElementException: exception {}", ex.getMessage(), ex);
         return new Error(ex.getMessage());
     }
 }

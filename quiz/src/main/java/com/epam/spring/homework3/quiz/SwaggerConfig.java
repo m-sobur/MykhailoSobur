@@ -20,7 +20,7 @@ import java.util.List;
 @EnableSwagger2
 public class SwaggerConfig {
 
-    @Value(value = "${swagger.base.package}")
+    @Value(value = "com.epam.spring.homework3.quiz")
     private String swaggerBasePackage;
 
     @Bean

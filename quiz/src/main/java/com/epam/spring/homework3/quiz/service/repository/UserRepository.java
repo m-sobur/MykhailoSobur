@@ -1,13 +1,16 @@
 package com.epam.spring.homework3.quiz.service.repository;
 
 import com.epam.spring.homework3.quiz.service.model.User;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface UserRepository {
-    User getUserByEmail(String email);
+import java.util.Optional;
 
-    User createUser(User user);
+@Repository
+public interface UserRepository extends JpaRepository<User, Long> {
+    Optional<User> findByEmail(String email);
 
-    User updateUserByEmail(String email, User user);
+    boolean existsByEmail(String email);
 
     void deleteUserByEmail(String email);
 }

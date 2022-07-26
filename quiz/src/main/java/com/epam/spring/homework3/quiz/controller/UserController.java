@@ -35,32 +35,37 @@ public class UserController {
     @ApiOperation("Get user by email")
     @GetMapping(value = "/get/{email}")
     public UserModel getUserByEmail(@PathVariable String email) {
+        log.info("CONTROLLER LAYER: getUserByEmail method entry");
         UserDto result = userMapper.userToUserDto(userService.getUserByEmail(email));
-        log.info("CONTROLLER LAYER: getUserByEmail method ");
+        log.info("CONTROLLER LAYER: getUserByEmail method exit");
         return userAssembler.toModel(result);
     }
 
     @ApiOperation("Create user")
     @PostMapping
+    @ResponseStatus(code = HttpStatus.CREATED)
     public UserModel createUser(@RequestBody @Validated(OnCreate.class) UserDto userDto) {
+        log.info("CONTROLLER LAYER: createUser method entry");
         UserDto result = userMapper.userToUserDto(userService.createUser(userDto));
-        log.info("CONTROLLER LAYER: createUser method ");
+        log.info("CONTROLLER LAYER: createUser method exit");
         return userAssembler.toModel(result);
     }
 
     @ApiOperation("Update user by email")
     @PutMapping(value = "/update/{email}")
     public UserModel updateUserByEmail(@PathVariable String email, @RequestBody @Validated(OnUpdate.class) UserDto userDto) {
+        log.info("CONTROLLER LAYER: updateUserByEmail method entry");
         UserDto result = userMapper.userToUserDto(userService.updateUserByEmail(email, userDto));
-        log.info("CONTROLLER LAYER: updateUserByEmail method ");
+        log.info("CONTROLLER LAYER: updateUserByEmail method exit");
         return userAssembler.toModel(result);
     }
 
     @ApiOperation("Delete user by email")
     @DeleteMapping(value = "/delete/{email}")
     public ResponseEntity<String> deleteUserByEmail(@PathVariable String email) {
+        log.info("CONTROLLER LAYER: deleteUserByEmail method entry");
         userService.deleteUserByEmail(email);
-        log.info("CONTROLLER LAYER: deleteUserByEmail method ");
+        log.info("CONTROLLER LAYER: deleteUserByEmail method exit");
         return ResponseEntity.status(HttpStatus.OK).body("User with email '" + email + "' deleted successfully");
     }
 }

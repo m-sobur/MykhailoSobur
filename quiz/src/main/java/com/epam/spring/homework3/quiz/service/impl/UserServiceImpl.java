@@ -9,6 +9,7 @@ import com.epam.spring.homework3.quiz.service.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.NoSuchElementException;
 
@@ -21,30 +22,61 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUserByEmail(String email) throws NoSuchElementException {
-        User user = userRepository.getUserByEmail(email);
-        log.info("SERVICE LAYER: getUserByEmail method "+ email);
+        log.info("SERVICE LAYER: getUserByEmail method entry" + email);
+
+        User user = userRepository
+                .findByEmail(email)
+                .orElseThrow(() -> new NoSuchElementException("User not found in the 'PostgresDB' while executing getUserByEmail"));
+
+        log.info("SERVICE LAYER: getUserByEmail sucsses " + email);
         return user;
     }
 
     @Override
+    @Transactional
     public User createUser(UserDto userDto) throws ElementAlreadyExistException {
+        log.info("SERVICE LAYER: createUser method with email " + userDto.getEmail());
+
+        if (userRepository.existsByEmail(userDto.getEmail())) {
+            throw new ElementAlreadyExistException("User is already exist at 'PostgresDB' while executing createUser " + userDto.getEmail());
+        }
+
         User user = userMapper.userDtoToUser(userDto);
-        userRepository.createUser(user);
-        log.info("SERVICE LAYER: createUser method "+ user);
+        userRepository.save(user);
+
+        log.info("SERVICE LAYER: createdUser User created exit " + user);
         return user;
     }
 
     @Override
-    public User updateUserByEmail(String email, UserDto userDto) throws NoSuchElementException{
+    @Transactional
+    public User updateUserByEmail(String email, UserDto userDto) throws NoSuchElementException {
+        log.info("SERVICE LAYER: updateUserByEmail method entry " + userDto);
         User user = userMapper.userDtoToUser(userDto);
-        user = userRepository.updateUserByEmail(email, user);
-        log.info("SERVICE LAYER: updateUserByEmail method " + user);
-        return user;
+
+        User userToUpdate = userRepository
+                .findByEmail(email)
+                .orElseThrow(() -> new NoSuchElementException("User not found in the 'PostgresDB' while executing updateUserByEmail"));
+
+        userToUpdate.setFirstName(user.getFirstName());
+        userToUpdate.setLastName(user.getLastName());
+
+        userRepository.save(userToUpdate);
+
+        log.info("SERVICE LAYER: User updated exit" + userToUpdate);
+        return userToUpdate;
     }
 
     @Override
+    @Transactional
     public void deleteUserByEmail(String email) throws NoSuchElementException {
+        log.info("SERVICE LAYER: deleteUserByEmail entry " + email);
+
+        if (!userRepository.existsByEmail(email)) {
+            throw new NoSuchElementException("User not found in the 'PostgresDB' while executing deleteUserByEmail " + email);
+        }
+
         userRepository.deleteUserByEmail(email);
-        log.info("SERVICE LAYER: deleteUserByEmail " + email);
+        log.info("SERVICE LAYER: deleteUserByEmail exit " + email);
     }
 }
