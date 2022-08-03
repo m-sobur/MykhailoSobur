@@ -31,39 +31,44 @@ public class QuestionController {
 
     @GetMapping(value = "/get/{id}")
     @ApiOperation("Get question by id")
-    public QuestionModel getQuestionByID(@PathVariable Integer id) {
+    public QuestionModel getQuestionByID(@PathVariable Long id) {
+        log.info("CONTROLLER LAYER: getQuestionByID method entry id");
         QuestionDto result = questionMapper.questionToQuestionDto(questionService.getQuestionByID(id));
-        log.info("CONTROLLER LAYER: getQuestionByID method ");
+        log.info("CONTROLLER LAYER: getQuestionByID method exit " + result);
         return questionAssembler.toModel(result);
     }
 
     @PutMapping(value = "/update/{id}")
     @ApiOperation("Update question by id")
-    public QuestionModel updateQuestionById(@PathVariable Integer id, @RequestBody @Validated(OnUpdate.class) QuestionDto questionDto) {
+    public QuestionModel updateQuestionById(@PathVariable Long id, @RequestBody @Validated(OnUpdate.class) QuestionDto questionDto) {
+        log.info("CONTROLLER LAYER: updateQuestionById method entry id:" + id + "need update: " + questionDto);
         QuestionDto result = questionMapper.questionToQuestionDto(questionService.updateQuestionById(id, questionDto));
-        log.info("CONTROLLER LAYER: updateQuestionById method ");
+        log.info("CONTROLLER LAYER: updateQuestionById method exit " + result);
         return questionAssembler.toModel(result);
     }
 
     @PostMapping
     @ApiOperation("Create question")
     public QuestionModel createQuestion(@RequestBody @Validated(OnCreate.class) QuestionDto questionDto) {
+        log.info("CONTROLLER LAYER: createQuestion method entry " + questionDto);
         QuestionDto result = questionMapper.questionToQuestionDto(questionService.createQuestion(questionDto));
-        log.info("CONTROLLER LAYER: createQuestion method ");
+        log.info("CONTROLLER LAYER: createQuestion method exit " + result);
         return questionAssembler.toModel(result);
     }
 
     @DeleteMapping(value = "/delete/{id}")
     @ApiOperation("Delete question by id")
-    public ResponseEntity<String> deleteQuestionById(@PathVariable Integer id) {
+    public ResponseEntity<String> deleteQuestionById(@PathVariable Long id) {
+        log.info("CONTROLLER LAYER: deleteQuizByTitle method entry ");
         questionService.deleteQuestionById(id);
-        log.info("CONTROLLER LAYER: deleteQuizByTitle method ");
+        log.info("CONTROLLER LAYER: deleteQuizByTitle method exit ");
         return ResponseEntity.status(HttpStatus.OK).body("Question with title '" + id + "' deleted successfully");
     }
 
     @GetMapping(value = "/getAllQuestionsByParentQuizId/{parentQuizId}")
     @ApiOperation("Get all question by parent id")
-    public List<QuestionModel> getAllQuestionsByParentQuizId(@PathVariable Integer parentQuizId) {
+    public List<QuestionModel> getAllQuestionsByParentQuizId(@PathVariable Long parentQuizId) {
+        log.info("CONTROLLER LAYER: getAllQuestionsByParentQuizId method entry ");
         List<QuestionDto> result = questionMapper.questionListToQuestionListDto(questionService.getAllQuestionsByParentQuizId(parentQuizId));
         List<QuestionModel> list = new ArrayList(result.size());
 
@@ -71,7 +76,7 @@ public class QuestionController {
             list.add(questionAssembler.toModel(questionDto));
         }
 
-        log.info("CONTROLLER LAYER: getAllQuestionsByParentQuizId method ");
+        log.info("CONTROLLER LAYER: getAllQuestionsByParentQuizId method exit ");
         return list;
     }
 }

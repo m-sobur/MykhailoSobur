@@ -20,7 +20,7 @@ public class GameController {
 
     @GetMapping(value = "/startGameById/{id}")
     @ApiOperation("Get(start) quiz-game by id")
-    public ResponseEntity<QuizDto> startGame(@PathVariable Integer id) {
+    public ResponseEntity<QuizDto> startGame(@PathVariable Long id) {
             ResponseEntity<QuizDto> result = ResponseEntity.status(HttpStatus.OK).body(gameService.startGame(id));
             log.info("CONTROLLER LAYER: startGame method ");
             return result;
@@ -28,7 +28,7 @@ public class GameController {
 
     @PostMapping(value = "/checkResult/{id}/{userName}")
     @ApiOperation("Check result by id_quiz and userName")
-    public ResponseEntity<String> checkResult(@RequestBody QuizDto quizDto, @PathVariable Integer id, @PathVariable String userName) {
+    public ResponseEntity<String> checkResult(@RequestBody QuizDto quizDto, @PathVariable Long id, @PathVariable String userName) {
             ResponseEntity<String> result = ResponseEntity.status(HttpStatus.OK).body(gameService.checkResultOfGame(quizDto, id, userName));
             log.info("CONTROLLER LAYER: checkResult method ");
             return result;

@@ -32,38 +32,42 @@ public class QuizController {
     @GetMapping(value = "/get/{title}")
     @ApiOperation("Get quiz by title")
     public QuizModel getQuizByTitle(@PathVariable String title) {
+        log.info("CONTROLLER LAYER: getQuizByTitle method entry");
         QuizDto result = quizMapper.quizToQuizDto(quizService.getQuizByTitle(title));
-        log.info("CONTROLLER LAYER: getQuizByTitle method ");
+        log.info("CONTROLLER LAYER: getQuizByTitle method exit ");
         return quizAssembler.toModel(result);
     }
 
-    @PutMapping(value = "/update/{title}")
-    @ApiOperation("Update quiz by title")
-    public QuizModel updateQuizByTitle(@PathVariable String title, @RequestBody @Validated(OnUpdate.class) QuizDto quizDto) {
-        QuizDto result = quizMapper.quizToQuizDto(quizService.updateQuizByTitle(title, quizDto));
-        log.info("CONTROLLER LAYER: updateQuizByTitle method ");
-        return quizAssembler.toModel(result);
-    }
+//    @PutMapping(value = "/update/{title}")
+//    @ApiOperation("Update quiz by title")
+//    public QuizModel updateQuizByTitle(@PathVariable String title, @RequestBody @Validated(OnUpdate.class) QuizDto quizDto) {
+//        QuizDto result = quizMapper.quizToQuizDto(quizService.updateQuizByTitle(title, quizDto));
+//        log.info("CONTROLLER LAYER: updateQuizByTitle method ");
+//        return quizAssembler.toModel(result);
+//    }
 
     @PostMapping
     @ApiOperation("Create quiz")
     public QuizModel createQuiz(@RequestBody @Validated(OnCreate.class) QuizDto quizDto) {
+        log.info("CONTROLLER LAYER: createQuiz method entry ");
         QuizDto result = quizMapper.quizToQuizDto(quizService.createQuiz(quizDto));
-        log.info("CONTROLLER LAYER: createQuiz method ");
+        log.info("CONTROLLER LAYER: createQuiz method exit ");
         return quizAssembler.toModel(result);
     }
 
     @DeleteMapping(value = "/delete/{title}")
     @ApiOperation("Delete quiz by title")
     public ResponseEntity<String> deleteQuizByTitle(@PathVariable String title) {
+        log.info("CONTROLLER LAYER: deleteQuizByTitle method entry ");
         quizService.deleteQuizByTitle(title);
-        log.info("CONTROLLER LAYER: deleteQuizByTitle method ");
+        log.info("CONTROLLER LAYER: deleteQuizByTitle method exit ");
         return ResponseEntity.status(HttpStatus.OK).body("Quiz with title '" + title + "' deleted successfully");
     }
 
     @GetMapping(value = "/getAllByCreatorId/{creator}")
     @ApiOperation("Get all quiz's by creator id")
-    public List<QuizModel> getAllQuizesByCreatorId(@PathVariable Integer creator) {
+    public List<QuizModel> getAllQuizesByCreatorId(@PathVariable Long creator) {
+        log.info("CONTROLLER LAYER: getAllQuizesByCreatorId method entry ");
         List<QuizDto> result = quizMapper.quizsToQuizsDto(quizService.getAllQuizesByCreatorId(creator));
         List<QuizModel> list = new ArrayList(result.size());
 
@@ -71,7 +75,7 @@ public class QuizController {
             list.add(quizAssembler.toModel(quizDto));
         }
 
-        log.info("CONTROLLER LAYER: getAllQuizesByCreatorId method ");
+        log.info("CONTROLLER LAYER: getAllQuizesByCreatorId method exit");
         return list;
     }
 }

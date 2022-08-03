@@ -2,7 +2,9 @@ package com.epam.spring.homework3.quiz.controller.dto;
 
 import com.epam.spring.homework3.quiz.controller.dto.group.OnCreate;
 import com.epam.spring.homework3.quiz.controller.dto.group.OnUpdate;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Data;
 
@@ -12,14 +14,15 @@ import javax.validation.constraints.Null;
 import java.util.Date;
 import java.util.List;
 
+import static com.fasterxml.jackson.annotation.JsonProperty.Access.READ_ONLY;
+
 @Data
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class QuizDto {
 
-    @Null(message = "{common.id.absent.exception}", groups = OnUpdate.class)
-    @NotNull(message = "{common.id.empty.exception}", groups = OnCreate.class)
-    private Integer id;
+    @JsonProperty(access = READ_ONLY)
+    private Long id;
 
     @NotBlank(message = "{common.title.empty.exception}", groups = {OnCreate.class, OnUpdate.class})
     private String title;
@@ -29,10 +32,11 @@ public class QuizDto {
 
     @NotNull(message = "{quiz.creatorId.empty.exception}", groups = OnCreate.class)
     @Null(message = "{quiz.creatorId.absent.exception}", groups = OnUpdate.class)
-    private Integer creatorId;
+    private Long creatorId;
 
     @NotBlank(message = "{common.type.empty.exception}", groups = {OnCreate.class, OnUpdate.class})
     private String quizType;
 
+    @JsonIgnoreProperties("quiz")
     private List<QuestionDto> questionList;
 }

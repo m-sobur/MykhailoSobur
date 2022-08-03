@@ -28,11 +28,12 @@ public class QuizAssembler extends RepresentationModelAssemblerSupport<QuizDto, 
 
         Link get = linkTo(methodOn(QuizController.class).getQuizByTitle(entity.getTitle())).withRel(GET_REL);
         Link create = linkTo(methodOn(QuizController.class).createQuiz(entity)).withRel(CREATE_REL);
-        Link update = linkTo(methodOn(QuizController.class).updateQuizByTitle(entity.getTitle(), entity)).withRel(UPDATE_REL);
+//        Link update = linkTo(methodOn(QuizController.class).updateQuizByTitle(entity.getTitle(), entity)).withRel(UPDATE_REL);
         Link delete = linkTo(methodOn(QuizController.class).deleteQuizByTitle(entity.getTitle())).withRel(DELETE_REL);
         Link getAll = linkTo(methodOn(QuizController.class).getAllQuizesByCreatorId(entity.getCreatorId())).withRel(GET_ALL_REL);
 
-        quizModel.add(get, create, update, delete, getAll);
+//        update
+        quizModel.add(get, create,  delete, getAll);
 
         return quizModel;
     }

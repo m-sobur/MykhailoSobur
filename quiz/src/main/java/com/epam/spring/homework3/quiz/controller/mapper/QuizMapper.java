@@ -16,5 +16,6 @@ public interface QuizMapper {
     @Mapping(target = "creationDate", ignore = true)
     Quiz quizDtoToQuiz(QuizDto quizDto);
 
+    @Mapping(source = "quiz.questionList", target = "questionList")
     List<QuizDto> quizsToQuizsDto(List<Quiz> orders);
 }

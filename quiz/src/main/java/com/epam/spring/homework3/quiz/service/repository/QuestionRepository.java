@@ -1,17 +1,13 @@
 package com.epam.spring.homework3.quiz.service.repository;
 
 import com.epam.spring.homework3.quiz.service.model.Question;
+import com.epam.spring.homework3.quiz.service.model.Quiz;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface QuestionRepository {
-    Question getQuestionByID(Integer id);
+public interface QuestionRepository extends JpaRepository<Question, Long> {
+    boolean existsById(Long id);
 
-    Question createQuestion(Question question);
-
-    Question updateQuestionById(Integer id, Question question);
-
-    void deleteQuestionById(Integer id);
-
-    List<Question> getAllQuestionsByParentQuizId(Integer parentQuizId);
+    List<Question> findQuestionByQuiz(Quiz quiz);
 }

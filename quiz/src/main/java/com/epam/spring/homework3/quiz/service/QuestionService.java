@@ -2,18 +2,19 @@ package com.epam.spring.homework3.quiz.service;
 
 import com.epam.spring.homework3.quiz.controller.dto.QuestionDto;
 import com.epam.spring.homework3.quiz.service.model.Question;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 import java.util.UUID;
 
-public interface QuestionService {
-    Question getQuestionByID(Integer id);
+public interface QuestionService{
+    Question getQuestionByID(Long id);
 
     Question createQuestion(QuestionDto questionDto);
 
-    Question updateQuestionById(Integer id, QuestionDto questionDto);
+    Question updateQuestionById(Long id, QuestionDto questionDto);
 
-    void deleteQuestionById(Integer id);
+    void deleteQuestionById(Long id);
 
-    List<Question> getAllQuestionsByParentQuizId(Integer parentQuizId);
+    List<Question> getAllQuestionsByParentQuizId(Long parentQuizId);
 }

@@ -22,14 +22,14 @@ public class GameServiceImpl implements GameService {
     private final QuizMapper quizMapper;
 
     @Override
-    public QuizDto startGame(Integer id) throws NoSuchElementException {
+    public QuizDto startGame(Long id) throws NoSuchElementException {
         QuizDto quizDto = quizMapper.quizToQuizDto(quizService.getQuizById(id));
         log.info("SERVICE LAYER: startGame method " + quizDto);
         return quizDto;
     }
 
     @Override
-    public String checkResultOfGame(QuizDto quizDto, Integer id, String userName) throws NoSuchElementException {
+    public String checkResultOfGame(QuizDto quizDto, Long id, String userName) throws NoSuchElementException {
         Quiz etalon = quizService.getQuizById(id);
         Quiz userResult = quizMapper.quizDtoToQuiz(quizDto);
         int numberOfQuesitonsInQuiz = etalon.getQuestionList().size();

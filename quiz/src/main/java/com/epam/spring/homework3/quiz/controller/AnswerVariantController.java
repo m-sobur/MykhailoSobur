@@ -28,33 +28,37 @@ public class AnswerVariantController {
 
     @GetMapping(value = "/get/{id}")
     @ApiOperation("Get answer variant by id")
-    public ResponseEntity<AnswerVariantDto> getAnswerVariantByID(@PathVariable Integer id) {
-            ResponseEntity<AnswerVariantDto> result = ResponseEntity.status(HttpStatus.OK).body(answerVariantMapper.answerVariantToAnswerVariantDto(answerVariantService.getAnswerVariantById(id)));
-            logger.info("CONTROLLER LAYER: getAnswerVariantByID method ");
-            return result;
+    public ResponseEntity<AnswerVariantDto> getAnswerVariantDtoByID(@PathVariable Long id) {
+        logger.info("CONTROLLER LAYER: getAnswerVariantByID method entry ");
+        ResponseEntity<AnswerVariantDto> result = ResponseEntity.status(HttpStatus.OK).body(answerVariantMapper.answerVariantToAnswerVariantDto(answerVariantService.getAnswerVariantById(id)));
+        logger.info("CONTROLLER LAYER: getAnswerVariantByID method exit ");
+        return result;
     }
 
     @PostMapping
     @ApiOperation("Create answer variant")
     public ResponseEntity<AnswerVariantDto> createAnswerVariantDto(@RequestBody @Validated(OnCreate.class) AnswerVariantDto answerVariantDto) {
-            ResponseEntity<AnswerVariantDto> result = ResponseEntity.status(HttpStatus.CREATED).body(answerVariantMapper.answerVariantToAnswerVariantDto(answerVariantService.createAnswerVariant(answerVariantDto)));
-            logger.info("CONTROLLER LAYER: createAnswerVariantDto method ");
-            return result;
+        logger.info("CONTROLLER LAYER: createAnswerVariantDto method entry");
+        ResponseEntity<AnswerVariantDto> result = ResponseEntity.status(HttpStatus.CREATED).body(answerVariantMapper.answerVariantToAnswerVariantDto(answerVariantService.createAnswerVariant(answerVariantDto)));
+        logger.info("CONTROLLER LAYER: createAnswerVariantDto method exit");
+        return result;
     }
 
     @DeleteMapping(value = "/delete/{id}")
     @ApiOperation("Delete answer variant by id")
-    public ResponseEntity<String> deleteAnswerVariantById(@PathVariable Integer id) {
-            answerVariantService.deleteAnswerVariantById(id);
-            logger.info("CONTROLLER LAYER: deleteQuizByTitle method ");
-            return ResponseEntity.status(HttpStatus.OK).body("Variant with title '" + id + "' deleted successfully");
+    public ResponseEntity<String> deleteAnswerVariantDtoById(@PathVariable Long id) {
+        logger.info("CONTROLLER LAYER: deleteAnswerVariantById method entry");
+        answerVariantService.deleteAnswerVariantById(id);
+        logger.info("CONTROLLER LAYER: deleteAnswerVariantById method exit");
+        return ResponseEntity.status(HttpStatus.OK).body("Variant with title '" + id + "' deleted successfully");
     }
 
-    @GetMapping(value = "/getAllAnswerVariantByParentQuestionId/{parentQuestionId}")
+    @GetMapping(value = "/getAllAnswerVariantDtoByQuestionId/{QuestionId}")
     @ApiOperation("Get all answer variant by parent question id")
-    public ResponseEntity<List<AnswerVariantDto>> getAllAnswerVariantByParentQuestionId(@PathVariable Integer parentQuestionId) {
-            ResponseEntity<List<AnswerVariantDto>> result = ResponseEntity.status(HttpStatus.OK).body(answerVariantMapper.answerVariantListToAnswerVariantListDto(answerVariantService.getAllAnswerVariantByParentQuestionId(parentQuestionId)));
-            logger.info("CONTROLLER LAYER: getAllAnswerVariantByParentQuestionId method ");
-            return result;
+    public ResponseEntity<List<AnswerVariantDto>> getAllAnswerVariantDtoByQuestionId(@PathVariable Long QuestionId) {
+        logger.info("CONTROLLER LAYER: getAllAnswerVariantByQuestionId method entry");
+        ResponseEntity<List<AnswerVariantDto>> result = ResponseEntity.status(HttpStatus.OK).body(answerVariantMapper.answerVariantListToAnswerVariantListDto(answerVariantService.getAllAnswerVariantByQuestionId(QuestionId)));
+        logger.info("CONTROLLER LAYER: getAllAnswerVariantByQuestionId method exit");
+        return result;
     }
 }

@@ -8,13 +8,13 @@ import java.util.List;
 public interface QuizService {
     Quiz getQuizByTitle(String title);
 
-    Quiz getQuizById(Integer id);
+    Quiz getQuizById(Long id);
 
     Quiz createQuiz(QuizDto quizDto);
 
-    Quiz updateQuizByTitle(String title, QuizDto quizDto);
+//    Quiz updateQuizByTitle(String title, QuizDto quizDto);
 
     void deleteQuizByTitle(String title);
 
-    List<Quiz> getAllQuizesByCreatorId(Integer creatorId);
+    List<Quiz> getAllQuizesByCreatorId(Long creatorId);
 }

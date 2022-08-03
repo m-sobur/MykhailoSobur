@@ -29,7 +29,7 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new NoSuchElementException("User not found in the 'PostgresDB' while executing getUserByEmail"));
 
         log.info("SERVICE LAYER: getUserByEmail sucsses " + email);
-        return user;
+            return user;
     }
 
     @Override

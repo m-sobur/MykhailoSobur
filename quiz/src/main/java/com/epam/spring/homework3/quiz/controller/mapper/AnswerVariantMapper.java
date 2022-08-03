@@ -10,13 +10,15 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface AnswerVariantMapper {
 
+    @Mapping(target = "questionId", ignore = true)
     @Mapping(target = "value", ignore = true)
+    @Mapping(target = "question", ignore = true)
     AnswerVariantDto answerVariantToAnswerVariantDto(AnswerVariant answerVariant);
 
     AnswerVariant answerVariantDtoToAnswerVariant(AnswerVariantDto answerVariantDto);
 
+    @Mapping(target = "questionId", ignore = true)
     @Mapping(target = "value", ignore = true)
+    @Mapping(target = "question", ignore = true)
     List<AnswerVariantDto> answerVariantListToAnswerVariantListDto(List<AnswerVariant> answerVariantList);
-
-    List<AnswerVariant> answerVariantListDtoToAnswerVariantList(List<AnswerVariantDto> answerVariantListDto);
 }

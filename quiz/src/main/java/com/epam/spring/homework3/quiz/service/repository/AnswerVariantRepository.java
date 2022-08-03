@@ -1,15 +1,15 @@
 package com.epam.spring.homework3.quiz.service.repository;
 
 import com.epam.spring.homework3.quiz.service.model.AnswerVariant;
+import com.epam.spring.homework3.quiz.service.model.Question;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface AnswerVariantRepository {
-    AnswerVariant getAnswerVariantById(Integer id);
+public interface AnswerVariantRepository extends JpaRepository<AnswerVariant, Long> {
 
-    AnswerVariant createAnswerVariant(AnswerVariant answerVariant);
+    boolean existsById(Long id);
 
-    void deleteAnswerVariantById(Integer id);
+    List<AnswerVariant> findAnswerVariantByQuestion(Question question);
 
-    List<AnswerVariant> getAllAnswerVariantByParentQuestionId(Integer parentQuestionId);
 }

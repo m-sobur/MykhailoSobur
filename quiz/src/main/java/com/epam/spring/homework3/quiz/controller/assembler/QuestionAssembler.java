@@ -30,7 +30,8 @@ public class QuestionAssembler extends RepresentationModelAssemblerSupport<Quest
         Link create = linkTo(methodOn(QuestionController.class).createQuestion(entity)).withRel(CREATE_REL);
         Link update = linkTo(methodOn(QuestionController.class).updateQuestionById(entity.getId(), entity)).withRel(UPDATE_REL);
         Link delete = linkTo(methodOn(QuestionController.class).deleteQuestionById(entity.getId())).withRel(DELETE_REL);
-        Link getAll = linkTo(methodOn(QuestionController.class).getAllQuestionsByParentQuizId(entity.getParentQuizId())).withRel(GET_ALL_REL);
+        Link getAll = linkTo(methodOn(QuestionController.class).getAllQuestionsByParentQuizId(entity.getQuizId())).withRel(GET_ALL_REL);
+
 
         questionModel.add(get, create, update, delete, getAll);
 

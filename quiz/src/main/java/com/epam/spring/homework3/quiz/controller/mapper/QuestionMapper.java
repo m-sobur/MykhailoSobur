@@ -10,11 +10,16 @@ import java.util.List;
 @Mapper(componentModel = "spring",uses = {AnswerVariantMapper.class})
 public interface QuestionMapper {
 
+    @Mapping(target = "quizId", ignore = true)
+    @Mapping(target = "quiz", ignore = true)
     @Mapping(source = "question.answerVariantList", target = "answerVariantList")
     QuestionDto questionToQuestionDto(Question question);
 
     Question questionDtoToQuestion(QuestionDto questionDto);
 
+    @Mapping(target = "quizId", ignore = true)
+    @Mapping(target = "quiz", ignore = true)
+    @Mapping(source = "question.answerVariantList", target = "answerVariantList")
     List<QuestionDto> questionListToQuestionListDto(List<Question> questionList);
 
     List<Question> questionListDtoToQuestionList(List<QuestionDto> questionListDto);
