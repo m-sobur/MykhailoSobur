@@ -28,7 +28,7 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     @Transactional
-    public Question getQuestionByID(Long id) throws NoSuchElementException {
+    public Question getQuestionById(Long id) throws NoSuchElementException {
         log.info("SERVICE LAYER: getQuestionByID method entry " + id);
 
         Question question = questionRepository

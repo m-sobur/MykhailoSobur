@@ -33,7 +33,7 @@ public class QuestionController {
     @ApiOperation("Get question by id")
     public QuestionModel getQuestionByID(@PathVariable Long id) {
         log.info("CONTROLLER LAYER: getQuestionByID method entry id");
-        QuestionDto result = questionMapper.questionToQuestionDto(questionService.getQuestionByID(id));
+        QuestionDto result = questionMapper.questionToQuestionDto(questionService.getQuestionById(id));
         log.info("CONTROLLER LAYER: getQuestionByID method exit " + result);
         return questionAssembler.toModel(result);
     }
@@ -70,7 +70,7 @@ public class QuestionController {
     public List<QuestionModel> getAllQuestionsByParentQuizId(@PathVariable Long parentQuizId) {
         log.info("CONTROLLER LAYER: getAllQuestionsByParentQuizId method entry ");
         List<QuestionDto> result = questionMapper.questionListToQuestionListDto(questionService.getAllQuestionsByParentQuizId(parentQuizId));
-        List<QuestionModel> list = new ArrayList(result.size());
+        List<QuestionModel> list = new ArrayList<>(result.size());
 
         for (QuestionDto questionDto : result) {
             list.add(questionAssembler.toModel(questionDto));

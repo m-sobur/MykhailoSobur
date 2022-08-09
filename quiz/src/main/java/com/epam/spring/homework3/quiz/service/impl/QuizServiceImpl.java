@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -59,32 +60,54 @@ public class QuizServiceImpl implements QuizService {
     public Quiz createQuiz(QuizDto quizDto) throws ElementAlreadyExistException {
         log.info("SERVICE LAYER: createQuiz method entry " + quizDto);
         Quiz quiz = quizMapper.quizDtoToQuiz(quizDto);
-        quizRepository.save(quiz);
+
+        if (!quizRepository.existsByTitle(quizDto.getTitle())) {
+            quiz.setCreationDate(new Date());
+            quizRepository.save(quiz);
+        } else {
+            throw new ElementAlreadyExistException("Quiz with " + quizDto.getTitle() + " already exist in DB ");
+        }
+
         log.info("SERVICE LAYER: createQuiz method exit " + quiz);
         return quiz;
     }
 
-//    @Override
-//    public Quiz updateQuizByTitle(String title, QuizDto quizDto) throws NoSuchElementException {
-//        Quiz quiz = quizMapper.quizDtoToQuiz(quizDto);
-//        quiz = quizRepository.updateQuizByTitle(title, quiz);
-//        log.info("SERVICE LAYER: updateQuizByTitle method " + title);
-//        return quiz;
-//    }
+    @Override
+    public Quiz updateQuizByTitle(String title, QuizDto quizDto) throws NoSuchElementException {
+        Quiz quiz = quizMapper.quizDtoToQuiz(quizDto);
+
+        Quiz quizToUpdate = quizRepository
+                .findQuizByTitle(title)
+                .orElseThrow(() -> new NoSuchElementException("Quiz with " + title + " not found in the 'PostgresDB' while executing updateQuizByTitle"));
+
+        quizToUpdate.setTitle(quiz.getTitle());
+        quizToUpdate.setQuizType(quiz.getQuizType());
+        quizRepository.save(quizToUpdate);
+
+        log.info("SERVICE LAYER: updateQuizByTitle method " + title);
+        return quiz;
+    }
 
     @Override
     @Transactional
     public void deleteQuizByTitle(String title) throws NoSuchElementException {
         log.info("SERVICE LAYER: deleteQuizByTitle entry " + title);
-        quizRepository.deleteByTitle(title);
+
+        if (quizRepository.existsByTitle(title)) {
+            quizRepository.deleteByTitle(title);
+        } else {
+            throw new NoSuchElementException("Quiz with " + title + " not found in DB ");
+        }
+
         log.info("SERVICE LAYER: deleteQuizByTitle exit " + title);
     }
 
     @Override
     @Transactional
-    public List<Quiz> getAllQuizesByCreatorId(Long creatorId){
-        List<Quiz> quizList = quizRepository.findAll();
-        log.info("SERVICE LAYER: getAllQuizesByCreatorId " + creatorId);
+    public List<Quiz> getAllQuizByCreatorId(Long creatorId) {
+        log.info("SERVICE LAYER: getAllQuizesByCreatorId entry " + creatorId);
+        List<Quiz> quizList = quizRepository.findQuizByCreatorId(creatorId);
+        log.info("SERVICE LAYER: getAllQuizesByCreatorId exit " + quizList);
         return quizList;
     }
 }

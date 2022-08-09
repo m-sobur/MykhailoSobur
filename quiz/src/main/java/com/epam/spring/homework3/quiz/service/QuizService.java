@@ -12,9 +12,9 @@ public interface QuizService {
 
     Quiz createQuiz(QuizDto quizDto);
 
-//    Quiz updateQuizByTitle(String title, QuizDto quizDto);
+    Quiz updateQuizByTitle(String title, QuizDto quizDto);
 
     void deleteQuizByTitle(String title);
 
-    List<Quiz> getAllQuizesByCreatorId(Long creatorId);
+    List<Quiz> getAllQuizByCreatorId(Long creatorId);
 }

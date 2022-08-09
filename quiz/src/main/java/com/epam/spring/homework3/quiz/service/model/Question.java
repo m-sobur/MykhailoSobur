@@ -2,8 +2,6 @@ package com.epam.spring.homework3.quiz.service.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -16,31 +14,24 @@ import java.util.List;
 @AllArgsConstructor
 @Table(name = "question")
 public class Question {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "question_title")
+    @Column(name = "question_title", nullable = false)
     private String questionTitle;
 
     @Enumerated(EnumType.STRING)
     private QuestionType questionType;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "quiz_id")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "quiz_id", foreignKey = @ForeignKey(name = "question_quiz_fk"))
     @JsonIgnore
     private Quiz quiz;
 
-    @Fetch(FetchMode.SELECT)
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "question", cascade = CascadeType.ALL)
     @ToString.Exclude
     @JsonIgnore
     private List<AnswerVariant> answerVariantList = new ArrayList<>();
-
-    public static class QuestionBuilder {
-        @Override
-        public String toString() {
-            return "";
-        }
-    }
 }

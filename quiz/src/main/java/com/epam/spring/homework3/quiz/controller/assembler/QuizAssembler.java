@@ -3,6 +3,7 @@ package com.epam.spring.homework3.quiz.controller.assembler;
 import com.epam.spring.homework3.quiz.controller.QuizController;
 import com.epam.spring.homework3.quiz.controller.assembler.model.QuizModel;
 import com.epam.spring.homework3.quiz.controller.dto.QuizDto;
+import lombok.NonNull;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
@@ -23,17 +24,18 @@ public class QuizAssembler extends RepresentationModelAssemblerSupport<QuizDto, 
     }
 
     @Override
-    public QuizModel toModel(QuizDto entity) {
+    @NonNull
+    public QuizModel toModel(@NonNull QuizDto entity) {
         QuizModel quizModel = new QuizModel(entity);
 
         Link get = linkTo(methodOn(QuizController.class).getQuizByTitle(entity.getTitle())).withRel(GET_REL);
         Link create = linkTo(methodOn(QuizController.class).createQuiz(entity)).withRel(CREATE_REL);
-//        Link update = linkTo(methodOn(QuizController.class).updateQuizByTitle(entity.getTitle(), entity)).withRel(UPDATE_REL);
+        Link update = linkTo(methodOn(QuizController.class).updateQuizByTitle(entity.getTitle(), entity)).withRel(UPDATE_REL);
         Link delete = linkTo(methodOn(QuizController.class).deleteQuizByTitle(entity.getTitle())).withRel(DELETE_REL);
         Link getAll = linkTo(methodOn(QuizController.class).getAllQuizesByCreatorId(entity.getCreatorId())).withRel(GET_ALL_REL);
 
-//        update
-        quizModel.add(get, create,  delete, getAll);
+
+        quizModel.add(get, create, update, delete, getAll);
 
         return quizModel;
     }

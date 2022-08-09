@@ -1,7 +1,6 @@
 package com.epam.spring.homework3.quiz.controller.dto;
 
 import com.epam.spring.homework3.quiz.controller.dto.group.OnCreate;
-import com.epam.spring.homework3.quiz.service.model.Question;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;

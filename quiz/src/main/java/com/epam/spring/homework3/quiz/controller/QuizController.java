@@ -32,19 +32,19 @@ public class QuizController {
     @GetMapping(value = "/get/{title}")
     @ApiOperation("Get quiz by title")
     public QuizModel getQuizByTitle(@PathVariable String title) {
-        log.info("CONTROLLER LAYER: getQuizByTitle method entry");
+        log.info("CONTROLLER LAYER: getQuizByTitle method entry ");
         QuizDto result = quizMapper.quizToQuizDto(quizService.getQuizByTitle(title));
         log.info("CONTROLLER LAYER: getQuizByTitle method exit ");
         return quizAssembler.toModel(result);
     }
 
-//    @PutMapping(value = "/update/{title}")
-//    @ApiOperation("Update quiz by title")
-//    public QuizModel updateQuizByTitle(@PathVariable String title, @RequestBody @Validated(OnUpdate.class) QuizDto quizDto) {
-//        QuizDto result = quizMapper.quizToQuizDto(quizService.updateQuizByTitle(title, quizDto));
-//        log.info("CONTROLLER LAYER: updateQuizByTitle method ");
-//        return quizAssembler.toModel(result);
-//    }
+    @PutMapping(value = "/update/{title}")
+    @ApiOperation("Update quiz by title")
+    public QuizModel updateQuizByTitle(@PathVariable String title, @RequestBody @Validated(OnUpdate.class) QuizDto quizDto) {
+        QuizDto result = quizMapper.quizToQuizDto(quizService.updateQuizByTitle(title, quizDto));
+        log.info("CONTROLLER LAYER: updateQuizByTitle method ");
+        return quizAssembler.toModel(result);
+    }
 
     @PostMapping
     @ApiOperation("Create quiz")
@@ -68,8 +68,8 @@ public class QuizController {
     @ApiOperation("Get all quiz's by creator id")
     public List<QuizModel> getAllQuizesByCreatorId(@PathVariable Long creator) {
         log.info("CONTROLLER LAYER: getAllQuizesByCreatorId method entry ");
-        List<QuizDto> result = quizMapper.quizsToQuizsDto(quizService.getAllQuizesByCreatorId(creator));
-        List<QuizModel> list = new ArrayList(result.size());
+        List<QuizDto> result = quizMapper.quizsToQuizsDto(quizService.getAllQuizByCreatorId(creator));
+        List<QuizModel> list = new ArrayList<>(result.size());
 
         for (QuizDto quizDto : result) {
             list.add(quizAssembler.toModel(quizDto));

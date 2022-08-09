@@ -2,8 +2,6 @@ package com.epam.spring.homework3.quiz.service.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 
@@ -19,25 +17,19 @@ public class AnswerVariant {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "variant_title")
+    @Column(name = "variant_title", nullable = false)
     private String variantTitle;
 
     @Transient
     private Boolean userChecked;
 
     @ManyToOne(optional = false)
+    @JoinColumn(name = "question_id", foreignKey = @ForeignKey(name = "answer_variant_question_fk"))
     @ToString.Exclude
     @JsonIgnore
     private Question question;
 
-    @Column(name = "value")
+    @Column(name = "value", nullable = false)
     private Boolean value;
-
-    public static class AnswerVariantBuilder {
-        @Override
-        public String toString() {
-            return "";
-        }
-    }
 }
 

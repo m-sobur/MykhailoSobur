@@ -3,6 +3,7 @@ package com.epam.spring.homework3.quiz.controller.assembler;
 import com.epam.spring.homework3.quiz.controller.QuestionController;
 import com.epam.spring.homework3.quiz.controller.assembler.model.QuestionModel;
 import com.epam.spring.homework3.quiz.controller.dto.QuestionDto;
+import lombok.NonNull;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
@@ -23,7 +24,8 @@ public class QuestionAssembler extends RepresentationModelAssemblerSupport<Quest
     }
 
     @Override
-    public QuestionModel toModel(QuestionDto entity) {
+    @NonNull
+    public QuestionModel toModel(@NonNull QuestionDto entity) {
         QuestionModel questionModel = new QuestionModel(entity);
 
         Link get = linkTo(methodOn(QuestionController.class).getQuestionByID(entity.getId())).withRel(GET_REL);
