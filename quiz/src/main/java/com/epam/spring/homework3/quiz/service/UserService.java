@@ -3,6 +3,8 @@ package com.epam.spring.homework3.quiz.service;
 import com.epam.spring.homework3.quiz.controller.dto.UserDto;
 import com.epam.spring.homework3.quiz.service.model.User;
 
+import java.util.List;
+
 public interface UserService {
     User getUserByEmail(String email);
 
@@ -11,4 +13,6 @@ public interface UserService {
     User updateUserByEmail(String email, UserDto userDto);
 
     void deleteUserByEmail(String email);
+
+    List<String> getAllUserFirstNameAndLastName();
 }

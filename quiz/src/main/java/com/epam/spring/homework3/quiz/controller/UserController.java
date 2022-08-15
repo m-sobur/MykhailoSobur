@@ -18,6 +18,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Slf4j
 @RestController
 @RequestMapping("/user")
@@ -63,9 +65,18 @@ public class UserController {
     @ApiOperation("Delete user by email")
     @DeleteMapping(value = "/delete/{email}")
     public ResponseEntity<String> deleteUserByEmail(@PathVariable String email) {
-        log.info("CONTROLLER LAYER: deleteUserByEmail method entry");
+        log.info("CONTROLLER LAYER: deleteUserByEmail method entry ");
         userService.deleteUserByEmail(email);
-        log.info("CONTROLLER LAYER: deleteUserByEmail method exit");
+        log.info("CONTROLLER LAYER: deleteUserByEmail method exit ");
         return ResponseEntity.status(HttpStatus.OK).body("User with email '" + email + "' deleted successfully");
+    }
+
+
+    @GetMapping(value = "/getAllUserFirstNameAndLastName")
+    public List<String> getAllUserFirstNameAndLastName() {
+        log.info("CONTROLLER LAYER: getAllUserFirstNameAndLastName method entry ");
+        List<String> result = userService.getAllUserFirstNameAndLastName();
+        log.info("CONTROLLER LAYER: getAllUserFirstNameAndLastName method exit ");
+        return result;
     }
 }

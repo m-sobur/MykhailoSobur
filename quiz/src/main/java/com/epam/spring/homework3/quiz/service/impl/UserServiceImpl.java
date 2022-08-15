@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 @Slf4j
@@ -30,6 +31,14 @@ public class UserServiceImpl implements UserService {
 
         log.info("SERVICE LAYER: getUserByEmail sucsses " + email);
             return user;
+    }
+
+    @Override
+    public List<String> getAllUserFirstNameAndLastName() {
+        log.info("SERVICE LAYER: getAllUserFirstNameAndLastName entry ");
+        List<String> result = userRepository.getAllUserFirstNameAndLastName();
+        log.info("SERVICE LAYER: getAllUserFirstNameAndLastName exit ");
+        return result;
     }
 
     @Override
