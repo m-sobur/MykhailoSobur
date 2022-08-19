@@ -4,6 +4,7 @@ import com.epam.spring.homework3.quiz.controller.QuestionController;
 import com.epam.spring.homework3.quiz.controller.assembler.model.QuestionModel;
 import com.epam.spring.homework3.quiz.controller.dto.QuestionDto;
 import lombok.NonNull;
+import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
@@ -32,7 +33,7 @@ public class QuestionAssembler extends RepresentationModelAssemblerSupport<Quest
         Link create = linkTo(methodOn(QuestionController.class).createQuestion(entity)).withRel(CREATE_REL);
         Link update = linkTo(methodOn(QuestionController.class).updateQuestionById(entity.getId(), entity)).withRel(UPDATE_REL);
         Link delete = linkTo(methodOn(QuestionController.class).deleteQuestionById(entity.getId())).withRel(DELETE_REL);
-        Link getAll = linkTo(methodOn(QuestionController.class).getAllQuestionsByParentQuizId(entity.getQuizId())).withRel(GET_ALL_REL);
+        Link getAll = linkTo(methodOn(QuestionController.class).getAllQuestionsByParentQuizId(entity.getQuizId(), Pageable.unpaged())).withRel(GET_ALL_REL);
 
 
         questionModel.add(get, create, update, delete, getAll);

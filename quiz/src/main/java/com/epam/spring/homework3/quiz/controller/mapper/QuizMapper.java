@@ -4,6 +4,7 @@ import com.epam.spring.homework3.quiz.controller.dto.QuizDto;
 import com.epam.spring.homework3.quiz.service.model.Quiz;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -18,4 +19,5 @@ public interface QuizMapper {
 
     @Mapping(source = "quiz.questionList", target = "questionList")
     List<QuizDto> quizsToQuizsDto(List<Quiz> orders);
+
 }

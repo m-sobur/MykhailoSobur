@@ -36,4 +36,5 @@ public class User {
 
     @Column(name = "phone_number", unique = true)
     private String phoneNumber;
+
 }

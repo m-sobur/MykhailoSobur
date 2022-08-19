@@ -8,6 +8,8 @@ import com.epam.spring.homework3.quiz.service.model.User;
 import com.epam.spring.homework3.quiz.service.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,14 +32,26 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new NoSuchElementException("User not found in the 'PostgresDB' while executing getUserByEmail"));
 
         log.info("SERVICE LAYER: getUserByEmail sucsses " + email);
-            return user;
+        return user;
     }
 
     @Override
     public List<String> getAllUserFirstNameAndLastName() {
         log.info("SERVICE LAYER: getAllUserFirstNameAndLastName entry ");
+
         List<String> result = userRepository.getAllUserFirstNameAndLastName();
+
         log.info("SERVICE LAYER: getAllUserFirstNameAndLastName exit ");
+        return result;
+    }
+
+    @Override
+    public Slice<User> getAllUser(Pageable pageable) {
+        log.info("SERVICE LAYER: createUser method with email entry ");
+
+        Slice<User> result = userRepository.findAll(pageable);
+
+        log.info("SERVICE LAYER: createUser method with email exit ");
         return result;
     }
 

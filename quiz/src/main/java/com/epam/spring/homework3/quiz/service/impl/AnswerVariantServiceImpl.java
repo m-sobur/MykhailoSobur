@@ -41,6 +41,7 @@ public class AnswerVariantServiceImpl implements AnswerVariantService {
     @Transactional
     public AnswerVariant createAnswerVariant(AnswerVariantDto answerVariantDto) throws ElementAlreadyExistException {
         log.info("SERVICE LAYER: createAnswerVariant method entry ");
+
         AnswerVariant answerVariant = answerVariantMapper.answerVariantDtoToAnswerVariant(answerVariantDto);
         Long questionId = answerVariantDto.getQuestionId();
 
@@ -49,6 +50,7 @@ public class AnswerVariantServiceImpl implements AnswerVariantService {
 
         answerVariant.setQuestion(question);
         answerVariantRepository.save(answerVariant);
+
         log.info("SERVICE LAYER: createAnswerVariant method exit" + answerVariant);
         return answerVariant;
     }
@@ -57,7 +59,9 @@ public class AnswerVariantServiceImpl implements AnswerVariantService {
     @Transactional
     public void deleteAnswerVariantById(Long id) throws NoSuchElementException {
         log.info("SERVICE LAYER: deleteAnswerVariantById entry" + id);
+
         answerVariantRepository.deleteById(id);
+
         log.info("SERVICE LAYER: deleteAnswerVariantById exit" + id);
     }
 
@@ -71,6 +75,7 @@ public class AnswerVariantServiceImpl implements AnswerVariantService {
                 .orElseThrow(() -> new NoSuchElementException("question with " + questionId + "doesn't exsist at DB"));
 
         List<AnswerVariant> answerVariantList = answerVariantRepository.findAnswerVariantByQuestion(question);
+
         log.info("SERVICE LAYER: getAllAnswerVariantByParentQuestionId exit " + answerVariantList);
         return answerVariantList;
     }

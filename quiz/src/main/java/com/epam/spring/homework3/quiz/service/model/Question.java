@@ -35,8 +35,4 @@ public class Question {
     @JsonIgnore
     private List<AnswerVariant> answerVariantList = new ArrayList<>();
 
-    public void addAnswerVariant(AnswerVariant answerVariant){
-        answerVariant.setQuestion(this);
-        answerVariantList.add(answerVariant);
-    }
 }

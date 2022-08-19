@@ -10,6 +10,8 @@ import com.epam.spring.homework3.quiz.service.model.Quiz;
 import com.epam.spring.homework3.quiz.service.repository.QuizRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,7 +36,7 @@ public class QuizServiceImpl implements QuizService {
                 .findQuizByTitle(title)
                 .orElseThrow(() -> new NoSuchElementException("Quiz with " + title + " - title not found at DB"));
 
-        List<Question> questionList = questionService.getAllQuestionsByParentQuizId(quiz.getId());
+        List<Question> questionList = questionService.getAllQuestionsByParentQuizId(quiz.getId(), Pageable.unpaged());
         quiz.setQuestionList(questionList);
         log.info("SERVICE LAYER: getQuizByTitle method exit " + quiz);
         return quiz;
@@ -49,8 +51,9 @@ public class QuizServiceImpl implements QuizService {
                 .findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Quiz with " + id + " - id not found at DB"));
 
-        List<Question> questionList = questionService.getAllQuestionsByParentQuizId(quiz.getId());
+        List<Question> questionList = questionService.getAllQuestionsByParentQuizId(quiz.getId(),Pageable.unpaged());
         quiz.setQuestionList(questionList);
+
         log.info("SERVICE LAYER: getQuizById method exit " + quiz);
         return quiz;
     }
@@ -59,6 +62,7 @@ public class QuizServiceImpl implements QuizService {
     @Transactional
     public Quiz createQuiz(QuizDto quizDto) throws ElementAlreadyExistException {
         log.info("SERVICE LAYER: createQuiz method entry " + quizDto);
+
         Quiz quiz = quizMapper.quizDtoToQuiz(quizDto);
 
         if (!quizRepository.existsByTitle(quizDto.getTitle())) {
@@ -74,6 +78,8 @@ public class QuizServiceImpl implements QuizService {
 
     @Override
     public Quiz updateQuizByTitle(String title, QuizDto quizDto) throws NoSuchElementException {
+        log.info("SERVICE LAYER: updateQuizByTitle method entry " + title);
+
         Quiz quiz = quizMapper.quizDtoToQuiz(quizDto);
 
         Quiz quizToUpdate = quizRepository
@@ -84,7 +90,7 @@ public class QuizServiceImpl implements QuizService {
         quizToUpdate.setQuizType(quiz.getQuizType());
         quizRepository.save(quizToUpdate);
 
-        log.info("SERVICE LAYER: updateQuizByTitle method " + title);
+        log.info("SERVICE LAYER: updateQuizByTitle method exit " + title);
         return quiz;
     }
 
@@ -104,9 +110,11 @@ public class QuizServiceImpl implements QuizService {
 
     @Override
     @Transactional
-    public List<Quiz> getAllQuizByCreatorId(Long creatorId) {
+    public List<Quiz> getAllQuizByCreatorId(Long creatorId, Pageable pageable) {
         log.info("SERVICE LAYER: getAllQuizesByCreatorId entry " + creatorId);
-        List<Quiz> quizList = quizRepository.findQuizByCreatorId(creatorId);
+
+        List<Quiz> quizList = quizRepository.findQuizByCreatorId(creatorId, pageable);
+
         log.info("SERVICE LAYER: getAllQuizesByCreatorId exit " + quizList);
         return quizList;
     }

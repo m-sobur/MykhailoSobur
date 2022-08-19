@@ -31,5 +31,6 @@ public class AnswerVariant {
 
     @Column(name = "value", nullable = false)
     private Boolean value;
+
 }
 

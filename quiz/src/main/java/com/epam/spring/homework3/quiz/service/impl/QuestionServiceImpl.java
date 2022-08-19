@@ -11,6 +11,7 @@ import com.epam.spring.homework3.quiz.service.repository.QuestionRepository;
 import com.epam.spring.homework3.quiz.service.repository.QuizRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,6 +37,7 @@ public class QuestionServiceImpl implements QuestionService {
                 .orElseThrow(() -> new NoSuchElementException("Question with " + id + " - id not found at DB"));
 
         question.setAnswerVariantList(answerVariantService.getAllAnswerVariantByQuestionId(id));
+
         log.info("SERVICE LAYER: getQuestionByID method exit " + question);
         return question;
     }
@@ -44,6 +46,7 @@ public class QuestionServiceImpl implements QuestionService {
     @Transactional
     public Question createQuestion(QuestionDto questionDto) throws ElementAlreadyExistException {
         log.info("SERVICE LAYER: createQuestion method entry " + questionDto);
+
         Question question = questionMapper.questionDtoToQuestion(questionDto);
         Long quizId = questionDto.getQuizId();
 
@@ -53,6 +56,7 @@ public class QuestionServiceImpl implements QuestionService {
 
         question.setQuiz(quiz);
         questionRepository.save(question);
+
         log.info("SERVICE LAYER: createQuestion method exit " + question);
         return question;
     }
@@ -80,21 +84,24 @@ public class QuestionServiceImpl implements QuestionService {
     @Transactional
     public void deleteQuestionById(Long id) throws NoSuchElementException {
         log.info("SERVICE LAYER: deleteQuestionById entry " + id);
+
         questionRepository.deleteById(id);
+
         log.info("SERVICE LAYER: deleteQuestionById exit " + id);
     }
 
     @Override
     @Transactional
-    public List<Question> getAllQuestionsByParentQuizId(Long quizId) {
+    public List<Question> getAllQuestionsByParentQuizId(Long quizId, Pageable pageable) {
         log.info("SERVICE LAYER: getAllQuestionsByParentQuizId entry " + quizId);
 
-        Quiz quiz = quizRepository
-                .findById(quizId)
-                .orElseThrow(() -> new NoSuchElementException("quiz with " + quizId + "doesn't exsist at DB"));
+        if (quizRepository.existsById(quizId)) {
+            List<Question> questionList = questionRepository.findQuestionByQuizId(quizId, pageable);
 
-        List<Question> questionList = questionRepository.findQuestionByQuiz(quiz);
-        log.info("SERVICE LAYER: getAllQuestionsByParentQuizId exit " + quizId);
-        return questionList;
+            log.info("SERVICE LAYER: getAllQuestionsByParentQuizId exit " + quizId);
+            return questionList;
+        } else {
+            throw new NoSuchElementException("quiz with " + quizId + "doesn't exsist at DB");
+        }
     }
 }

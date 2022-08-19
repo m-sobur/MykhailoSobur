@@ -36,4 +36,5 @@ public class Quiz {
     @JsonIgnore
     @ToString.Exclude
     private List<Question> questionList = new ArrayList<>();
+
 }

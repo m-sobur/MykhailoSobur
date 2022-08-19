@@ -13,6 +13,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -38,7 +39,9 @@ public class UserController {
     @GetMapping(value = "/get/{email}")
     public UserModel getUserByEmail(@PathVariable String email) {
         log.info("CONTROLLER LAYER: getUserByEmail method entry");
+
         UserDto result = userMapper.userToUserDto(userService.getUserByEmail(email));
+
         log.info("CONTROLLER LAYER: getUserByEmail method exit");
         return userAssembler.toModel(result);
     }
@@ -48,7 +51,9 @@ public class UserController {
     @ResponseStatus(code = HttpStatus.CREATED)
     public UserModel createUser(@RequestBody @Validated(OnCreate.class) UserDto userDto) {
         log.info("CONTROLLER LAYER: createUser method entry");
+
         UserDto result = userMapper.userToUserDto(userService.createUser(userDto));
+
         log.info("CONTROLLER LAYER: createUser method exit");
         return userAssembler.toModel(result);
     }
@@ -57,7 +62,9 @@ public class UserController {
     @PutMapping(value = "/update/{email}")
     public UserModel updateUserByEmail(@PathVariable String email, @RequestBody @Validated(OnUpdate.class) UserDto userDto) {
         log.info("CONTROLLER LAYER: updateUserByEmail method entry");
+
         UserDto result = userMapper.userToUserDto(userService.updateUserByEmail(email, userDto));
+
         log.info("CONTROLLER LAYER: updateUserByEmail method exit");
         return userAssembler.toModel(result);
     }
@@ -66,7 +73,9 @@ public class UserController {
     @DeleteMapping(value = "/delete/{email}")
     public ResponseEntity<String> deleteUserByEmail(@PathVariable String email) {
         log.info("CONTROLLER LAYER: deleteUserByEmail method entry ");
+
         userService.deleteUserByEmail(email);
+
         log.info("CONTROLLER LAYER: deleteUserByEmail method exit ");
         return ResponseEntity.status(HttpStatus.OK).body("User with email '" + email + "' deleted successfully");
     }
@@ -75,8 +84,20 @@ public class UserController {
     @GetMapping(value = "/getAllUserFirstNameAndLastName")
     public List<String> getAllUserFirstNameAndLastName() {
         log.info("CONTROLLER LAYER: getAllUserFirstNameAndLastName method entry ");
+
         List<String> result = userService.getAllUserFirstNameAndLastName();
+
         log.info("CONTROLLER LAYER: getAllUserFirstNameAndLastName method exit ");
+        return result;
+    }
+
+    @GetMapping(value = "/getAllUser")
+    public List<UserDto> getAllUser(Pageable pageable) {
+        log.info("CONTROLLER LAYER: getAllUser method entry ");
+
+        List<UserDto> result = userMapper.userListToUserListDto(userService.getAllUser(pageable).getContent());
+
+        log.info("CONTROLLER LAYER: getAllUser method exit ");
         return result;
     }
 }

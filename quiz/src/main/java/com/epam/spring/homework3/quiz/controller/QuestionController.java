@@ -11,6 +11,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -33,7 +34,9 @@ public class QuestionController {
     @ApiOperation("Get question by id")
     public QuestionModel getQuestionByID(@PathVariable Long id) {
         log.info("CONTROLLER LAYER: getQuestionByID method entry id");
+
         QuestionDto result = questionMapper.questionToQuestionDto(questionService.getQuestionById(id));
+
         log.info("CONTROLLER LAYER: getQuestionByID method exit " + result);
         return questionAssembler.toModel(result);
     }
@@ -42,7 +45,9 @@ public class QuestionController {
     @ApiOperation("Update question by id")
     public QuestionModel updateQuestionById(@PathVariable Long id, @RequestBody @Validated(OnUpdate.class) QuestionDto questionDto) {
         log.info("CONTROLLER LAYER: updateQuestionById method entry id:" + id + "need update: " + questionDto);
+
         QuestionDto result = questionMapper.questionToQuestionDto(questionService.updateQuestionById(id, questionDto));
+
         log.info("CONTROLLER LAYER: updateQuestionById method exit " + result);
         return questionAssembler.toModel(result);
     }
@@ -51,7 +56,9 @@ public class QuestionController {
     @ApiOperation("Create question")
     public QuestionModel createQuestion(@RequestBody @Validated(OnCreate.class) QuestionDto questionDto) {
         log.info("CONTROLLER LAYER: createQuestion method entry " + questionDto);
+
         QuestionDto result = questionMapper.questionToQuestionDto(questionService.createQuestion(questionDto));
+
         log.info("CONTROLLER LAYER: createQuestion method exit " + result);
         return questionAssembler.toModel(result);
     }
@@ -60,16 +67,19 @@ public class QuestionController {
     @ApiOperation("Delete question by id")
     public ResponseEntity<String> deleteQuestionById(@PathVariable Long id) {
         log.info("CONTROLLER LAYER: deleteQuizByTitle method entry ");
+
         questionService.deleteQuestionById(id);
+
         log.info("CONTROLLER LAYER: deleteQuizByTitle method exit ");
         return ResponseEntity.status(HttpStatus.OK).body("Question with title '" + id + "' deleted successfully");
     }
 
     @GetMapping(value = "/getAllQuestionsByParentQuizId/{parentQuizId}")
     @ApiOperation("Get all question by parent id")
-    public List<QuestionModel> getAllQuestionsByParentQuizId(@PathVariable Long parentQuizId) {
+    public List<QuestionModel> getAllQuestionsByParentQuizId(@PathVariable Long parentQuizId, Pageable pageable) {
         log.info("CONTROLLER LAYER: getAllQuestionsByParentQuizId method entry ");
-        List<QuestionDto> result = questionMapper.questionListToQuestionListDto(questionService.getAllQuestionsByParentQuizId(parentQuizId));
+
+        List<QuestionDto> result = questionMapper.questionListToQuestionListDto(questionService.getAllQuestionsByParentQuizId(parentQuizId, pageable));
         List<QuestionModel> list = new ArrayList<>(result.size());
 
         for (QuestionDto questionDto : result) {

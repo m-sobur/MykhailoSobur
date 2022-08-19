@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, Long> {
+    
     Optional<User> findByEmail(String email);
 
     boolean existsByEmail(String email);
@@ -17,4 +18,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query(value = "SELECT first_name || ' ' || last_name FROM users",
             nativeQuery = true)
     List<String> getAllUserFirstNameAndLastName();
+
 }
