@@ -22,13 +22,13 @@ import java.util.NoSuchElementException;
 @Slf4j
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class QuizServiceImpl implements QuizService {
     private final QuizMapper quizMapper;
     private final QuizRepository quizRepository;
     private final QuestionService questionService;
 
     @Override
-    @Transactional
     public Quiz getQuizByTitle(String title) throws NoSuchElementException {
         log.info("SERVICE LAYER: getQuizByTitle method entry " + title);
 
@@ -43,7 +43,6 @@ public class QuizServiceImpl implements QuizService {
     }
 
     @Override
-    @Transactional
     public Quiz getQuizById(Long id) throws NoSuchElementException {
         log.info("SERVICE LAYER: getQuizById method entry " + id);
 
@@ -77,6 +76,7 @@ public class QuizServiceImpl implements QuizService {
     }
 
     @Override
+    @Transactional
     public Quiz updateQuizByTitle(String title, QuizDto quizDto) throws NoSuchElementException {
         log.info("SERVICE LAYER: updateQuizByTitle method entry " + title);
 
@@ -88,7 +88,6 @@ public class QuizServiceImpl implements QuizService {
 
         quizToUpdate.setTitle(quiz.getTitle());
         quizToUpdate.setQuizType(quiz.getQuizType());
-        quizRepository.save(quizToUpdate);
 
         log.info("SERVICE LAYER: updateQuizByTitle method exit " + title);
         return quiz;
@@ -109,7 +108,6 @@ public class QuizServiceImpl implements QuizService {
     }
 
     @Override
-    @Transactional
     public List<Quiz> getAllQuizByCreatorId(Long creatorId, Pageable pageable) {
         log.info("SERVICE LAYER: getAllQuizesByCreatorId entry " + creatorId);
 

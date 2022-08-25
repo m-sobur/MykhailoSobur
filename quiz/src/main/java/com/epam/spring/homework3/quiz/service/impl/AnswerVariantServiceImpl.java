@@ -19,13 +19,13 @@ import java.util.NoSuchElementException;
 @Slf4j
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class AnswerVariantServiceImpl implements AnswerVariantService {
     private final AnswerVariantMapper answerVariantMapper;
     private final AnswerVariantRepository answerVariantRepository;
     private final QuestionRepository questionRepository;
 
     @Override
-    @Transactional
     public AnswerVariant getAnswerVariantById(Long id) throws NoSuchElementException {
         log.info("SERVICE LAYER: getAnswerVariantById method entry " + id);
 
@@ -66,7 +66,6 @@ public class AnswerVariantServiceImpl implements AnswerVariantService {
     }
 
     @Override
-    @Transactional
     public List<AnswerVariant> getAllAnswerVariantByQuestionId(Long questionId) {
         log.info("SERVICE LAYER: getAllAnswerVariantByParentQuestionId entry ");
 

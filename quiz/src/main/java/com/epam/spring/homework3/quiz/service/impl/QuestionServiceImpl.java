@@ -21,6 +21,7 @@ import java.util.NoSuchElementException;
 @Slf4j
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class QuestionServiceImpl implements QuestionService {
     private final QuestionMapper questionMapper;
     private final QuestionRepository questionRepository;
@@ -28,7 +29,6 @@ public class QuestionServiceImpl implements QuestionService {
     private final QuizRepository quizRepository;
 
     @Override
-    @Transactional
     public Question getQuestionById(Long id) throws NoSuchElementException {
         log.info("SERVICE LAYER: getQuestionByID method entry " + id);
 
@@ -74,8 +74,6 @@ public class QuestionServiceImpl implements QuestionService {
         questionToUpdate.setQuestionTitle(question.getQuestionTitle());
         questionToUpdate.setQuestionType(question.getQuestionType());
 
-        questionRepository.save(questionToUpdate);
-
         log.info("SERVICE LAYER: updateQuestionById method exit " + question);
         return question;
     }
@@ -91,7 +89,6 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    @Transactional
     public List<Question> getAllQuestionsByParentQuizId(Long quizId, Pageable pageable) {
         log.info("SERVICE LAYER: getAllQuestionsByParentQuizId entry " + quizId);
 

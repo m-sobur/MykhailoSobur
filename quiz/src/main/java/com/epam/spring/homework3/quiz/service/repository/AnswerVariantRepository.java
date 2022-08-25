@@ -10,6 +10,7 @@ import java.util.List;
 
 @Repository
 public interface AnswerVariantRepository extends JpaRepository<AnswerVariant, Long> {
+
     boolean existsById(@NonNull Long id);
 
     List<AnswerVariant> findAnswerVariantByQuestion(Question question);

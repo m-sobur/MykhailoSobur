@@ -37,4 +37,11 @@ public class Quiz {
     @ToString.Exclude
     private List<Question> questionList = new ArrayList<>();
 
+    public Quiz(Long id, String title, Date creationDate, Long creatorId, String quizType) {
+        this.id = id;
+        this.title = title;
+        this.creationDate = creationDate;
+        this.creatorId = creatorId;
+        this.quizType = quizType;
+    }
 }

@@ -19,6 +19,7 @@ import java.util.NoSuchElementException;
 @Slf4j
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
@@ -83,8 +84,6 @@ public class UserServiceImpl implements UserService {
 
         userToUpdate.setFirstName(user.getFirstName());
         userToUpdate.setLastName(user.getLastName());
-
-        userRepository.save(userToUpdate);
 
         log.info("SERVICE LAYER: User updated exit" + userToUpdate);
         return userToUpdate;
