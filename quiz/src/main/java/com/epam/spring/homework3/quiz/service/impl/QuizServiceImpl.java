@@ -10,7 +10,6 @@ import com.epam.spring.homework3.quiz.service.model.Quiz;
 import com.epam.spring.homework3.quiz.service.repository.QuizRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -50,7 +49,7 @@ public class QuizServiceImpl implements QuizService {
                 .findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Quiz with " + id + " - id not found at DB"));
 
-        List<Question> questionList = questionService.getAllQuestionsByParentQuizId(quiz.getId(),Pageable.unpaged());
+        List<Question> questionList = questionService.getAllQuestionsByParentQuizId(quiz.getId(), Pageable.unpaged());
         quiz.setQuestionList(questionList);
 
         log.info("SERVICE LAYER: getQuizById method exit " + quiz);
