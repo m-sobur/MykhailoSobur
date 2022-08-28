@@ -35,7 +35,6 @@ public class QuestionAssembler extends RepresentationModelAssemblerSupport<Quest
         Link delete = linkTo(methodOn(QuestionController.class).deleteQuestionById(entity.getId())).withRel(DELETE_REL);
         Link getAll = linkTo(methodOn(QuestionController.class).getAllQuestionsByParentQuizId(entity.getQuizId(), Pageable.unpaged())).withRel(GET_ALL_REL);
 
-
         questionModel.add(get, create, update, delete, getAll);
 
         return questionModel;

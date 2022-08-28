@@ -18,5 +18,4 @@ public interface QuizMapper {
 
     @Mapping(source = "quiz.questionList", target = "questionList")
     List<QuizDto> quizsToQuizsDto(List<Quiz> orders);
-
 }

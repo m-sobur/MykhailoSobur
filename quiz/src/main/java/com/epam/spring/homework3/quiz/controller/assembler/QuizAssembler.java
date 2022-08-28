@@ -36,7 +36,6 @@ public class QuizAssembler extends RepresentationModelAssemblerSupport<QuizDto, 
         Link delete = linkTo(methodOn(QuizController.class).deleteQuizByTitle(entity.getTitle())).withRel(DELETE_REL);
         Link getAllById = linkTo(methodOn(QuizController.class).getAllQuizesByCreatorId(entity.getCreatorId(), Pageable.unpaged())).withRel(GET_ALL_BY_ID_REL);
 
-
         quizModel.add(get, create, update, delete, getAllById);
 
         return quizModel;
