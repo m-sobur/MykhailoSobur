@@ -14,7 +14,7 @@
     <artifactId>quiz</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>quiz</name>
-    <description>Project for Spring Boot MVC HM5</description>
+    <description>Project for Spring Boot MVC HM_6</description>
 
     <properties>
         <java.version>1.8</java.version>

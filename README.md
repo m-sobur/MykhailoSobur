@@ -1,43 +1,31 @@
 # MykhailoSobur
 [WEST &amp; SOUTH] Java Lab #32
                                                                      
-                                                          Spring_5 Data Homework
+                                             Spring_6 Test Homework
 
- 
-Spring_5 Data Homework 
 
-Required: 
+Spring_6 Test Homework
 
-Get well acquainted with all topics mentioned in the lecture (especially with JPA and Spring Data JPA) 
+Required:
 
- 
+Cover all your business logic with the unit tests. Make sure your services have a 100% level of coverage. Tools to use:
 
-Integrate your application with any relational database. You are free of choice regarding the relational database management system to be used. 
+JUnit 4 or 5
 
-integrate using Spring Data JPA (configure connection details, implement JPA repositories, etc.) 
+Mockito (with the PowerMockito if it is required)
 
-add JPA entity mapping including mappings between entities (@OneToOne, @ManyToOne, etc.) 
+Hamcrest Matchers
 
-make sure to use all/any of listed annotation: @Query, @NamedQuery, and @NamedNativeQuery. 
 
-make sure to use ‘pageable’ and ‘sortable’ reads from the database. 
 
- 
+Cover all your APIs using MockMvc. Make sure to verify all validation checks that are implemented in your service.
 
-Optional (would be a great plus): 
 
-Make use of JdbcTemplate class somewhere in your code. 
 
-Add transactions in your code using declarative or programmatic approach. 
+Optional (would be a great plus):
 
-Get well familiar with the @Transactional annotation (how it works under the hood, what CGlib & JDK Proxies are, physical vs logical transactions etc.). Sources: 
+Implement integration tests that run against the fully configured application with a temporary in-memory database using TestRestTemplate (or simple RestTemplate).
 
-https://docs.spring.io/spring-data/jpa/docs/current/reference/html/index.html#transactions 
+Extend your application with the mutation tests and make sure that all of the created mutations are killed. Popular java implementation:
 
-https://www.marcobehler.com/guides/spring-transaction-management-transactional-in-depth 
-
- 
-
-Something worth noting: 
-
-https://www.youtube.com/watch?v=vzP5ZpqRx0E&list=PLqt5_5aU1KQJ7mdgc-J9DJiaOK7CXtgOB – these lectures include SOLID, jdbc, hibernate, spring, spring data, spring boot 
+https://pitest.org/ 
