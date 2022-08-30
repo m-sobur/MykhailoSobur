@@ -26,13 +26,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUserByEmail(String email) throws NoSuchElementException {
-        log.info("SERVICE LAYER: getUserByEmail method entry" + email);
+        log.info("SERVICE LAYER: getUserByEmail method entry " + email);
 
         User user = userRepository
                 .findByEmail(email)
-                .orElseThrow(() -> new NoSuchElementException("User not found in the 'PostgresDB' while executing getUserByEmail"));
+                .orElseThrow(() -> new NoSuchElementException("User not found in the 'PostgresDB' while executing getUserByEmail " + email));
 
-        log.info("SERVICE LAYER: getUserByEmail sucsses " + email);
+        log.info("SERVICE LAYER: getUserByEmail successes " + email);
         return user;
     }
 
@@ -40,7 +40,8 @@ public class UserServiceImpl implements UserService {
     public List<String> getAllUserFirstNameAndLastName() {
         log.info("SERVICE LAYER: getAllUserFirstNameAndLastName entry ");
 
-        List<String> result = userRepository.getAllUserFirstNameAndLastName();
+        List<String> result = userRepository.getAllUserFirstNameAndLastName()
+                .orElseThrow(() -> new NoSuchElementException("No users in the database"));
 
         log.info("SERVICE LAYER: getAllUserFirstNameAndLastName exit ");
         return result;

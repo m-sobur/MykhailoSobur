@@ -17,6 +17,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query(value = "SELECT first_name || ' ' || last_name FROM users",
             nativeQuery = true)
-    List<String> getAllUserFirstNameAndLastName();
+    Optional<List<String>> getAllUserFirstNameAndLastName();
 
 }
