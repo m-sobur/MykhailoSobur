@@ -49,11 +49,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Slice<User> getAllUser(Pageable pageable) {
-        log.info("SERVICE LAYER: createUser method with email entry ");
+        log.info("SERVICE LAYER: getAllUser method with email entry ");
 
         Slice<User> result = userRepository.findAll(pageable);
 
-        log.info("SERVICE LAYER: createUser method with email exit ");
+        if (result.isEmpty()) {
+            throw new NoSuchElementException("User not found in the 'PostgresDB' while executing getAllUser ");
+        }
+
+        log.info("SERVICE LAYER: getAllUser method with email exit ");
         return result;
     }
 
@@ -95,11 +99,12 @@ public class UserServiceImpl implements UserService {
     public void deleteUserByEmail(String email) throws NoSuchElementException {
         log.info("SERVICE LAYER: deleteUserByEmail entry " + email);
 
-        if (!userRepository.existsByEmail(email)) {
-            throw new NoSuchElementException("User not found in the 'PostgresDB' while executing deleteUserByEmail " + email);
-        }
+        User user = userRepository
+                .findByEmail(email)
+                .orElseThrow(()->new NoSuchElementException("User not found in the 'PostgresDB' while executing deleteUserByEmail " + email));
 
-        userRepository.deleteUserByEmail(email);
+        userRepository.deleteUserByEmail(user.getEmail());
+
         log.info("SERVICE LAYER: deleteUserByEmail exit " + email);
     }
 }

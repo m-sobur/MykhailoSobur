@@ -1,34 +1,30 @@
 package com.epam.spring.homework3.quiz.service;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThatExceptionOfType;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.hasItems;
-import static org.hamcrest.Matchers.hasProperty;
-import static org.hamcrest.Matchers.is;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
+import com.epam.spring.homework3.quiz.controller.dto.UserDto;
 import com.epam.spring.homework3.quiz.controller.mapper.UserMapper;
+import com.epam.spring.homework3.quiz.exception.repository.ElementAlreadyExistException;
 import com.epam.spring.homework3.quiz.service.impl.UserServiceImpl;
 import com.epam.spring.homework3.quiz.service.model.User;
 import com.epam.spring.homework3.quiz.service.repository.UserRepository;
 import com.epam.spring.homework3.quiz.util.UserUtilTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mapstruct.factory.Mappers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
+
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatExceptionOfType;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class UserServiceTest {
@@ -37,7 +33,7 @@ class UserServiceTest {
     UserRepository userRepository;
 
     @Spy
-    UserMapper userMapper;
+    UserMapper userMapper = Mappers.getMapper(UserMapper.class);
 
     @InjectMocks
     UserServiceImpl userService;
@@ -89,7 +85,8 @@ class UserServiceTest {
         List<User> userList =
                 Arrays.asList(
                         user,
-                        user2);
+                        user2
+                );
 
         List<String> userFirstNameLastNameList = userList.stream()
                 .map(u -> u.getFirstName() + " " + u.getLastName())
@@ -106,7 +103,7 @@ class UserServiceTest {
     }
 
     @Test
-    void getAllUserFirstNameAndLastNameTest_NoSuchElementException(){
+    void getAllUserFirstNameAndLastNameTest_NoSuchElementException() {
         when(userRepository.getAllUserFirstNameAndLastName()).thenReturn(Optional.empty());
 
         assertThatExceptionOfType(NoSuchElementException.class)
@@ -116,5 +113,122 @@ class UserServiceTest {
         verify(userRepository, times(1)).getAllUserFirstNameAndLastName();
     }
 
+    @Test
+    void getAllUserTest() {
+        User user = UserUtilTest.createUser();
+
+        User user2 = UserUtilTest.createUser();
+        user2.setId(2L);
+
+        User user3 = UserUtilTest.createUser();
+        user3.setId(3L);
+
+        List<User> userList = Arrays.asList(
+                user,
+                user2,
+                user3
+        );
+
+        Pageable pageable = Pageable.unpaged();
+
+        when(userRepository.findAll(pageable))
+                .thenReturn(new PageImpl<>(userList, pageable, userList.size()));
+
+        Slice<User> resultSlice = userService.getAllUser(pageable);
+
+        assertThat(resultSlice.getContent(), hasItems(user, user2, user3));
+
+        verify(userRepository, times(1)).findAll(pageable);
+    }
+
+    @Test
+    void getAllUserTest_NoSuchElementException() {
+        List<User> userList = new ArrayList<>();
+
+        when(userRepository.findAll(Pageable.unpaged()))
+                .thenReturn(new PageImpl<>(userList, Pageable.unpaged(), 0));
+
+        assertThatExceptionOfType(NoSuchElementException.class)
+                .isThrownBy(() -> userService.getAllUser(Pageable.unpaged()))
+                .withMessage("User not found in the 'PostgresDB' while executing getAllUser ");
+
+        verify(userRepository, times(1)).findAll(Pageable.unpaged());
+    }
+
+    @Test
+    void shouldDeleteUser_whenGivenEmailFound() {
+        User user = UserUtilTest.createUser();
+
+        when(userRepository.findByEmail(user.getEmail())).thenReturn(Optional.of(user));
+
+        userService.deleteUserByEmail(user.getEmail());
+
+        verify(userRepository, times(1)).deleteUserByEmail(user.getEmail());
+    }
+
+    @Test
+    void shouldThrow_NoSuchElementException_when_deleteUserByEmail() {
+        User user = UserUtilTest.createUser();
+
+        when(userRepository.findByEmail(anyString())).thenReturn(Optional.empty());
+
+        assertThatExceptionOfType(NoSuchElementException.class)
+                .isThrownBy(() -> userService.deleteUserByEmail(user.getEmail()))
+                .withMessage("User not found in the 'PostgresDB' while executing deleteUserByEmail " + user.getEmail());
+    }
+
+    @Test
+    void shouldCreateUserTest_when_GivenNewUser() {
+        UserDto userDto = UserUtilTest.createUserDto();
+
+        User user = userMapper.userDtoToUser(userDto);
+
+        when(userRepository.save(user)).thenReturn(user);
+
+        User createdUser = userService.createUser(userDto);
+
+        assertThat(createdUser, equalTo(user));
+
+        verify(userRepository, times(1)).save(user);
+    }
+
+    @Test
+    void shouldThrow_ElementAlreadyExistException_ifUserFound_when_CreateUserTest() {
+        UserDto userDto = UserUtilTest.createUserDto();
+
+        when(userRepository.existsByEmail(anyString())).thenReturn(true);
+
+        assertThatExceptionOfType(ElementAlreadyExistException.class)
+                .isThrownBy(() -> userService.createUser(userDto))
+                .withMessage("User is already exist at 'PostgresDB' while executing createUser " + userDto.getEmail());
+    }
+
+    @Test
+    void shouldUpdateUserByEmail_when_GivenUserDtoToUpdate() {
+        UserDto userDto = UserUtilTest.createUserDto();
+        userDto.setFirstName("test");
+        userDto.setLastName("test");
+
+        User userToUpdate = userMapper.userDtoToUser(userDto);
+
+        when(userRepository.findByEmail(userDto.getEmail())).thenReturn(Optional.of(userToUpdate));
+
+        User updateUserByEmail = userService.updateUserByEmail(userToUpdate.getEmail(), userDto);
+
+        assertThat(updateUserByEmail, equalTo(userToUpdate));
+
+        verify(userRepository, times(1)).findByEmail(userDto.getEmail());
+    }
+
+    @Test
+    void shouldThrow_NoSuchElementException_when_GivenNonexistentEmail() {
+        UserDto userDto = UserUtilTest.createUserDto();
+
+        when(userRepository.findByEmail(anyString())).thenReturn(Optional.empty());
+
+        assertThatExceptionOfType(NoSuchElementException.class)
+                .isThrownBy(() -> userService.updateUserByEmail(anyString(), userDto))
+                .withMessage("User not found in the 'PostgresDB' while executing updateUserByEmail");
+    }
 
 }

@@ -13,7 +13,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -92,12 +92,12 @@ public class UserController {
     }
 
     @GetMapping(value = "/getAllUser")
-    public List<UserDto> getAllUser(Pageable pageable) {
+    public Slice<UserDto> getAllUser(Pageable pageable) {
         log.info("CONTROLLER LAYER: getAllUser method entry ");
 
         List<UserDto> result = userMapper.userListToUserListDto(userService.getAllUser(pageable).getContent());
 
         log.info("CONTROLLER LAYER: getAllUser method exit ");
-        return result;
+        return new SliceImpl<>(result, pageable, result.iterator().hasNext());
     }
 }

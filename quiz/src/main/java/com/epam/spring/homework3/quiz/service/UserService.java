@@ -2,6 +2,7 @@ package com.epam.spring.homework3.quiz.service;
 
 import com.epam.spring.homework3.quiz.controller.dto.UserDto;
 import com.epam.spring.homework3.quiz.service.model.User;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 
