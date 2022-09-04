@@ -36,7 +36,7 @@ public class UserController {
     private final UserAssembler userAssembler;
 
     @ApiOperation("Get user by email")
-    @GetMapping(value = "/get/{email}")
+    @GetMapping(value = "/{email}")
     public UserModel getUserByEmail(@PathVariable String email) {
         log.info("CONTROLLER LAYER: getUserByEmail method entry");
 
@@ -59,7 +59,7 @@ public class UserController {
     }
 
     @ApiOperation("Update user by email")
-    @PutMapping(value = "/update/{email}")
+    @PutMapping(value = "/{email}")
     public UserModel updateUserByEmail(@PathVariable String email, @RequestBody @Validated(OnUpdate.class) UserDto userDto) {
         log.info("CONTROLLER LAYER: updateUserByEmail method entry");
 
@@ -70,7 +70,7 @@ public class UserController {
     }
 
     @ApiOperation("Delete user by email")
-    @DeleteMapping(value = "/delete/{email}")
+    @DeleteMapping(value = "/{email}")
     public ResponseEntity<String> deleteUserByEmail(@PathVariable String email) {
         log.info("CONTROLLER LAYER: deleteUserByEmail method entry ");
 

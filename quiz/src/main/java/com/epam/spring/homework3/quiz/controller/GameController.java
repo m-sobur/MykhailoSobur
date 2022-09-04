@@ -18,18 +18,15 @@ import org.springframework.web.bind.annotation.*;
 public class GameController {
     private final GameService gameService;
 
-    @GetMapping(value = "/startGameById/{id}")
-    @ApiOperation("Get(start) quiz-game by id")
+    @PostMapping(value = "/{id}/start")
+    @ApiOperation("Start quiz-game by id")
     public ResponseEntity<QuizDto> startGame(@PathVariable Long id) {
-        log.info("CONTROLLER LAYER: startGame method entry ");
-
-        ResponseEntity<QuizDto> result = ResponseEntity.status(HttpStatus.OK).body(gameService.startGame(id));
-
-        log.info("CONTROLLER LAYER: startGame method exit");
-        return result;
+            ResponseEntity<QuizDto> result = ResponseEntity.status(HttpStatus.OK).body(gameService.startGame(id));
+            log.info("CONTROLLER LAYER: startGame method ");
+            return result;
     }
 
-    @PostMapping(value = "/checkResult/{id}/{userName}")
+    @PostMapping(value = "/{id}/user/{userName}/result")
     @ApiOperation("Check result by id_quiz and userName")
     public ResponseEntity<String> checkResult(@RequestBody QuizDto quizDto, @PathVariable Long id, @PathVariable String userName) {
         log.info("CONTROLLER LAYER: checkResult method entry ");

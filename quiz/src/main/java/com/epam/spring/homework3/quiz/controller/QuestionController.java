@@ -22,7 +22,6 @@ import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping("/question")
 @RequiredArgsConstructor
 @Api(tags = "QuestionController description for SWAGGER documentation")
 public class QuestionController {
@@ -30,7 +29,7 @@ public class QuestionController {
     private final QuestionMapper questionMapper;
     private final QuestionAssembler questionAssembler;
 
-    @GetMapping(value = "/get/{id}")
+    @GetMapping(value = "/question/{id}")
     @ApiOperation("Get question by id")
     public QuestionModel getQuestionByID(@PathVariable Long id) {
         log.info("CONTROLLER LAYER: getQuestionByID method entry id");
@@ -41,7 +40,7 @@ public class QuestionController {
         return questionAssembler.toModel(result);
     }
 
-    @PutMapping(value = "/update/{id}")
+    @PutMapping(value = "/question/{id}")
     @ApiOperation("Update question by id")
     public QuestionModel updateQuestionById(@PathVariable Long id, @RequestBody @Validated(OnUpdate.class) QuestionDto questionDto) {
         log.info("CONTROLLER LAYER: updateQuestionById method entry id:" + id + "need update: " + questionDto);
@@ -52,7 +51,7 @@ public class QuestionController {
         return questionAssembler.toModel(result);
     }
 
-    @PostMapping
+    @PostMapping(value = "/question")
     @ApiOperation("Create question")
     public QuestionModel createQuestion(@RequestBody @Validated(OnCreate.class) QuestionDto questionDto) {
         log.info("CONTROLLER LAYER: createQuestion method entry " + questionDto);
@@ -63,7 +62,7 @@ public class QuestionController {
         return questionAssembler.toModel(result);
     }
 
-    @DeleteMapping(value = "/delete/{id}")
+    @DeleteMapping(value = "/question/{id}")
     @ApiOperation("Delete question by id")
     public ResponseEntity<String> deleteQuestionById(@PathVariable Long id) {
         log.info("CONTROLLER LAYER: deleteQuizByTitle method entry ");
@@ -74,7 +73,7 @@ public class QuestionController {
         return ResponseEntity.status(HttpStatus.OK).body("Question with title '" + id + "' deleted successfully");
     }
 
-    @GetMapping(value = "/getAllQuestionsByParentQuizId/{parentQuizId}")
+    @GetMapping(value = "/quiz/{parentQuizId}/question")
     @ApiOperation("Get all question by parent id")
     public List<QuestionModel> getAllQuestionsByParentQuizId(@PathVariable Long parentQuizId, Pageable pageable) {
         log.info("CONTROLLER LAYER: getAllQuestionsByParentQuizId method entry ");
