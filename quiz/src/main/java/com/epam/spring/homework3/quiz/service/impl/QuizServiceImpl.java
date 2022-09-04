@@ -51,7 +51,6 @@ public class QuizServiceImpl implements QuizService {
 
         List<Question> questionList = questionService.getAllQuestionsByParentQuizId(quiz.getId(), Pageable.unpaged());
         quiz.setQuestionList(questionList);
-
         log.info("SERVICE LAYER: getQuizById method exit " + quiz);
         return quiz;
     }

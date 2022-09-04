@@ -31,7 +31,6 @@ public class AnswerVariantDto {
     @NotNull(message = "{answerVariant.parentQuestionId.empty.exception}", groups = OnCreate.class)
     private Long questionId;
 
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @JsonIgnoreProperties("answerVariantList")
     private QuestionDto question;
 

@@ -32,7 +32,7 @@ public class Quiz {
     @Column(name = "quiz_type", nullable = false)
     private String quizType;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "quiz", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "quiz", cascade = CascadeType.ALL)
     @JsonIgnore
     @ToString.Exclude
     private List<Question> questionList = new ArrayList<>();

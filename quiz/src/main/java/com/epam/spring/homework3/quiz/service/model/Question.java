@@ -25,12 +25,12 @@ public class Question {
     @Enumerated(EnumType.STRING)
     private QuestionType questionType;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "quiz_id", foreignKey = @ForeignKey(name = "question_quiz_fk"))
     @JsonIgnore
     private Quiz quiz;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "question", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "question", cascade = CascadeType.ALL)
     @ToString.Exclude
     @JsonIgnore
     private List<AnswerVariant> answerVariantList = new ArrayList<>();

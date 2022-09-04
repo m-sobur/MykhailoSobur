@@ -25,38 +25,39 @@ public class GameServiceImpl implements GameService {
 
     @Override
     public QuizDto startGame(Long id) throws NoSuchElementException {
+        log.info("SERVICE LAYER: startGame method entry " + id);
+
         QuizDto quizDto = quizMapper.quizToQuizDto(quizService.getQuizById(id));
-        log.info("SERVICE LAYER: startGame method " + quizDto);
+
+        log.info("SERVICE LAYER: startGame method exit " + quizDto);
         return quizDto;
     }
 
     @Override
-    public String checkResultOfGame(QuizDto quizDto, Long id, String userName) throws NoSuchElementException {
-        Quiz etalon = quizService.getQuizById(id);
+    public String checkResultOfGame(QuizDto quizDto, Long quizId, String userName) throws NoSuchElementException {
+        Quiz etalon = quizService.getQuizById(quizId);
         Quiz userResult = quizMapper.quizDtoToQuiz(quizDto);
+
         int numberOfQuesitonsInQuiz = etalon.getQuestionList().size();
+
         log.info("SERVICE LAYER: numberOfQuesitonsInQuiz " + numberOfQuesitonsInQuiz);
+
         int resultMark = 0;
+
         List<Question> userResultQuestionList = userResult.getQuestionList();
+
         log.info("SERVICE LAYER: userResultQuestionList " + userResultQuestionList);
+
         List<Question> etalonQuestionList = etalon.getQuestionList();
+
         log.info("SERVICE LAYER: etalonQuestionList " + etalonQuestionList);
 
         for (int i = 0; i < numberOfQuesitonsInQuiz; i++) {
             Question questionUser = userResultQuestionList.get(i);
             Question questionEtalon = etalonQuestionList.get(i);
-            List<AnswerVariant> userResultAnswerVariantList = questionUser.getAnswerVariantList();
-            List<AnswerVariant> etalonAnswerVariantList = questionEtalon.getAnswerVariantList();
-            int numberOfAnswersInQuestion = etalonAnswerVariantList.size();
 
-            for (int j = 0; j < numberOfAnswersInQuestion; j++) {
-                AnswerVariant answerVariantUser = userResultAnswerVariantList.get(j);
-                AnswerVariant answerVariantEtalon = etalonAnswerVariantList.get(j);
-
-                if (Boolean.TRUE.equals(answerVariantUser.getUserChecked())
-                        && Boolean.TRUE.equals(answerVariantEtalon.getValue())) {
-                    resultMark++;
-                }
+            if (compareResultWithEtalon(questionEtalon, questionUser)) {
+                resultMark++;
             }
         }
 
@@ -64,5 +65,23 @@ public class GameServiceImpl implements GameService {
         resultMark = (resultMark * 100) / numberOfQuesitonsInQuiz;
 
         return userName + " have " + resultMark + " % correct answers";
+    }
+
+    private boolean compareResultWithEtalon(Question etalonQuestion, Question resultQuestion) {
+        List<AnswerVariant> userResultAnswerVariantList = resultQuestion.getAnswerVariantList();
+        List<AnswerVariant> etalonAnswerVariantList = etalonQuestion.getAnswerVariantList();
+
+        int numberOfAnswersInQuestion = etalonAnswerVariantList.size();
+
+        for (int j = 0; j < numberOfAnswersInQuestion; j++) {
+            AnswerVariant answerVariantUser = userResultAnswerVariantList.get(j);
+            AnswerVariant answerVariantEtalon = etalonAnswerVariantList.get(j);
+
+            if (Boolean.TRUE.equals(answerVariantUser.getUserChecked())
+                    && Boolean.TRUE.equals(answerVariantEtalon.getValue())) {
+                return true;
+            }
+        }
+        return false;
     }
 }
