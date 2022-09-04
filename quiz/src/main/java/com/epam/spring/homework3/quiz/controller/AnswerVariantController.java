@@ -18,7 +18,6 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("/answerVariant")
 @RequiredArgsConstructor
 @Api(tags = "AnswerVariantController description for SWAGGER documentation")
 public class AnswerVariantController {
@@ -26,7 +25,7 @@ public class AnswerVariantController {
     private final AnswerVariantMapper answerVariantMapper;
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @GetMapping(value = "/get/{id}")
+    @GetMapping(value = "/answer-variant/{id}")
     @ApiOperation("Get answer variant by id")
     public ResponseEntity<AnswerVariantDto> getAnswerVariantByID(@PathVariable Integer id) {
             ResponseEntity<AnswerVariantDto> result = ResponseEntity.status(HttpStatus.OK).body(answerVariantMapper.answerVariantToAnswerVariantDto(answerVariantService.getAnswerVariantById(id)));
@@ -34,7 +33,7 @@ public class AnswerVariantController {
             return result;
     }
 
-    @PostMapping
+    @PostMapping(value = "/answer-variant")
     @ApiOperation("Create answer variant")
     public ResponseEntity<AnswerVariantDto> createAnswerVariantDto(@RequestBody @Validated(OnCreate.class) AnswerVariantDto answerVariantDto) {
             ResponseEntity<AnswerVariantDto> result = ResponseEntity.status(HttpStatus.CREATED).body(answerVariantMapper.answerVariantToAnswerVariantDto(answerVariantService.createAnswerVariant(answerVariantDto)));
@@ -42,7 +41,7 @@ public class AnswerVariantController {
             return result;
     }
 
-    @DeleteMapping(value = "/delete/{id}")
+    @DeleteMapping(value = "/answer-variant/{id}")
     @ApiOperation("Delete answer variant by id")
     public ResponseEntity<String> deleteAnswerVariantById(@PathVariable Integer id) {
             answerVariantService.deleteAnswerVariantById(id);
@@ -50,7 +49,7 @@ public class AnswerVariantController {
             return ResponseEntity.status(HttpStatus.OK).body("Variant with title '" + id + "' deleted successfully");
     }
 
-    @GetMapping(value = "/getAllAnswerVariantByParentQuestionId/{parentQuestionId}")
+    @GetMapping(value = "/question/{parentQuestionId}/answer-variant")
     @ApiOperation("Get all answer variant by parent question id")
     public ResponseEntity<List<AnswerVariantDto>> getAllAnswerVariantByParentQuestionId(@PathVariable Integer parentQuestionId) {
             ResponseEntity<List<AnswerVariantDto>> result = ResponseEntity.status(HttpStatus.OK).body(answerVariantMapper.answerVariantListToAnswerVariantListDto(answerVariantService.getAllAnswerVariantByParentQuestionId(parentQuestionId)));

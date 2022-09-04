@@ -21,7 +21,6 @@ import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping("/question")
 @RequiredArgsConstructor
 @Api(tags = "QuestionController description for SWAGGER documentation")
 public class QuestionController {
@@ -29,7 +28,7 @@ public class QuestionController {
     private final QuestionMapper questionMapper;
     private final QuestionAssembler questionAssembler;
 
-    @GetMapping(value = "/get/{id}")
+    @GetMapping(value = "/question/{id}")
     @ApiOperation("Get question by id")
     public QuestionModel getQuestionByID(@PathVariable Integer id) {
         QuestionDto result = questionMapper.questionToQuestionDto(questionService.getQuestionByID(id));
@@ -37,7 +36,7 @@ public class QuestionController {
         return questionAssembler.toModel(result);
     }
 
-    @PutMapping(value = "/update/{id}")
+    @PutMapping(value = "/question/{id}")
     @ApiOperation("Update question by id")
     public QuestionModel updateQuestionById(@PathVariable Integer id, @RequestBody @Validated(OnUpdate.class) QuestionDto questionDto) {
         QuestionDto result = questionMapper.questionToQuestionDto(questionService.updateQuestionById(id, questionDto));
@@ -45,7 +44,7 @@ public class QuestionController {
         return questionAssembler.toModel(result);
     }
 
-    @PostMapping
+    @PostMapping(value = "/question")
     @ApiOperation("Create question")
     public QuestionModel createQuestion(@RequestBody @Validated(OnCreate.class) QuestionDto questionDto) {
         QuestionDto result = questionMapper.questionToQuestionDto(questionService.createQuestion(questionDto));
@@ -53,7 +52,7 @@ public class QuestionController {
         return questionAssembler.toModel(result);
     }
 
-    @DeleteMapping(value = "/delete/{id}")
+    @DeleteMapping(value = "/question/{id}")
     @ApiOperation("Delete question by id")
     public ResponseEntity<String> deleteQuestionById(@PathVariable Integer id) {
         questionService.deleteQuestionById(id);
@@ -61,7 +60,7 @@ public class QuestionController {
         return ResponseEntity.status(HttpStatus.OK).body("Question with title '" + id + "' deleted successfully");
     }
 
-    @GetMapping(value = "/getAllQuestionsByParentQuizId/{parentQuizId}")
+    @GetMapping(value = "/quiz/{parentQuizId}/question")
     @ApiOperation("Get all question by parent id")
     public List<QuestionModel> getAllQuestionsByParentQuizId(@PathVariable Integer parentQuizId) {
         List<QuestionDto> result = questionMapper.questionListToQuestionListDto(questionService.getAllQuestionsByParentQuizId(parentQuizId));
