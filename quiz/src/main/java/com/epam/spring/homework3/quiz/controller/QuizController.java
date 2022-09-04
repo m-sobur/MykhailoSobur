@@ -22,7 +22,6 @@ import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping("/quiz")
 @RequiredArgsConstructor
 @Api(tags = "QuizController description for SWAGGER documentation")
 public class QuizController {
@@ -30,7 +29,7 @@ public class QuizController {
     private final QuizMapper quizMapper;
     private final QuizAssembler quizAssembler;
 
-    @GetMapping(value = "/get/{title}")
+    @GetMapping(value = "/quiz/{title}")
     @ApiOperation("Get quiz by title")
     public QuizModel getQuizByTitle(@PathVariable String title) {
         log.info("CONTROLLER LAYER: getQuizByTitle method entry ");
@@ -41,7 +40,7 @@ public class QuizController {
         return quizAssembler.toModel(result);
     }
 
-    @PutMapping(value = "/update/{title}")
+    @PutMapping(value = "/quiz/{title}")
     @ApiOperation("Update quiz by title")
     public QuizModel updateQuizByTitle(@PathVariable String title, @RequestBody @Validated(OnUpdate.class) QuizDto quizDto) {
         log.info("CONTROLLER LAYER: updateQuizByTitle method entry ");
@@ -52,7 +51,7 @@ public class QuizController {
         return quizAssembler.toModel(result);
     }
 
-    @PostMapping
+    @PostMapping(value = "/quiz")
     @ApiOperation("Create quiz")
     public QuizModel createQuiz(@RequestBody @Validated(OnCreate.class) QuizDto quizDto) {
         log.info("CONTROLLER LAYER: createQuiz method entry ");
@@ -63,7 +62,7 @@ public class QuizController {
         return quizAssembler.toModel(result);
     }
 
-    @DeleteMapping(value = "/delete/{title}")
+    @DeleteMapping(value = "/quiz/{title}")
     @ApiOperation("Delete quiz by title")
     public ResponseEntity<String> deleteQuizByTitle(@PathVariable String title) {
         log.info("CONTROLLER LAYER: deleteQuizByTitle method entry ");
@@ -74,7 +73,7 @@ public class QuizController {
         return ResponseEntity.status(HttpStatus.OK).body("Quiz with title '" + title + "' deleted successfully");
     }
 
-    @GetMapping(value = "/getAllByCreatorId/{creator}")
+    @GetMapping(value = "/user/{creator}/quiz")
     @ApiOperation("Get all quiz's by creator id")
     public List<QuizModel> getAllQuizesByCreatorId(@PathVariable Long creator, Pageable pageable) {
         log.info("CONTROLLER LAYER: getAllQuizesByCreatorId method entry ");

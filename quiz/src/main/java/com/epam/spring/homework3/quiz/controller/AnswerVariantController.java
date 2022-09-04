@@ -17,14 +17,13 @@ import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping("/answerVariant")
 @RequiredArgsConstructor
 @Api(tags = "AnswerVariantController description for SWAGGER documentation")
 public class AnswerVariantController {
     private final AnswerVariantService answerVariantService;
     private final AnswerVariantMapper answerVariantMapper;
 
-    @GetMapping(value = "/get/{id}")
+    @GetMapping(value = "/answer-variant/{id}")
     @ApiOperation("Get answer variant by id")
     public ResponseEntity<AnswerVariantDto> getAnswerVariantDtoByID(@PathVariable Long id) {
         log.info("CONTROLLER LAYER: getAnswerVariantByID method entry ");
@@ -35,7 +34,7 @@ public class AnswerVariantController {
         return result;
     }
 
-    @PostMapping
+    @PostMapping(value = "/answer-variant")
     @ApiOperation("Create answer variant")
     public ResponseEntity<AnswerVariantDto> createAnswerVariantDto(@RequestBody @Validated(OnCreate.class) AnswerVariantDto answerVariantDto) {
         log.info("CONTROLLER LAYER: createAnswerVariantDto method entry");
@@ -46,7 +45,7 @@ public class AnswerVariantController {
         return result;
     }
 
-    @DeleteMapping(value = "/delete/{id}")
+    @DeleteMapping(value = "/answer-variant/{id}")
     @ApiOperation("Delete answer variant by id")
     public ResponseEntity<String> deleteAnswerVariantDtoById(@PathVariable Long id) {
         log.info("CONTROLLER LAYER: deleteAnswerVariantById method entry");
@@ -57,12 +56,12 @@ public class AnswerVariantController {
         return ResponseEntity.status(HttpStatus.OK).body("Variant with title '" + id + "' deleted successfully");
     }
 
-    @GetMapping(value = "/getAllAnswerVariantDtoByQuestionId/{QuestionId}")
+    @GetMapping(value = "/question/{parentQuestionId}/answer-variant")
     @ApiOperation("Get all answer variant by parent question id")
-    public ResponseEntity<List<AnswerVariantDto>> getAllAnswerVariantDtoByQuestionId(@PathVariable Long QuestionId) {
+    public ResponseEntity<List<AnswerVariantDto>> getAllAnswerVariantDtoByQuestionId(@PathVariable Long parentQuestionId) {
         log.info("CONTROLLER LAYER: getAllAnswerVariantByQuestionId method entry");
 
-        ResponseEntity<List<AnswerVariantDto>> result = ResponseEntity.status(HttpStatus.OK).body(answerVariantMapper.answerVariantListToAnswerVariantListDto(answerVariantService.getAllAnswerVariantByQuestionId(QuestionId)));
+        ResponseEntity<List<AnswerVariantDto>> result = ResponseEntity.status(HttpStatus.OK).body(answerVariantMapper.answerVariantListToAnswerVariantListDto(answerVariantService.getAllAnswerVariantByQuestionId(parentQuestionId)));
 
         log.info("CONTROLLER LAYER: getAllAnswerVariantByQuestionId method exit");
         return result;
