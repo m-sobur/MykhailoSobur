@@ -36,8 +36,6 @@ public class QuestionServiceImpl implements QuestionService {
                 .findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Question with " + id + " - id not found at DB"));
 
-        question.setAnswerVariantList(answerVariantService.getAllAnswerVariantByQuestionId(id));
-
         log.info("SERVICE LAYER: getQuestionByID method exit " + question);
         return question;
     }

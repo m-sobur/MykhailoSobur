@@ -35,8 +35,6 @@ public class QuizServiceImpl implements QuizService {
                 .findQuizByTitle(title)
                 .orElseThrow(() -> new NoSuchElementException("Quiz with " + title + " - title not found at DB"));
 
-        List<Question> questionList = questionService.getAllQuestionsByParentQuizId(quiz.getId(), Pageable.unpaged());
-        quiz.setQuestionList(questionList);
         log.info("SERVICE LAYER: getQuizByTitle method exit " + quiz);
         return quiz;
     }
@@ -48,9 +46,6 @@ public class QuizServiceImpl implements QuizService {
         Quiz quiz = quizRepository
                 .findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Quiz with " + id + " - id not found at DB"));
-
-        List<Question> questionList = questionService.getAllQuestionsByParentQuizId(quiz.getId(), Pageable.unpaged());
-        quiz.setQuestionList(questionList);
 
         log.info("SERVICE LAYER: getQuizById method exit " + quiz);
         return quiz;
