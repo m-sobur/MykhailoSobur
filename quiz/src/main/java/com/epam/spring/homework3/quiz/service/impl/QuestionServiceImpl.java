@@ -3,7 +3,6 @@ package com.epam.spring.homework3.quiz.service.impl;
 import com.epam.spring.homework3.quiz.controller.dto.QuestionDto;
 import com.epam.spring.homework3.quiz.controller.mapper.QuestionMapper;
 import com.epam.spring.homework3.quiz.exception.repository.ElementAlreadyExistException;
-import com.epam.spring.homework3.quiz.service.AnswerVariantService;
 import com.epam.spring.homework3.quiz.service.QuestionService;
 import com.epam.spring.homework3.quiz.service.model.Question;
 import com.epam.spring.homework3.quiz.service.model.Quiz;
@@ -25,7 +24,6 @@ import java.util.NoSuchElementException;
 public class QuestionServiceImpl implements QuestionService {
     private final QuestionMapper questionMapper;
     private final QuestionRepository questionRepository;
-    private final AnswerVariantService answerVariantService;
     private final QuizRepository quizRepository;
 
     @Override
@@ -35,8 +33,6 @@ public class QuestionServiceImpl implements QuestionService {
         Question question = questionRepository
                 .findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Question with " + id + " - id not found at DB"));
-
-        question.setAnswerVariantList(answerVariantService.getAllAnswerVariantByQuestionId(id));
 
         log.info("SERVICE LAYER: getQuestionByID method exit " + question);
         return question;

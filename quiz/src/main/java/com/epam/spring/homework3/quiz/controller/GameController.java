@@ -26,7 +26,7 @@ public class GameController {
             return result;
     }
 
-    @PostMapping(value = "/{id}/user/{userName}/result")
+    @GetMapping(value = "/{id}/user/{userName}/result")
     @ApiOperation("Check result by id_quiz and userName")
     public ResponseEntity<String> checkResult(@RequestBody QuizDto quizDto, @PathVariable Long id, @PathVariable String userName) {
         log.info("CONTROLLER LAYER: checkResult method entry ");

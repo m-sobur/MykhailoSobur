@@ -3,9 +3,7 @@ package com.epam.spring.homework3.quiz.service.impl;
 import com.epam.spring.homework3.quiz.controller.dto.QuizDto;
 import com.epam.spring.homework3.quiz.controller.mapper.QuizMapper;
 import com.epam.spring.homework3.quiz.exception.repository.ElementAlreadyExistException;
-import com.epam.spring.homework3.quiz.service.QuestionService;
 import com.epam.spring.homework3.quiz.service.QuizService;
-import com.epam.spring.homework3.quiz.service.model.Question;
 import com.epam.spring.homework3.quiz.service.model.Quiz;
 import com.epam.spring.homework3.quiz.service.repository.QuizRepository;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +23,6 @@ import java.util.NoSuchElementException;
 public class QuizServiceImpl implements QuizService {
     private final QuizMapper quizMapper;
     private final QuizRepository quizRepository;
-    private final QuestionService questionService;
 
     @Override
     public Quiz getQuizByTitle(String title) throws NoSuchElementException {
@@ -35,8 +32,6 @@ public class QuizServiceImpl implements QuizService {
                 .findQuizByTitle(title)
                 .orElseThrow(() -> new NoSuchElementException("Quiz with " + title + " - title not found at DB"));
 
-        List<Question> questionList = questionService.getAllQuestionsByParentQuizId(quiz.getId(), Pageable.unpaged());
-        quiz.setQuestionList(questionList);
         log.info("SERVICE LAYER: getQuizByTitle method exit " + quiz);
         return quiz;
     }
@@ -49,8 +44,6 @@ public class QuizServiceImpl implements QuizService {
                 .findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Quiz with " + id + " - id not found at DB"));
 
-        List<Question> questionList = questionService.getAllQuestionsByParentQuizId(quiz.getId(), Pageable.unpaged());
-        quiz.setQuestionList(questionList);
         log.info("SERVICE LAYER: getQuizById method exit " + quiz);
         return quiz;
     }

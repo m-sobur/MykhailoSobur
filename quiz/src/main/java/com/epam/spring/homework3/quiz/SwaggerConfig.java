@@ -69,7 +69,7 @@ public class SwaggerConfig {
                 .groupName("answer variant")
                 .select()
                 .apis(RequestHandlerSelectors.basePackage(swaggerBasePackage))
-                .paths(PathSelectors.ant("/answerVariant/**"))
+                .paths(PathSelectors.ant("/answer-variant/**"))
                 .build();
     }
 
