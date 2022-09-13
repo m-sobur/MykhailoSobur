@@ -229,6 +229,8 @@ class UserServiceTest {
         assertThatExceptionOfType(NoSuchElementException.class)
                 .isThrownBy(() -> userService.updateUserByEmail(anyString(), userDto))
                 .withMessage("User not found in the 'PostgresDB' while executing updateUserByEmail");
+
+        verify(userRepository, times(0)).findByEmail(userDto.getEmail());
     }
 
 }
